@@ -50,6 +50,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handlers\InitHandlerDAL.cs" />
+    <Compile Include="Migrations\201605110729324_InitialCreate.cs" />
+    <Compile Include="Migrations\201605110729324_InitialCreate.Designer.cs">
+      <DependentUpon>201605110729324_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605112004437_Init.cs" />
+    <Compile Include="Migrations\201605112004437_Init.Designer.cs">
+      <DependentUpon>201605112004437_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Change.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Project.cs" />
@@ -63,7 +72,14 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605110729324_InitialCreate.resx">
+      <DependentUpon>201605110729324_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605112004437_Init.resx">
+      <DependentUpon>201605112004437_Init.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -14,7 +14,7 @@ namespace TicketingSystem.Controllers
 
         public int GetInitDB()
         {
-            _iHBLL.initDB();
+            _iHBLL.InitDB();
             return 1;
         }
     }

@@ -11,9 +11,9 @@ namespace TicketingSystem.BLL.Handlers
     {
         InitHandlerDAL _iHDAL = new InitHandlerDAL();
         
-        public void initDB()
+        public void InitDB()
         {
-            _iHDAL.initDB();
+            _iHDAL.InitDB();
         }
 
     }

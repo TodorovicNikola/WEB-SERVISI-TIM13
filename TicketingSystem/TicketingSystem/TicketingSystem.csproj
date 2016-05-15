@@ -234,8 +234,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChangesController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\InitController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -323,6 +328,10 @@
     <ProjectReference Include="..\TicketingSystem.BLL\TicketingSystem.BLL.csproj">
       <Project>{9383b8f3-7429-4374-811e-c63e66afebd8}</Project>
       <Name>TicketingSystem.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TicketingSystem.DAL\TicketingSystem.DAL.csproj">
+      <Project>{402378e1-6664-4a80-8962-f16f87fe7fd3}</Project>
+      <Name>TicketingSystem.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

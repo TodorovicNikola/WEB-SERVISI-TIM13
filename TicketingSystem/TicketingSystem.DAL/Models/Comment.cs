@@ -15,7 +15,7 @@ namespace TicketingSystem.DAL.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CommentID { get; set; }
 
-        [StringLength(1024), Required]
+        [StringLength(1024, ErrorMessage = "'Comment Content' must not be longer than 1024 characters!"), Required(ErrorMessage = "'Comment Content' must not be empty!")]
         public String CommentContent { get; set; }
 
         [Required]

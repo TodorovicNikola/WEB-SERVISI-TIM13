@@ -1,17 +1,16 @@
 namespace TicketingSystem.DAL.Migrations
 {
+    using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using TicketingSystem.DAL.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<TicketingSystem.DAL.TicketingSystemDBContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "TicketingSystem.DAL.TicketingSystemDBContext";
         }
 
         protected override void Seed(TicketingSystem.DAL.TicketingSystemDBContext context)
@@ -55,7 +54,7 @@ namespace TicketingSystem.DAL.Migrations
                 new Task { ProjectID = 4, TaskName = "Usmeni II", TaskDescription = "Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.", TaskFrom = DateTime.Today, TaskUntil = DateTime.Today.AddDays(5), TaskPriority = Task.TaskPriorities.Blocker, TaskStatus = Task.TaskStatuses.InProgress, UserCreatedID = 2, UserAssignedID = 5 },
                 new Task { ProjectID = 5, TaskName = "Prijava", TaskDescription = "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.", TaskFrom = DateTime.Today.AddDays(35), TaskUntil = DateTime.Today.AddDays(45), TaskPriority = Task.TaskPriorities.Minor, TaskStatus = Task.TaskStatuses.Verify, UserCreatedID = 1 },
                 new Task { ProjectID = 5, TaskName = "Izrada", TaskDescription = "Inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.", TaskFrom = DateTime.Today, TaskUntil = DateTime.Today.AddDays(5), TaskPriority = Task.TaskPriorities.Critical, TaskStatus = Task.TaskStatuses.InProgress, UserCreatedID = 1 },
-                new Task { ProjectID = 5, TaskName = "Odbrana", TaskDescription = "Autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur", TaskFrom = DateTime.Today, TaskUntil = DateTime.Today.AddDays(5), TaskPriority = Task.TaskPriorities.Blocker, TaskStatus = Task.TaskStatuses.ToDo, UserCreatedID = 2, UserAssignedID = 4}
+                new Task { ProjectID = 5, TaskName = "Odbrana", TaskDescription = "Autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur", TaskFrom = DateTime.Today, TaskUntil = DateTime.Today.AddDays(5), TaskPriority = Task.TaskPriorities.Blocker, TaskStatus = Task.TaskStatuses.ToDo, UserCreatedID = 2, UserAssignedID = 4 }
             );
 
             context.SaveChanges();

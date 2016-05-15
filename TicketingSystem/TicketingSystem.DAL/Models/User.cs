@@ -16,19 +16,19 @@ namespace TicketingSystem.DAL.Models
         [Required]
         public UserTypes UserType { get; set; }
 
-        [StringLength(64), Required]
+        [StringLength(64, ErrorMessage = "'Username' must not be longer than 64 characters!"), Required(ErrorMessage = "'Username' must not be empty!")]
         public String Username { get; set; }
 
-        [StringLength(64), Required]
+        [StringLength(64, ErrorMessage = "'Password' must not be longer than 64 characters!"), Required(ErrorMessage = "'Password' must not be empty!")]
         public String Password { get; set; }
 
-        [StringLength(64), Required]
+        [StringLength(64, ErrorMessage = "'E-Mail' must not be longer than 64 characters!"), Required(ErrorMessage = "'E-Mail' must not be empty!")]
         public String EMail { get; set; }
 
-        [StringLength(32)]
+        [StringLength(32, ErrorMessage = "'First Name' must not be longer than 32 characters!")]
         public String FirstName { get; set; }
 
-        [StringLength(32)]
+        [StringLength(32, ErrorMessage = "'Last Name' must not be longer than 32 characters!")]
         public String LastName { get; set; }
 
         public ICollection<Project> AssignedProjects { get; set; }

@@ -20,10 +20,10 @@ namespace TicketingSystem.DAL.Models
         [Column(Order = 1)]
         public int ProjectID { get; set; }
 
-        [StringLength(32), Required]
+        [StringLength(64, ErrorMessage = "'Task Name' must not be longer than 64 characters!"), Required(ErrorMessage = "'Task Name' must not be empty!")]
         public String TaskName { get; set; }
 
-        [StringLength(2048)]
+        [StringLength(2048, ErrorMessage = "'Task Description' must not be longer than 2048 characters!")]
         public String TaskDescription { get; set; }
 
         public enum TaskStatuses { ToDo, InProgress, Verify, Done };
@@ -34,10 +34,10 @@ namespace TicketingSystem.DAL.Models
         [Required]
         public TaskPriorities TaskPriority { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "'Task From' must not be empty!")]
         public DateTime TaskFrom { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "'Task Until' must not be empty!")]
         public DateTime TaskUntil { get; set; }
 
         [ForeignKey("UserCreated")]

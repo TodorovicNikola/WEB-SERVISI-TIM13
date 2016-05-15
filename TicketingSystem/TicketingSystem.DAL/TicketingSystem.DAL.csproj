@@ -49,14 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handlers\InitHandlerDAL.cs" />
-    <Compile Include="Migrations\201605110729324_InitialCreate.cs" />
-    <Compile Include="Migrations\201605110729324_InitialCreate.Designer.cs">
-      <DependentUpon>201605110729324_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605112004437_Init.cs" />
-    <Compile Include="Migrations\201605112004437_Init.Designer.cs">
-      <DependentUpon>201605112004437_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201605151237400_init.cs" />
+    <Compile Include="Migrations\201605151237400_init.Designer.cs">
+      <DependentUpon>201605151237400_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Change.cs" />
@@ -73,11 +68,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605110729324_InitialCreate.resx">
-      <DependentUpon>201605110729324_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605112004437_Init.resx">
-      <DependentUpon>201605112004437_Init.cs</DependentUpon>
+    <Folder Include="Handlers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605151237400_init.resx">
+      <DependentUpon>201605151237400_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

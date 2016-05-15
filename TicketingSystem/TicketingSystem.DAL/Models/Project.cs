@@ -11,13 +11,13 @@ namespace TicketingSystem.DAL.Models
     {
         public int ProjectID { get; set; }
 
-        [StringLength(128), Required]
+        [StringLength(128, ErrorMessage = "'Task Name' must not be longer than 128 characters!"), Required(ErrorMessage = "'Project Name' must not be empty!")]
         public String ProjectName { get; set; }
 
-        [StringLength(8), Required]
+        [StringLength(8, ErrorMessage = "'Project Code' must not be longer than 8 characters!"), Required(ErrorMessage = "'Project Code' must not be empty!")]
         public String ProjectCode { get; set; }
 
-        [StringLength(2048)]
+        [StringLength(2048, ErrorMessage = "'Project Description' must not be longer than 2048 characters!")]
         public String ProjectDescription { get; set; }
 
 

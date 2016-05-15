@@ -3,7 +3,7 @@ namespace TicketingSystem.DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -33,7 +33,7 @@ namespace TicketingSystem.DAL.Migrations
                     {
                         TaskID = c.Int(nullable: false, identity: true),
                         ProjectID = c.Int(nullable: false),
-                        TaskName = c.String(nullable: false, maxLength: 32),
+                        TaskName = c.String(nullable: false, maxLength: 64),
                         TaskDescription = c.String(maxLength: 2048),
                         TaskStatus = c.Int(nullable: false),
                         TaskPriority = c.Int(nullable: false),

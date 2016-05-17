@@ -24,6 +24,7 @@ namespace TicketingSystem.Controllers
             return db.Changes;
         }
 
+
         // GET: api/Changes/5
         [ResponseType(typeof(Change))]
         public async Task<IHttpActionResult> GetChange(int id)

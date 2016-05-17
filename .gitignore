@@ -3,9 +3,6 @@
 ################################################################################
 
 /TicketingSystem/packages
-/TicketingSystem/TicketingSystem.DAL/bin/Debug
-/TicketingSystem/TicketingSystem.DAL/obj/Debug
-/TicketingSystem/TicketingSystem.BLL
-/TicketingSystem/TicketingSystem/bin
-/TicketingSystem/TicketingSystem/obj/Debug
+**/bin
+**/obj
 /TicketingSystem/.vs

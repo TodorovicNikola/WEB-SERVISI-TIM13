@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/TicketingSystem/packages
+/TicketingSystem/TicketingSystem.DAL/bin/Debug
+/TicketingSystem/TicketingSystem.DAL/obj/Debug
+/TicketingSystem/TicketingSystem.BLL
+/TicketingSystem/TicketingSystem/bin
+/TicketingSystem/TicketingSystem/obj/Debug
+/TicketingSystem/.vs

@@ -13,6 +13,7 @@ namespace TicketingSystem.Controllers
             ViewBag.Title = "Home Page";
 
             return View();
+
         }
     }
 }

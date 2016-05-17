@@ -28,7 +28,7 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(Project))]
         public async Task<IHttpActionResult> GetProject(int id)
         {
-            Project project = await db.Projects.FindAsync(id);
+            Project project = await db.Projects.Include(p => p.AssignedUsers).Include(p => p.Tasks).SingleOrDefaultAsync(p => p.ProjectID == id);
             if (project == null)
             {
                 return NotFound();

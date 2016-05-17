@@ -28,7 +28,7 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(DAL.Models.Task))]
         public async Task<IHttpActionResult> GetTask(int id)
         {
-            DAL.Models.Task task = await db.Tasks.FindAsync(id);
+            DAL.Models.Task task = await db.Tasks.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TaskID == id);
             if (task == null)
             {
                 return NotFound();

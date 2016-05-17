@@ -255,6 +255,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\app\app.js" />
+    <Content Include="Content\app\controllers.js" />
+    <Content Include="Content\app\controllers\dashboardController.js" />
+    <Content Include="Content\app\controllers\helloWorldController.js" />
+    <Content Include="Content\app\index.html" />
+    <Content Include="Content\app\partials\dashboard.html" />
+    <Content Include="Content\app\partials\main.html" />
+    <Content Include="Content\app\services.js" />
+    <Content Include="Content\app\services\projectsService.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -286,6 +295,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\app\bower.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

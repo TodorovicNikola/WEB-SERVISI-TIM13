@@ -14,7 +14,12 @@
 			url: '/dashboard',
 			templateUrl: 'partials/dashboard.html',
 			controller: 'DashboardCtrl'
-    	});
+	    })
+        .state('tasks', {
+            url: '/tasks',
+            templateUrl: 'partials/tasksView.html',
+            controller: 'TasksCtrl'
+        });
   	});
 
 }(angular));

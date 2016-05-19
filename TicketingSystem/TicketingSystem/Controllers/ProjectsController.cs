@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -11,10 +12,11 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TicketingSystem.DAL;
 using TicketingSystem.DAL.Models;
+using TicketingSystem.DTOs;
 
 namespace TicketingSystem.Controllers
 {
-    [Authorize]
+    
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -23,6 +25,31 @@ namespace TicketingSystem.Controllers
         public IQueryable<Project> GetProjects()
         {
             return db.Projects;
+        }
+
+        private static readonly Expression<Func<DAL.Models.Task, TaskDto>> AsTaskDto =
+            x => new TaskDto
+            {
+                TaskName = x.TaskName,
+                TaskFrom = x.TaskFrom,
+                TaskUntil = x.TaskUntil,
+                TaskPriority = x.TaskPriority,
+                TaskDescription = x.TaskDescription,
+                TaskStatus=x.TaskStatus,
+                UserAssigned=x.UserAssigned.Username,
+                UserCreated=x.UserCreated.Username
+                
+              
+               
+            };
+
+        [Route("api/Projects/{projectId}/tasks")]
+        public IQueryable<DTOs.TaskDto> GetTasksOfProject(int projectId)
+        {
+
+            return db.Tasks.Include(b => b.Project)
+                .Where(b => b.ProjectID == projectId)
+                .Select(AsTaskDto);
         }
 
         // GET: api/Projects/5

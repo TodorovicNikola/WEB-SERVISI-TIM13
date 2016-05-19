@@ -2,14 +2,8 @@
     var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register']);
 
 	app.config(function($stateProvider, $urlRouterProvider) {
-	    $urlRouterProvider.otherwise('/main');
+	    $urlRouterProvider.otherwise('/dashboard');
 	    $stateProvider
-	    .state('main', {
-			url: '/main',
-			templateUrl: 'partials/main.html',
-			controller: 'HelloWorldCtrl'
-
-	    })
 	    .state('dashboard', {
 			url: '/dashboard',
 			templateUrl: 'partials/dashboard.html',
@@ -36,7 +30,7 @@
 
 	    // ukoliko pokušamo da odemo na stranicu za koju nemamo prava, redirektujemo se na login
 	    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-	        var publicStates = ['login', 'main', 'register'];
+	        var publicStates = ['login', 'dashboard', 'register'];
 	        var restrictedState = publicStates.indexOf(toState.name) === -1;
 	        if (restrictedState && !AuthenticationService.getCurrentUser()) {
 	            $state.go('login');

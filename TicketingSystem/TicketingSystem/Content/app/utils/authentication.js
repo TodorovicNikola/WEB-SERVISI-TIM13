@@ -41,7 +41,7 @@
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.access_token;
                         // callback za uspesan login
                         callback(true);
-                        $state.go('main');
+                        $state.go('dashboard');
                     } else {
                         // callback za neuspesan login
                         callback(false);
@@ -64,7 +64,7 @@
             $http.post('/api/account/register', { email: username, userName: username, password: password, confirmPassword: password })
                 .success(function (response) {
                     callback(true);
-                    $state.go('main');
+                    $state.go('dashboard');
                 })
                 .error(function (response) {
                     callback(false);

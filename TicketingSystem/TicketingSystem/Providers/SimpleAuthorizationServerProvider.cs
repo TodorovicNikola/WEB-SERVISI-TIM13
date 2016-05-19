@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,12 @@ namespace TicketingSystem.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
+
+                //ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, "JWT");
+
+                //var ticket = new AuthenticationTicket(oAuthIdentity, null);
+
+                //context.Validated(ticket);
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);

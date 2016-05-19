@@ -1,28 +1,38 @@
 
 <html>
-	<head>
-		<script src="bower_components/angular/angular.js"></script>
-		<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<head>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
-		<script src="app.js"></script>
-		<script src="controllers.js"></script>
-        <script src="services.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
 
-		<script src="controllers/helloWorldController.js"></script>
-		<script src="controllers/dashboardController.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers.js"></script>
+    <script src="services.js"></script>
 
-        <script src="services/projectsService.js"></script>
+    <script src="controllers/helloWorldController.js"></script>
+    <script src="controllers/dashboardController.js"></script>
 
-		
-	</head>
-	<body ng-app="app">
+    <script src="services/projectsService.js"></script>
 
-		<h1>
-      		Ticketing system
-    	</h1>
-    	<div ui-view> </div>
+    <script src="utils/authentication.js"></script>
+    <script src="users/login.js"></script>
+    <script src="users/register.js"></script>
 
-		
-	</body>
+
+</head>
+<body ng-app="app">
+
+    <h1>
+        Ticketing system
+    </h1>
+    <button ng-if="isLoggedIn()" ng-click="logout()">log out</button>
+    <div ng-if="!isLoggedIn()&&getCurrentState()!=='login'" ui-sref="login"><button>log in</button></div>
+    <div ng-if="!isLoggedIn()&&getCurrentState()!=='register'" ui-sref="register"><button>register</button></div>
+    <div ui-view> </div>
+
+
+</body>
 
 </html>

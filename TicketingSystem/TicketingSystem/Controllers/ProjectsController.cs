@@ -14,6 +14,7 @@ using TicketingSystem.DAL.Models;
 
 namespace TicketingSystem.Controllers
 {
+    [Authorize]
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();

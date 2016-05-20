@@ -21,9 +21,14 @@
         })
 	    .state('tasks', {
 	        url: '/projects/:id/tasks',
-	        templateUrl: 'partials/tasksView.html',
+	        templateUrl: 'tasks/views/tasksView.html',
 	        controller: 'TasksCtrl'
-	    });
+	    })
+        .state('taskDetails', {
+            url: '/projects/:id/tasks/:taskId',
+            templateUrl: 'tasks/views/taskDetailsView.html',
+            controller: 'TasksCtrl'
+        });
 	})
     .run(run);;
 

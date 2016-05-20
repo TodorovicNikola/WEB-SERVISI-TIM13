@@ -14,7 +14,7 @@ using TicketingSystem.DAL.Models;
 //Aleksa prvi commit
 namespace TicketingSystem.Controllers
 {
-    [Authorize(Users = "qwerty")]
+    //[Authorize(Users = "qwerty")]
     public class TasksController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -23,6 +23,21 @@ namespace TicketingSystem.Controllers
         public IQueryable<DAL.Models.Task> GetTasks()
         {
             return db.Tasks;
+        }
+
+
+        [Route("api/Projects/{projectId}/tasks/{taskId}")]
+        [ResponseType(typeof(DAL.Models.Task))]
+        public async Task<IHttpActionResult> GetTaskDetails(int taskId)
+        {
+            // DAL.Models.Task task = await db.Tasks.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TaskID == taskId);
+            DAL.Models.Task task = await db.Tasks.Include(t => t.Changes).SingleOrDefaultAsync(t => t.TaskID == taskId);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(task);
         }
 
         // GET: api/Tasks/5

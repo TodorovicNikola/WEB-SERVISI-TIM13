@@ -1,10 +1,10 @@
-﻿<h1>Tasks of project {{projectName}}</h1>
+﻿<h1>Tasks of project {{currentProject}}</h1>
 
 <table>
     <tr><th>Name</th><th>Created by</th></tr>
     <tr ng-repeat="task in tasks">
-    
-        <td> {{task.taskName}} </td>
+        
+        <td > <a href='#/projects/{{currentProject}}/tasks/{{task.taskId}}'>{{task.taskName}}</a>  </td>
         <td>{{task.userCreated}}</td>
         <td>{{}}</td>
        

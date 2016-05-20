@@ -16,7 +16,7 @@ using TicketingSystem.DTOs;
 
 namespace TicketingSystem.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -38,7 +38,10 @@ namespace TicketingSystem.Controllers
                 TaskDescription = x.TaskDescription,
                 TaskStatus = x.TaskStatus,
                 UserAssigned = x.UserAssigned.Username,
-                UserCreated = x.UserCreated.Username
+                UserCreated = x.UserCreated.Username,
+                TaskId = x.TaskID
+                
+                
 
 
 

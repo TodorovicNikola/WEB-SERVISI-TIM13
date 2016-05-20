@@ -10,6 +10,10 @@
                 
                 return $http.get('../../api/projects/'+id+'/tasks');
             },
+            getTask: function (id,taskId) {
+
+                return $http.get('../../api/projects/' + id + '/tasks/'+taskId);
+            },
             
         };
     });

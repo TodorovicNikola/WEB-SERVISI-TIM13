@@ -267,9 +267,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201605200947002_InitialCreate.cs" />
-    <Compile Include="Migrations\201605200947002_InitialCreate.Designer.cs">
-      <DependentUpon>201605200947002_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201605201420080_InitialCreate.cs" />
+    <Compile Include="Migrations\201605201420080_InitialCreate.Designer.cs">
+      <DependentUpon>201605201420080_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605201423103_InitialCreate.cs" />
+    <Compile Include="Migrations\201605201423103_InitialCreate.Designer.cs">
+      <DependentUpon>201605201423103_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -292,11 +296,12 @@
     <Content Include="Content\app\controllers.js" />
     <Content Include="Content\app\controllers\dashboardController.js" />
     <Content Include="Content\app\controllers\helloWorldController.js" />
+    <Content Include="Content\app\tasks\views\taskDetailsView.html" />
     <Content Include="Content\app\tasks\tasksController.js" />
     <Content Include="Content\app\index.html" />
     <Content Include="Content\app\partials\dashboard.html" />
     <Content Include="Content\app\partials\main.html" />
-    <Content Include="Content\app\partials\tasksView.html" />
+    <Content Include="Content\app\tasks\views\tasksView.html" />
     <Content Include="Content\app\services.js" />
     <Content Include="Content\app\services\projectsService.js" />
     <Content Include="Content\app\tasks\tasksService.js" />
@@ -386,8 +391,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605200947002_InitialCreate.resx">
-      <DependentUpon>201605200947002_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605201420080_InitialCreate.resx">
+      <DependentUpon>201605201420080_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605201423103_InitialCreate.resx">
+      <DependentUpon>201605201423103_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

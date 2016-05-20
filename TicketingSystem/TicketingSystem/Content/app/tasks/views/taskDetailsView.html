@@ -12,7 +12,6 @@
                 <h4>Due date: {{currentTask.taskUntil}}</h4>
                 <h4 ng-if="currentTask.taskPriority!==0">Priority: {{currentTask.taskPriority}}</h4>
                 <h4>Status: {{currentTask.taskStatus}}</h4>
-                <br />
                 <h5>Description:{{currentTask.taskDescription}}</h5>
             </td>
        
@@ -21,8 +20,22 @@
         </tr>
         <tr>
             <td>
+                <div>
+                   
+                </div>
                 <h4>Comments</h4>
+                <div>
+                    <!--div  for comments -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->
+                </div>
+                <!--<h5>Post comment:</h5>-->
+                <textarea cols="100"></textarea>
+                <br />
+                <button>Post comment</button>
                 <h4>Changes</h4>
+                <div>
+                    <!--div  for changes -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->
+                </div>
+                
             </td>
         </tr>
        

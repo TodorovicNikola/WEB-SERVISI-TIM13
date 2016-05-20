@@ -9,6 +9,10 @@
             getProjects: function () {
                 return $http.get('../../api/projects');
             },
+            getTasksOfProject: function (id) {
+                
+                return $http.get('../../api/projects/'+id+'/tasks')
+            },
         };
     });
 }(angular));

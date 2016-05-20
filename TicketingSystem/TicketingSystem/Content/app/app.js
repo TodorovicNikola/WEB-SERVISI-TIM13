@@ -18,7 +18,12 @@
             url: '/register',
             templateUrl: 'users/register.html',
             controller: 'registerCtrl'
-        });
+        })
+	    .state('tasks', {
+	        url: '/projects/:id/tasks',
+	        templateUrl: 'partials/tasksView.html',
+	        controller: 'TasksCtrl'
+	    });
 	})
     .run(run);;
 

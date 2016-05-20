@@ -1,0 +1,14 @@
+﻿<h1>Tasks of project {{projectName}}</h1>
+
+<table>
+    <tr><th>Name</th><th>Created by</th></tr>
+    <tr ng-repeat="task in tasks">
+    
+        <td> {{task.taskName}} </td>
+        <td>{{task.userCreated}}</td>
+        <td>{{}}</td>
+       
+    </tr>
+
+  
+</table>

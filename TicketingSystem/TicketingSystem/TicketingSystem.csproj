@@ -263,9 +263,15 @@
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="DTOs\TaskDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605200947002_InitialCreate.cs" />
+    <Compile Include="Migrations\201605200947002_InitialCreate.Designer.cs">
+      <DependentUpon>201605200947002_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AuthContext.cs" />
@@ -286,11 +292,14 @@
     <Content Include="Content\app\controllers.js" />
     <Content Include="Content\app\controllers\dashboardController.js" />
     <Content Include="Content\app\controllers\helloWorldController.js" />
+    <Content Include="Content\app\tasks\tasksController.js" />
     <Content Include="Content\app\index.html" />
     <Content Include="Content\app\partials\dashboard.html" />
     <Content Include="Content\app\partials\main.html" />
+    <Content Include="Content\app\partials\tasksView.html" />
     <Content Include="Content\app\services.js" />
     <Content Include="Content\app\services\projectsService.js" />
+    <Content Include="Content\app\tasks\tasksService.js" />
     <Content Include="Content\app\users\login.html" />
     <Content Include="Content\app\users\login.js" />
     <Content Include="Content\app\users\register.html" />
@@ -375,6 +384,11 @@
       <Project>{402378e1-6664-4a80-8962-f16f87fe7fd3}</Project>
       <Name>TicketingSystem.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605200947002_InitialCreate.resx">
+      <DependentUpon>201605200947002_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

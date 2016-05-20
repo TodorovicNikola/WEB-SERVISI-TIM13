@@ -1,14 +1,20 @@
 <div class="projects">
     <h1>Dashboard</h1>
+    <table>
 
+
+      
+    </table>
     <table>
         <tr>
             <th>Name</th>
             <th>Description</th>
         </tr>
         <tr ng-repeat="p in projects">
-            <td>{{ p.projectName }}</td>
-            <td>{{ p.projectDescription }}</td>
+            <td><a href='#/projects/{{p.projectID}}/tasks'>{{ p.projectName }}</a></td>
+            
+            
+                <td>{{ p.projectDescription }}</td>
         </tr>
     </table>
 </div>

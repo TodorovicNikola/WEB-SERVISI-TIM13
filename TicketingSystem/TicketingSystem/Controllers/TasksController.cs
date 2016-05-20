@@ -14,7 +14,7 @@ using TicketingSystem.DAL.Models;
 //Aleksa prvi commit
 namespace TicketingSystem.Controllers
 {
-    [Authorize(Users = "qwerty")]
+    //[Authorize(Users = "qwerty")]
     public class TasksController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();

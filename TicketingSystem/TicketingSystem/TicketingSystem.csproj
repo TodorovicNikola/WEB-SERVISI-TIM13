@@ -294,8 +294,11 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\app\app.js" />
     <Content Include="Content\app\controllers.js" />
+    <Content Include="Content\app\tasks\views\addEditTask.html" />
+    <Content Include="Content\app\tasks\views\controllersModal.js" />
     <Content Include="Content\app\controllers\dashboardController.js" />
     <Content Include="Content\app\controllers\helloWorldController.js" />
+    <Content Include="Content\app\tasks\views\modalview.html" />
     <Content Include="Content\app\tasks\views\taskDetailsView.html" />
     <Content Include="Content\app\tasks\tasksController.js" />
     <Content Include="Content\app\index.html" />

@@ -1,5 +1,5 @@
 (function(angular) {
-    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register']);
+    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularModalService']);
 
 	app.config(function($stateProvider, $urlRouterProvider) {
 	    $urlRouterProvider.otherwise('/dashboard');
@@ -28,7 +28,7 @@
             url: '/projects/:id/tasks/:taskId',
             templateUrl: 'tasks/views/taskDetailsView.html',
             controller: 'TasksCtrl'
-        });
+	    });
 	})
     .run(run);;
 

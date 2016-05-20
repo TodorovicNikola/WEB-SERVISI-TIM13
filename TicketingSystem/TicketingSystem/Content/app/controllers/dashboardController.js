@@ -2,21 +2,9 @@
 	var dashboardCtrlModule = angular.module('app.DashboardCtrl', []);
 	
 	var dashboardController = ['$scope', 'Projects' , function($scope, Projects) {
-		//$scope.projects = [
-		//	{
-		//		name : "projX",
-		//		leader : "John Doe"
-		//	},
-		//	{
-		//		name : "projY",
-		//		leader : "Jane Doe"
-		//	},
-		//	{
-		//		name : "projZ",
-		//		leader : "John Doe"
-		//	}
-		//];
-
+		
+	  
+	    
 	    $scope.init = function () {
 	        
 	        Projects.getProjects().success(function (data) {

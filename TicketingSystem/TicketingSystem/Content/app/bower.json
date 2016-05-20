@@ -7,7 +7,9 @@
     "restangular": "^1.5.2",
     "angular-ui-router": "^0.2.18",
     "ngstorage": "^0.3.10",
-    "angular-jwt": "^0.0.9"
+    "angular-jwt": "^0.0.9",
+    "angular-modal-service": "^0.9.10",
+    "bootstrap": "^3.3.6"
   },
   "devDependencies": {},
   "appPath": "client"

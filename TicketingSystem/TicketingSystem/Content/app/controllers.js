@@ -3,5 +3,8 @@
     	'app.HelloWorldCtrl',
     	'app.DashboardCtrl',
         'app.TasksCtrl'
+        
+        
+        
     ]);
 }(angular));

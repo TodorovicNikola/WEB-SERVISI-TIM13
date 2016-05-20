@@ -25,7 +25,7 @@
             
 	    }
 	    $scope.getTasks = function (id) {
-	        console.log('sssa'+id);
+	    
 	        Projects.getTasksOfProject(id).success(function(data) {
 	            $scope.selectedProjectTasks=data;
 	        });

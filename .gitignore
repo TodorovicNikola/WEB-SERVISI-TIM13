@@ -6,3 +6,5 @@
 **/bin
 **/obj
 /TicketingSystem/.vs
+/TicketingSystem/TicketingSystem/Content/app/bower_components/bower_components
+/TicketingSystem/TicketingSystem/Content/app/bower_components/lodash/dist

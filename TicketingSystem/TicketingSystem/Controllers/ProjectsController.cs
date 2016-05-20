@@ -16,7 +16,7 @@ using TicketingSystem.DTOs;
 
 namespace TicketingSystem.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();

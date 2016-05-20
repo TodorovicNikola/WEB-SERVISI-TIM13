@@ -1,12 +1,17 @@
 ﻿<h1>Tasks of project {{currentProject}}</h1>
 
-<table>
-    <tr><th>Name</th><th>Created by</th></tr>
+<table width="500">
+    <tr><th>Name</th><th>Created by</th><th>Assigned to</th><th>Priority</th></tr>
     <tr ng-repeat="task in tasks">
         
         <td > <a href='#/projects/{{currentProject}}/tasks/{{task.taskId}}'>{{task.taskName}}</a>  </td>
         <td>{{task.userCreated}}</td>
-        <td>{{}}</td>
+        <td ng-if="task.userAssigned!==null">{{task.userAssigned}}</td>
+        <td ng-if="task.userAssigned===null">Not assigned yet</td>
+
+        <td ng-if="task.taskPriority!==0">{{task.taskPriority}}</td>
+        <td ng-if="task.taskPriority==0">Not set</td>
+       
        
     </tr>
 

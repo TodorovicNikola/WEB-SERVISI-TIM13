@@ -10,6 +10,10 @@
                 <h4>Created by :{{currentTask.userCreated.username}}</h4>
                 <h4>Created: {{currentTask.taskFrom}}</h4>
                 <h4>Due date: {{currentTask.taskUntil}}</h4>
+                <h4 ng-if="currentTask.taskPriority!==0">Priority: {{currentTask.taskPriority}}</h4>
+                <h4>Status: {{currentTask.taskStatus}}</h4>
+                <br />
+                <h5>Description:{{currentTask.taskDescription}}</h5>
             </td>
        
 

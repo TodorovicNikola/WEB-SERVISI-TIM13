@@ -6,6 +6,8 @@
         console.log('task id ' +$stateParams.taskId);
         $scope.currentProject = $stateParams.id;
         $scope.currentTask = $stateParams.taskId;
+       
+
         $scope.init = function () {
             
             

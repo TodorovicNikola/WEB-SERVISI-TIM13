@@ -3,8 +3,16 @@
 <h1>Tasks of project {{currentProject}}</h1>
 
 <table width="500" class="table table-hover">
-    <tr><th>Name</th><th>Created by</th><th>Assigned to</th><th>Priority</th></tr>
-    <tr ng-repeat="task in tasks">
+    <tr><th>Name</th><th>Created by</th><th>Assigned to</th><th>Priority</th><td>Filter:</td></tr>
+    <tr>
+        <td><input type="text" class='form-control input-sm' ng-model="search.taskName" /></td>
+        <td><input type="text" class='form-control input-sm' ng-model="search.userCreated" /></td>
+        <td><input type="text" class='form-control input-sm' ng-model="search.userAssigned" /></td>
+        <td><input type="text" class='form-control input-sm' ng-model="search.taskPriority" /></td>
+        
+    </tr>
+    
+    <tr ng-repeat="task in tasks | filter:search:strict">
         
         <td > <a href='#/projects/{{currentProject}}/tasks/{{task.taskId}}'>{{task.taskName}}</a>  </td>
         <td>{{task.userCreated}}</td>
@@ -72,9 +80,7 @@
                                     </div>
                                 </div>
                                 
-                                {{$scope.$parent.creation}}
-                                {{creation}}
-                                {{$scope.creation}}
+                               
                                 <div ng-if="creation==true" class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Created by:</label>
                                     <div class="col-sm-10">

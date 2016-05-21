@@ -8,6 +8,7 @@
         $scope.currentTask = $stateParams.taskId;
         $scope.init = function () {
             
+            
             Tasks.getTasks($scope.currentProject).success(function (data) {
                 $scope.tasks = data;
                 

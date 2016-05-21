@@ -5601,7 +5601,8 @@ button.close {
 }
 
 .modal-open {
-  overflow: hidden;
+  overflow: auto;
+  overflow-x:hidden;
 }
 
 body.modal-open,
@@ -5619,7 +5620,7 @@ body.modal-open,
   z-index: 1040;
   display: none;
   overflow: auto;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .modal.fade .modal-dialog {

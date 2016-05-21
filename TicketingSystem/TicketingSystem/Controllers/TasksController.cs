@@ -30,8 +30,8 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(DAL.Models.Ticket))]
         public async Task<IHttpActionResult> GetTaskDetails(int taskId)
         {
-            // DAL.Models.Task task = await db.Tasks.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TaskID == taskId);
-            DAL.Models.Ticket task = await db.Tickets.Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == taskId);
+            DAL.Models.Ticket task = await db.Tickets.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == taskId);
+            //DAL.Models.Ticket task = await db.Tickets.Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == taskId);
             if (task == null)
             {
                 return NotFound();

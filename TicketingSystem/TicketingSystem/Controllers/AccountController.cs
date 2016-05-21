@@ -173,7 +173,7 @@ namespace TicketingSystem.Controllers
                 result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
                     new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
-
+             
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);

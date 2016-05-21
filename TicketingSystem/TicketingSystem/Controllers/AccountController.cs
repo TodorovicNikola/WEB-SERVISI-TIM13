@@ -192,9 +192,9 @@ namespace TicketingSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new TicketingSystemUser() { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
+            var user = new TicketingSystemUser() { UserName = model.Email, Email = model.Email, EmailConfirmed = true, Id = model.Email, UserType = TicketingSystemUser.UserTypes.USER, PasswordHash = model.Password };//TicketingSystemUser.HashPassword(model.Password) };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            IdentityResult result = await UserManager.CreateAsync(user, user.PasswordHash);
 
             if (!result.Succeeded)
             {

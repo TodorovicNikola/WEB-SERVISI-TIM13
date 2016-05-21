@@ -12,5 +12,8 @@
     "bootstrap": "^3.3.6"
   },
   "devDependencies": {},
-  "appPath": "client"
+  "appPath": "client",
+  "resolutions": {
+    "angular": "~1.x"
+  }
 }

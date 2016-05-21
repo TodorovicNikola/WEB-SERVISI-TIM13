@@ -8,10 +8,29 @@
     padding-left: 15px;
     padding-right: 15px;
 }
-
+.scrollableDiv{
+    overflow:scroll;
+    height:300px;
+}
+.commentSpan{
+   
+    background-color: #f2f2f2;
+    padding-left:5px;
+    padding-right:5px;
+    padding:2px;
+    margin:3px;
+}
+.commentDetails{
+    color:lightblue;
+    font-weight:bold;
+    font-style:italic;
+}
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
+}
+.commentTextArea{
+    margin:5px;
 }

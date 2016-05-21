@@ -279,6 +279,7 @@
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\app\app.js" />
+    <Content Include="Content\app\comments\commentsService.js" />
     <Content Include="Content\app\controllers.js" />
     <Content Include="Content\app\controllers\dashboardController.js" />
     <Content Include="Content\app\controllers\helloWorldController.js" />

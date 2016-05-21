@@ -23,19 +23,20 @@
                 <div>
                    
                 </div>
+             
                 <h4>Comments</h4>
-                <div>
+                <div class="pre-scrollable" style="height:150px;width:500px">
                     <table>
-                        <tr ng-repeat="comment in currentTask.comments">
-                            <td></td>
-                        </tr>
+                        <span ng-repeat="comment in currentTask.comments.slice().reverse()">
+                           <div class="commentSpan"><span class="commentDetails">{{comment.userWroteID}} on  {{comment.commentCreated}}: </span> <br />{{comment.commentContent}}</div>
+                        </span>
                     </table>
                     <!--div  for comments -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->
                 </div>
                 <!--<h5>Post comment:</h5>-->
-                <textarea class="form-control" cols="100"></textarea>
-                <br />
-                <button class="btn btn-primary">Post comment</button>
+                <textarea class="form-control commentTextArea" style="width:350px;min-width:490px" ng-model="commentContent"></textarea>
+                
+                <button class="btn btn-primary" ng-click="sendComment()">Post comment</button>
                 <h4>Changes</h4>
                 <div>
                     <!--div  for changes -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->

@@ -1,13 +1,13 @@
 ﻿(function (angular) {
     var tasksControllerModule = angular.module('app.TasksCtrl', []);
     
-    var tasksController = ['$scope', 'Tasks','$stateParams', function($scope, Tasks,$stateParams) {
+    var tasksController = ['$scope', 'Tasks','$stateParams','$http','AuthenticationService', function($scope, Tasks,$stateParams,$http,AuthenticationService) {
         console.log('project id ' +$stateParams.id);
         console.log('task id ' +$stateParams.taskId);
         $scope.currentProject = $stateParams.id;
         $scope.currentTask = $stateParams.taskId;
        
-
+       
         $scope.init = function () {
             
             
@@ -24,6 +24,24 @@
             Tasks.getTask($scope.currentProject,$scope.currentTask).success(function (data) {
                 $scope.currentTask = data;
                
+            });
+        }
+
+      
+        $scope.sendComment = function () {
+            var data = { "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": "2016-05-21T00:00:00", "TaskID": 1, "ProjectID": $scope.currentProject, "UserWroteID": 'admin' };
+            $http.post(
+                '/api/Comments',
+                JSON.stringify(data),
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            ).success(function (data) {
+                //console.log(data);
+                //console.log($scope.currentTask);
+                $scope.currentTask.comments.push(data);
             });
         }
        

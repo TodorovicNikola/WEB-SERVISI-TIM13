@@ -21,8 +21,8 @@ namespace TicketingSystem.DAL.Models
         public String ProjectDescription { get; set; }
 
 
-        public ICollection<Task> Tasks { get; set; }
+        public ICollection<Ticket> Tasks { get; set; }
         public ICollection<Report> Reports { get; set; }
-        public ICollection<User> AssignedUsers { get; set; }
+        public ICollection<TicketingSystemUser> AssignedUsers { get; set; }
     }
 }

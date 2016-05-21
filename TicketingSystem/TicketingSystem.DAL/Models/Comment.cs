@@ -35,13 +35,13 @@ namespace TicketingSystem.DAL.Models
 
         [Required]
         [ForeignKey("UserWrote")]
-        public int UserWroteID { get; set; }
+        public string UserWroteID { get; set; }
 
 
         
-        public virtual Task Task { get; set; }
+        public virtual Ticket Task { get; set; }
 
         [ForeignKey("UserWroteID")]
-        public virtual User UserWrote { get; set; }
+        public virtual TicketingSystemUser UserWrote { get; set; }
     }
 }

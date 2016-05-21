@@ -28,7 +28,7 @@ namespace TicketingSystem.Controllers
         }
 
 
-        private static readonly Expression<Func<DAL.Models.Task, TaskDto>> AsTaskDto =
+        private static readonly Expression<Func<DAL.Models.Ticket, TaskDto>> AsTaskDto =
             x => new TaskDto
             {
                 TaskName = x.TaskName,
@@ -37,9 +37,9 @@ namespace TicketingSystem.Controllers
                 TaskPriority = x.TaskPriority,
                 TaskDescription = x.TaskDescription,
                 TaskStatus = x.TaskStatus,
-                UserAssigned = x.UserAssigned.Username,
-                UserCreated = x.UserCreated.Username,
-                TaskId = x.TaskID
+                UserAssigned = x.UserAssigned.UserName,
+                UserCreated = x.UserCreated.UserName,
+                TaskId = x.TicketID
                 
                 
 
@@ -51,7 +51,7 @@ namespace TicketingSystem.Controllers
         public IQueryable<DTOs.TaskDto> GetTasksOfProject(int projectId)
         {
 
-            return db.Tasks.Include(b => b.Project)
+            return db.Tickets.Include(b => b.Project)
                 .Where(b => b.ProjectID == projectId)
                 .Select(AsTaskDto);
         }

@@ -8,12 +8,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TicketingSystem.DAL.Models
 {
-    public class Task
+    public class Ticket
     {
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TaskID { get; set; }
+        public int TicketID { get; set; }
 
         [Key]
         [ForeignKey("Project")]
@@ -42,10 +42,10 @@ namespace TicketingSystem.DAL.Models
 
         [ForeignKey("UserCreated")]
         [Required]
-        public int UserCreatedID { get; set; }
+        public string UserCreatedID { get; set; }
 
         [ForeignKey("UserAssigned")]
-        public int? UserAssignedID { get; set; }
+        public String UserAssignedID { get; set; }
 
 
 
@@ -54,11 +54,11 @@ namespace TicketingSystem.DAL.Models
 
         [ForeignKey("UserCreatedID")]
         [InverseProperty("CreatedTasks")]
-        public virtual User UserCreated { get; set; }
+        public virtual TicketingSystemUser UserCreated { get; set; }
 
         [ForeignKey("UserAssignedID")]
         [InverseProperty("AssignedTasks")]
-        public virtual User UserAssigned { get; set; }
+        public virtual TicketingSystemUser UserAssigned { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Change> Changes { get; set; }

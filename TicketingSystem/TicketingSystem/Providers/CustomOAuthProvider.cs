@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using TicketingSystem.DAL.Models;
 using TicketingSystem.Models;
 
 namespace TicketingSystem.Providers
@@ -34,7 +35,7 @@ namespace TicketingSystem.Providers
 
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            TicketingSystemUser user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {

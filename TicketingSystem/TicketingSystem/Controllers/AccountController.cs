@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using TicketingSystem.Models;
 using TicketingSystem.Providers;
 using TicketingSystem.Results;
+using TicketingSystem.DAL.Models;
 
 namespace TicketingSystem.Controllers
 {
@@ -191,7 +192,7 @@ namespace TicketingSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
+            var user = new TicketingSystemUser() { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

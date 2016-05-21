@@ -19,16 +19,16 @@ namespace TicketingSystem.Controllers
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
 
         // GET: api/Users
-        public IQueryable<User> GetUsers()
+        public IQueryable<TicketingSystemUser> GetUsers()
         {
             return db.Users;
         }
 
         // GET: api/Users/5
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> GetUser(int id)
+        [ResponseType(typeof(TicketingSystemUser))]
+        public async Task<IHttpActionResult> GetUser(string id)
         {
-            User user = await db.Users.FindAsync(id);
+            TicketingSystemUser user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -39,14 +39,14 @@ namespace TicketingSystem.Controllers
 
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutUser(int id, User user)
+        public async Task<IHttpActionResult> PutUser(string id, TicketingSystemUser user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != user.UserID)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
@@ -73,8 +73,8 @@ namespace TicketingSystem.Controllers
         }
 
         // POST: api/Users
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> PostUser(User user)
+        [ResponseType(typeof(TicketingSystemUser))]
+        public async Task<IHttpActionResult> PostUser(TicketingSystemUser user)
         {
             if (!ModelState.IsValid)
             {
@@ -84,14 +84,14 @@ namespace TicketingSystem.Controllers
             db.Users.Add(user);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = user.UserID }, user);
+            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
         }
 
         // DELETE: api/Users/5
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> DeleteUser(int id)
+        [ResponseType(typeof(TicketingSystemUser))]
+        public async Task<IHttpActionResult> DeleteUser(string id)
         {
-            User user = await db.Users.FindAsync(id);
+            TicketingSystemUser user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -112,9 +112,9 @@ namespace TicketingSystem.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(string id)
         {
-            return db.Users.Count(e => e.UserID == id) > 0;
+            return db.Users.Count(e => e.Id == id) > 0;
         }
     }
 }

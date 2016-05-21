@@ -20,18 +20,18 @@ namespace TicketingSystem.Controllers
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
 
         // GET: api/Tasks
-        public IQueryable<DAL.Models.Task> GetTasks()
+        public IQueryable<DAL.Models.Ticket> GetTasks()
         {
-            return db.Tasks;
+            return db.Tickets;
         }
 
 
         [Route("api/Projects/{projectId}/tasks/{taskId}")]
-        [ResponseType(typeof(DAL.Models.Task))]
+        [ResponseType(typeof(DAL.Models.Ticket))]
         public async Task<IHttpActionResult> GetTaskDetails(int taskId)
         {
             // DAL.Models.Task task = await db.Tasks.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TaskID == taskId);
-            DAL.Models.Task task = await db.Tasks.Include(t => t.Changes).SingleOrDefaultAsync(t => t.TaskID == taskId);
+            DAL.Models.Ticket task = await db.Tickets.Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == taskId);
             if (task == null)
             {
                 return NotFound();
@@ -41,10 +41,10 @@ namespace TicketingSystem.Controllers
         }
 
         // GET: api/Tasks/5
-        [ResponseType(typeof(DAL.Models.Task))]
+        [ResponseType(typeof(DAL.Models.Ticket))]
         public async Task<IHttpActionResult> GetTask(int id)
         {
-            DAL.Models.Task task = await db.Tasks.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TaskID == id);
+            DAL.Models.Ticket task = await db.Tickets.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == id);
             if (task == null)
             {
                 return NotFound();
@@ -55,14 +55,14 @@ namespace TicketingSystem.Controllers
 
         // PUT: api/Tasks/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTask(int id, DAL.Models.Task task)
+        public async Task<IHttpActionResult> PutTask(int id, DAL.Models.Ticket task)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != task.TaskID)
+            if (id != task.TicketID)
             {
                 return BadRequest();
             }
@@ -89,31 +89,31 @@ namespace TicketingSystem.Controllers
         }
 
         // POST: api/Tasks
-        [ResponseType(typeof(DAL.Models.Task))]
-        public async Task<IHttpActionResult> PostTask(DAL.Models.Task task)
+        [ResponseType(typeof(DAL.Models.Ticket))]
+        public async Task<IHttpActionResult> PostTask(DAL.Models.Ticket task)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Tasks.Add(task);
+            db.Tickets.Add(task);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = task.TaskID }, task);
+            return CreatedAtRoute("DefaultApi", new { id = task.TicketID }, task);
         }
 
         // DELETE: api/Tasks/5
-        [ResponseType(typeof(DAL.Models.Task))]
+        [ResponseType(typeof(DAL.Models.Ticket))]
         public async Task<IHttpActionResult> DeleteTask(int id)
         {
-            DAL.Models.Task task = await db.Tasks.FindAsync(id);
+            DAL.Models.Ticket task = await db.Tickets.FindAsync(id);
             if (task == null)
             {
                 return NotFound();
             }
 
-            db.Tasks.Remove(task);
+            db.Tickets.Remove(task);
             await db.SaveChangesAsync();
 
             return Ok(task);
@@ -130,7 +130,7 @@ namespace TicketingSystem.Controllers
 
         private bool TaskExists(int id)
         {
-            return db.Tasks.Count(e => e.TaskID == id) > 0;
+            return db.Tickets.Count(e => e.TicketID == id) > 0;
         }
     }
 }

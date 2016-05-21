@@ -28,20 +28,20 @@ namespace TicketingSystem.DAL.Models
         [Required]
         public DateTime ChangeDate { get; set; }
 
-        public Task.TaskStatuses? ChangeStatus { get; set; }
-        public Task.TaskPriorities? ChangePriority { get; set; }
+        public Ticket.TaskStatuses? ChangeStatus { get; set; }
+        public Ticket.TaskPriorities? ChangePriority { get; set; }
         public DateTime? ChangeTaskFrom { get; set; }
         public DateTime? ChangeTaskUntil { get; set; }
 
         [Required]
         [ForeignKey("UserThatChanged")]
-        public int UserThatChangedID { get; set; }
+        public string UserThatChangedID { get; set; }
 
 
-        public virtual Task Task { get; set; }
+        public virtual Ticket Task { get; set; }
 
         [ForeignKey("UserThatChangedID")]
-        public virtual User UserThatChanged { get; set; }
+        public virtual TicketingSystemUser UserThatChanged { get; set; }
 
     }
 }

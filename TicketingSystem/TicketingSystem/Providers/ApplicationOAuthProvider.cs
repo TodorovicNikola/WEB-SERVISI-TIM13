@@ -32,7 +32,7 @@ namespace TicketingSystem.Providers
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            TicketingSystemUser user = await userManager.FindAsync(context.UserName, context.Password);
+            TicketingSystemUser user = await userManager.FindAsync(context.UserName,  TicketingSystemUser.HashPassword(context.Password));
 
             if (user == null)
             {

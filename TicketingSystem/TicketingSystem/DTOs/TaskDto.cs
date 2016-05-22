@@ -7,7 +7,7 @@ namespace TicketingSystem.DTOs
 {
     public class TaskDto
     {
-        public int TaskId { get; set; }
+        public int TicketId { get; set; }
 
         public String TaskName { get; set; }
 

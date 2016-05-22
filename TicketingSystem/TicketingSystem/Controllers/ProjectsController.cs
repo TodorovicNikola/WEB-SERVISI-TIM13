@@ -13,6 +13,7 @@ using TicketingSystem.DAL;
 using TicketingSystem.DAL.Models;
 using System.Linq.Expressions;
 using TicketingSystem.DTOs;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace TicketingSystem.Controllers
 {
@@ -20,51 +21,36 @@ namespace TicketingSystem.Controllers
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: api/Projects
-        public IQueryable<Project> GetProjects()
+        public async Task<IQueryable<Project>> GetProjects()
         {
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if(isAdmin)
+            {
+                return db.Projects;
+            }
             return (from p in db.Projects.Include(p => p.AssignedUsers)
                     where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
                     select p).AsQueryable();
         }
 
 
-        private static readonly Expression<Func<DAL.Models.Ticket, TaskDto>> AsTaskDto =
-            x => new TaskDto
-            {
-                TaskName = x.TaskName,
-                TaskFrom = x.TaskFrom,
-                TaskUntil = x.TaskUntil,
-                TaskPriority = x.TaskPriority,
-                TaskDescription = x.TaskDescription,
-                TaskStatus = x.TaskStatus,
-                UserAssigned = x.UserAssigned.UserName,
-                UserCreated = x.UserCreated.UserName,
-                TaskId = x.TicketID
-
-
-
-
-
-            };
-
-        [Route("api/Projects/{projectId}/tasks")]
-        public IQueryable<DTOs.TaskDto> GetTasksOfProject(int projectId)
-        {
-            var data = (from p in db.Projects.Include(p => p.AssignedUsers)
-                        where p.AssignedUsers.Any(u => u.Email == User.Identity.Name) && p.ProjectID == projectId
-                        select p).Count();
-            
-            if (data == 0)
-            {
-                return null;
-            }
-
-            return db.Tickets.Include(b => b.Project)
-                .Where(b => b.ProjectID == projectId)
-                .Select(AsTaskDto);
-        }
+        
 
         // GET: api/Projects/5
         [ResponseType(typeof(Project))]
@@ -83,7 +69,12 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProject(int id, Project project)
         {
-            // TODO : role check
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (!isAdmin)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
 
             if (!ModelState.IsValid)
             {
@@ -120,7 +111,12 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(Project))]
         public async Task<IHttpActionResult> PostProject(Project project)
         {
-            // TODO : role check
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (!isAdmin)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
 
             if (!ModelState.IsValid)
             {
@@ -137,7 +133,12 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(Project))]
         public async Task<IHttpActionResult> DeleteProject(int id)
         {
-            // TODO : admin check
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (!isAdmin)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
 
             Project project = await db.Projects.FindAsync(id);
             if (project == null)

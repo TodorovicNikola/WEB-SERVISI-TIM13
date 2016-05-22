@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TicketingSystem.DAL;
 using TicketingSystem.DAL.Models;
+using TicketingSystem.DTOs;
 //Aleksa prvi commit
 namespace TicketingSystem.Controllers
 {
@@ -18,13 +21,70 @@ namespace TicketingSystem.Controllers
     public class TasksController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: api/Tasks
-        public IQueryable<DAL.Models.Ticket> GetTasks()
+        public async Task<IHttpActionResult> GetTasks()
         {
-            return (from t in db.Tickets
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (isAdmin)
+            {
+                return Ok(db.Tickets);
+            }
+            return Ok((from t in db.Tickets
                     where t.UserAssignedID == User.Identity.Name
-                    select t).AsQueryable();
+                    select t).AsQueryable());
+        }
+
+        private static readonly Expression<Func<DAL.Models.Ticket, TaskDto>> AsTaskDto =
+            x => new TaskDto
+            {
+                TaskName = x.TaskName,
+                TaskFrom = x.TaskFrom,
+                TaskUntil = x.TaskUntil,
+                TaskPriority = x.TaskPriority,
+                TaskDescription = x.TaskDescription,
+                TaskStatus = x.TaskStatus,
+                UserAssigned = x.UserAssigned.UserName,
+                UserCreated = x.UserCreated.UserName,
+                TicketId = x.TicketID
+
+
+
+
+
+            };
+
+        [Route("api/Projects/{projectId}/tasks")]
+        public async Task<IQueryable<DTOs.TaskDto>> GetTasksOfProject(int projectId)
+        {
+            var data = (from p in db.Projects.Include(p => p.AssignedUsers)
+                        where p.AssignedUsers.Any(u => u.Email == User.Identity.Name) && p.ProjectID == projectId
+                        select p).Count();
+
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (data == 0 && !isAdmin)
+            {
+                return null;
+            }
+
+            return db.Tickets.Include(b => b.Project)
+                .Where(b => b.ProjectID == projectId)
+                .Select(AsTaskDto);
         }
 
 
@@ -36,7 +96,9 @@ namespace TicketingSystem.Controllers
                         where p.AssignedUsers.Any(u => u.Id == User.Identity.Name) && p.ProjectID == projectId
                         select p).Count();
 
-            if (data == 0)
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (data == 0 && !isAdmin)
             {
                 return NotFound();
             }
@@ -64,18 +126,32 @@ namespace TicketingSystem.Controllers
             return Ok(task);
         }
 
-        // PUT: api/Tasks/5
+        // PUT: api/Projects/5/Tasks/5
+        [Route("api/Projects/{projectId}/tasks/{taskId}")]
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutTask(int id, DAL.Models.Ticket task)
+        public async Task<IHttpActionResult> PutTask(int projectId, int taskId, DAL.Models.Ticket task)
         {
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (!isAdmin)
+            {
+                var data = (from p in db.Projects.Include(p => p.AssignedUsers)
+                            where p.AssignedUsers.Any(u => u.Id == User.Identity.Name) && p.ProjectID == projectId
+                            select p).Count();
+                if (data == 0)
+                {
+                    return StatusCode(HttpStatusCode.Forbidden);
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != task.TicketID)
+            if (taskId != task.TicketID || projectId != task.ProjectID)
             {
-                return BadRequest();
+                return StatusCode(HttpStatusCode.BadRequest);
             }
 
             db.Entry(task).State = EntityState.Modified;
@@ -86,7 +162,7 @@ namespace TicketingSystem.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TaskExists(id))
+                if (!TaskExists(taskId))
                 {
                     return NotFound();
                 }
@@ -99,27 +175,64 @@ namespace TicketingSystem.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Tasks
+        // POST: api/Projects/5/Tasks
+        [Route("api/Projects/{projectId}/tasks", Name = "PostTask")]
         [ResponseType(typeof(DAL.Models.Ticket))]
-        public async Task<IHttpActionResult> PostTask(DAL.Models.Ticket task)
+        public async Task<IHttpActionResult> PostTask(int projectId, DAL.Models.Ticket task)
         {
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (!isAdmin)
+            {
+                var data = (from p in db.Projects.Include(p => p.AssignedUsers)
+                            where p.AssignedUsers.Any(u => u.Id == User.Identity.Name) && p.ProjectID == projectId
+                            select p).Count();
+                if (data == 0)
+                {
+                    return StatusCode(HttpStatusCode.Forbidden);
+                }
+            }
+
+            if (projectId != task.ProjectID)
+            {
+                return BadRequest();
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var cnt = (from p in db.Projects.Include(p => p.AssignedUsers)
+                       where p.AssignedUsers.Any(u => u.Id == task.UserAssignedID) && p.ProjectID == projectId
+                        select p).Count();
+            if (cnt == 0)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
+
+            
+
             db.Tickets.Add(task);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = task.TicketID }, task);
+            return CreatedAtRoute("PostTask", new { id = task.TicketID }, task);
         }
 
-        // DELETE: api/Tasks/5
+        // DELETE:  api/Projects/5/Tasks/5
+        [Route("api/Projects/{projectId}/tasks/{taskId}")]
         [ResponseType(typeof(DAL.Models.Ticket))]
-        public async Task<IHttpActionResult> DeleteTask(int id)
+        public async Task<IHttpActionResult> DeleteTask(int taskId, int projectId)
         {
-            DAL.Models.Ticket task = await db.Tickets.FindAsync(id);
-            if (task == null)
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (!isAdmin)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
+
+            DAL.Models.Ticket task = await db.Tickets.FindAsync(new object[] { taskId, projectId });
+            if (task == null || task.ProjectID != projectId)
             {
                 return NotFound();
             }

@@ -14,7 +14,7 @@
     
     <tr ng-repeat="task in tasks | filter:search:strict">
         
-        <td > <a href='#/projects/{{currentProject}}/tasks/{{task.taskId}}'>{{task.taskName}}</a>  </td>
+        <td > <a href='#/projects/{{currentProject}}/tasks/{{task.ticketId}}'>{{task.taskName}}</a>  </td>
         <td>{{task.userCreated}}</td>
         <td ng-if="task.userAssigned!==null">{{task.userAssigned}}</td>
         <td ng-if="task.userAssigned===null">Not assigned yet</td>

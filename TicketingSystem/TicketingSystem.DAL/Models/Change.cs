@@ -28,8 +28,8 @@ namespace TicketingSystem.DAL.Models
         [Required]
         public DateTime ChangeDate { get; set; }
 
-        public Ticket.TaskStatuses? ChangeStatus { get; set; }
-        public Ticket.TaskPriorities? ChangePriority { get; set; }
+        public String ChangeStatus { get; set; }
+        public String ChangePriority { get; set; }
         public DateTime? ChangeTaskFrom { get; set; }
         public DateTime? ChangeTaskUntil { get; set; }
 

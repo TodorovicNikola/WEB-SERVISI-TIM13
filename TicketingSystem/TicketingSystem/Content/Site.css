@@ -34,3 +34,20 @@ textarea {
 .commentTextArea{
     margin:5px;
 }
+
+div.left {
+    position:relative;
+    float:left;
+    width:25%;
+    border-right:solid 3px;
+    border-right-color:darkgrey;
+}
+
+div.right{
+    position:relative;
+    float:right;
+    width: 70%;
+    height: 500px;
+	margin: 0 auto;
+    top:-5px;
+}

@@ -1,18 +1,31 @@
 <div class="projects">
     <h1>Dashboard</h1>
-    <table>
+    <hr />
 
-    </table>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-        </tr>
-        <tr ng-repeat="p in projects">
-            <td><a href='#/projects/{{p.projectID}}/tasks'>{{ p.projectName }}</a></td>
-            
-            
-                <td>{{ p.projectDescription }}</td>
-        </tr>
-    </table>
+    <div class="left">
+        <table class="table table-striped">
+            <tr>
+                <th style="font-size:larger">
+                    Projects
+                </th>
+            </tr>
+            <tr ng-repeat="p in projects">
+                <td><a href='#/projects/{{p.projectID}}/tasks'>{{ p.projectName }}</a></td>
+
+            </tr>
+        </table>
+    </div>
+    <div class="right">
+        <h3>Tasks</h3>
+        <table class="table table-striped">
+            <tr><th>Task Name</th><th>Task Status</th><th>Task Priority</th><th>Task From</th><th>Task Until</th></tr>
+            <tr ng-repeat="t in tasks">
+                <td>{{t.taskName}}</td>
+                <td>{{t.taskStatus}}</td>
+                <td>{{t.taskPriority}}</td>
+                <td>{{t.taskFrom}}</td>
+                <td>{{t.taskUntil}}</td>
+            </tr>
+        </table>
+    </div>
 </div>

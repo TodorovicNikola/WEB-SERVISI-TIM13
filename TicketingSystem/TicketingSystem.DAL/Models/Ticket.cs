@@ -26,13 +26,11 @@ namespace TicketingSystem.DAL.Models
         [StringLength(2048, ErrorMessage = "'Task Description' must not be longer than 2048 characters!")]
         public String TaskDescription { get; set; }
 
-        public enum TaskStatuses { ToDo, InProgress, Verify, Done };
         [Required]
-        public TaskStatuses TaskStatus { get; set; }
+        public String TaskStatus { get; set; }
 
-        public enum TaskPriorities { Blocker, Critical, Major, Minor, Trivial };
         [Required]
-        public TaskPriorities TaskPriority { get; set; }
+        public String TaskPriority { get; set; }
 
         [Required(ErrorMessage = "'Task From' must not be empty!")]
         public DateTime TaskFrom { get; set; }

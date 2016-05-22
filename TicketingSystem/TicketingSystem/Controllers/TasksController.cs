@@ -72,7 +72,7 @@ namespace TicketingSystem.Controllers
         public async Task<IQueryable<DTOs.TaskDto>> GetTasksOfProject(int projectId)
         {
             var data = (from p in db.Projects.Include(p => p.AssignedUsers)
-                        where p.AssignedUsers.Any(u => u.Email == User.Identity.Name) && p.ProjectID == projectId
+                        where p.AssignedUsers.Any(u => u.Id == User.Identity.Name) && p.ProjectID == projectId
                         select p).Count();
 
             bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");

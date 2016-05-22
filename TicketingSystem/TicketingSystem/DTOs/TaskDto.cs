@@ -13,9 +13,9 @@ namespace TicketingSystem.DTOs
 
         public String TaskDescription { get; set; }
 
-        public DAL.Models.Ticket.TaskStatuses TaskStatus { get; set; }
+        public String TaskStatus { get; set; }
 
-        public DAL.Models.Ticket.TaskPriorities TaskPriority { get; set; }
+        public String TaskPriority { get; set; }
 
         public DateTime TaskFrom { get; set; }
 

@@ -42,7 +42,7 @@ namespace TicketingSystem.Controllers
 
             if(isAdmin)
             {
-                return db.Projects;
+                return db.Projects.Include(p => p.Tasks);
             }
             return (from p in db.Projects.Include(p => p.AssignedUsers)
                     where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)

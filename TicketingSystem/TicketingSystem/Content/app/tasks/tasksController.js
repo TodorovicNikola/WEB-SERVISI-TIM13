@@ -13,7 +13,7 @@
         }
        
         $scope.init = function () {
-            
+            $scope.commentEditing = false;
             
             Tasks.getTasks($scope.currentProject).success(function (data) {
                 $scope.tasks = data;
@@ -31,7 +31,23 @@
             });
         }
 
-      
+        $scope.editComment=function(commentId,commentContent)
+        {
+            $scope.commentEditing=true;
+            $scope.commentId=commentId;
+            $scope.commentContent = commentContent;
+            console.log(commentContent);
+        }
+        $scope.quitEditingComment=function()
+        {
+            $scope.commentId = null;
+            $scope.commentEditing = false;
+        }
+        $scope.updateComment = function (commentId, commentContent) {
+            $scope.quitEditingComment();
+           
+        }
+
         $scope.sendComment = function () {
   
             var data = { "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": "2016-05-21T00:00:00", "TaskID": 1, "ProjectID": $scope.currentProject, "UserWroteID": $scope.userId };

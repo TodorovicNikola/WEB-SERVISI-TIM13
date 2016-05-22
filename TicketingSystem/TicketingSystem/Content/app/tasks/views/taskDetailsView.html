@@ -28,15 +28,17 @@
                 <div class="pre-scrollable" style="height:150px;width:500px">
                     <table>
                         <span ng-repeat="comment in currentTask.comments.slice().reverse()">
-                           <div class="commentSpan"><span class="commentDetails">{{comment.userWroteID}} on  {{comment.commentCreated}}:<span ng-if="getUserName()==comment.userWroteID"> Edit </span> <br />{{comment.commentContent}}</div>
+                           <div class="commentSpan"><span class="commentDetails">{{comment.userWroteID}} on  {{comment.commentCreated}}:<span ng-if="getUserName()==comment.userWroteID"> <span class="commentSpanEdit" ng-click="editComment(comment.commentID,comment.commentContent)">Edit   </span><span ng-click="quitEditingComment()" class="commentSpanEdit">Quit editing</span> </span> <br />{{comment.commentContent}}</div>
                         </span>
                     </table>
                     <!--div  for comments -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->
                 </div>
+             
                 <!--<h5>Post comment:</h5>-->
                 <textarea class="form-control commentTextArea" style="width:350px;min-width:490px" ng-model="commentContent"></textarea>
-                
-                <button class="btn btn-primary" ng-click="sendComment()">Post comment</button>
+               
+                <button ng-if="!commentEditing" class="btn btn-primary" ng-click="sendComment()">Post comment</button>
+                <button ng-if="commentEditing" class="btn btn-primary" ng-click="updateComment()">Update comment</button>
                 <h4>Changes</h4>
                 <div>
                     <!--div  for changes -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->

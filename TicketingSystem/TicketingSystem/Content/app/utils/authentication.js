@@ -9,6 +9,9 @@
         service.login = login;
         service.logout = logout;
         service.getCurrentUser = getCurrentUser;
+        
+        //service.getCurrentUserId = getCurrentUserId;
+        //service.getCurrentUserId = $localStorage.currentUser.username;
         service.register = register;
 
         return service;
@@ -37,6 +40,7 @@
                             currentUser.role = tokenPayload.role;
                         }
                         $localStorage.currentUser = currentUser;
+
                         // jwt token dodajemo u to auth header za sve $http zahteve
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.access_token;
                         // callback za uspesan login
@@ -59,7 +63,7 @@
         function getCurrentUser() {
             return $localStorage.currentUser;
         }
-
+        
         function register(username, password, callback) {
             $http.post('/api/account/register', { email: username, userName: username, password: password, confirmPassword: password })
                 .success(function (response) {

@@ -6,7 +6,11 @@
         console.log('task id ' +$stateParams.taskId);
         $scope.currentProject = $stateParams.id;
         $scope.currentTask = $stateParams.taskId;
-       
+        //$scope.userId = AuthenticationService.getCurrentUserId;
+        $scope.getUserName=function()
+        {
+            return AuthenticationService.getCurrentUser().username;
+        }
        
         $scope.init = function () {
             
@@ -29,7 +33,8 @@
 
       
         $scope.sendComment = function () {
-            var data = { "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": "2016-05-21T00:00:00", "TaskID": 1, "ProjectID": $scope.currentProject, "UserWroteID": 'admin' };
+  
+            var data = { "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": "2016-05-21T00:00:00", "TaskID": 1, "ProjectID": $scope.currentProject, "UserWroteID": $scope.userId };
             $http.post(
                 '/api/Comments',
                 JSON.stringify(data),
@@ -39,8 +44,7 @@
                     }
                 }
             ).success(function (data) {
-                //console.log(data);
-                //console.log($scope.currentTask);
+             
                 $scope.currentTask.comments.push(data);
             });
         }

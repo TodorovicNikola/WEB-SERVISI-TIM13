@@ -15,7 +15,7 @@
                 <h5>Description:{{currentTask.taskDescription}}</h5>
             </td>
        
-
+            
 
         </tr>
         <tr>
@@ -28,7 +28,7 @@
                 <div class="pre-scrollable" style="height:150px;width:500px">
                     <table>
                         <span ng-repeat="comment in currentTask.comments.slice().reverse()">
-                           <div class="commentSpan"><span class="commentDetails">{{comment.userWroteID}} on  {{comment.commentCreated}}: </span> <br />{{comment.commentContent}}</div>
+                           <div class="commentSpan"><span class="commentDetails">{{comment.userWroteID}} on  {{comment.commentCreated}}:<span ng-if="getUserName()==comment.userWroteID"> Edit </span> <br />{{comment.commentContent}}</div>
                         </span>
                     </table>
                     <!--div  for comments -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->

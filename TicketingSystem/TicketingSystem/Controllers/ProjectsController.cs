@@ -16,7 +16,7 @@ using TicketingSystem.DTOs;
 
 namespace TicketingSystem.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -24,7 +24,9 @@ namespace TicketingSystem.Controllers
         // GET: api/Projects
         public IQueryable<Project> GetProjects()
         {
-            return db.Projects;
+            return (from p in db.Projects.Include(p => p.AssignedUsers)
+                    where p.AssignedUsers.Any(u => u.Email == User.Identity.Name)
+                    select p).AsQueryable();
         }
 
 
@@ -40,8 +42,8 @@ namespace TicketingSystem.Controllers
                 UserAssigned = x.UserAssigned.UserName,
                 UserCreated = x.UserCreated.UserName,
                 TaskId = x.TicketID
-                
-                
+
+
 
 
 
@@ -50,6 +52,14 @@ namespace TicketingSystem.Controllers
         [Route("api/Projects/{projectId}/tasks")]
         public IQueryable<DTOs.TaskDto> GetTasksOfProject(int projectId)
         {
+            var data = (from p in db.Projects.Include(p => p.AssignedUsers)
+                        where p.AssignedUsers.Any(u => u.Email == User.Identity.Name) && p.ProjectID == projectId
+                        select p).Count();
+            
+            if (data == 0)
+            {
+                return null;
+            }
 
             return db.Tickets.Include(b => b.Project)
                 .Where(b => b.ProjectID == projectId)
@@ -73,6 +83,8 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutProject(int id, Project project)
         {
+            // TODO : role check
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -108,6 +120,8 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(Project))]
         public async Task<IHttpActionResult> PostProject(Project project)
         {
+            // TODO : role check
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -123,6 +137,8 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(Project))]
         public async Task<IHttpActionResult> DeleteProject(int id)
         {
+            // TODO : admin check
+
             Project project = await db.Projects.FindAsync(id);
             if (project == null)
             {

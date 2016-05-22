@@ -22,14 +22,25 @@ namespace TicketingSystem.Controllers
         // GET: api/Tasks
         public IQueryable<DAL.Models.Ticket> GetTasks()
         {
-            return db.Tickets;
+            return (from t in db.Tickets
+                    where t.UserAssignedID == User.Identity.Name
+                    select t).AsQueryable();
         }
 
 
         [Route("api/Projects/{projectId}/tasks/{taskId}")]
         [ResponseType(typeof(DAL.Models.Ticket))]
-        public async Task<IHttpActionResult> GetTaskDetails(int taskId)
+        public async Task<IHttpActionResult> GetTaskDetails(int projectId, int taskId)
         {
+            var data = (from p in db.Projects.Include(p => p.AssignedUsers)
+                        where p.AssignedUsers.Any(u => u.Email == User.Identity.Name) && p.ProjectID == projectId
+                        select p).Count();
+
+            if (data == 0)
+            {
+                return NotFound();
+            }
+
             DAL.Models.Ticket task = await db.Tickets.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == taskId);
             //DAL.Models.Ticket task = await db.Tickets.Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == taskId);
             if (task == null)

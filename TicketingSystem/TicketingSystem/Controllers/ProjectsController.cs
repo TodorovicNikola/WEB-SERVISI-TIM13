@@ -25,7 +25,7 @@ namespace TicketingSystem.Controllers
         public IQueryable<Project> GetProjects()
         {
             return (from p in db.Projects.Include(p => p.AssignedUsers)
-                    where p.AssignedUsers.Any(u => u.Email == User.Identity.Name)
+                    where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
                     select p).AsQueryable();
         }
 

@@ -33,7 +33,7 @@ namespace TicketingSystem.Controllers
         public async Task<IHttpActionResult> GetTaskDetails(int projectId, int taskId)
         {
             var data = (from p in db.Projects.Include(p => p.AssignedUsers)
-                        where p.AssignedUsers.Any(u => u.Email == User.Identity.Name) && p.ProjectID == projectId
+                        where p.AssignedUsers.Any(u => u.Id == User.Identity.Name) && p.ProjectID == projectId
                         select p).Count();
 
             if (data == 0)

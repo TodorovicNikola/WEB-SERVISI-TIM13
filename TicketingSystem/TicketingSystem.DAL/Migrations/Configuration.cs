@@ -1,5 +1,7 @@
 namespace TicketingSystem.DAL.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
     using System.Data.Entity;
@@ -15,19 +17,87 @@ namespace TicketingSystem.DAL.Migrations
 
         protected override void Seed(TicketingSystem.DAL.Models.TicketingSystemDBContext context)
         {
-            context.Users.AddOrUpdate(
-                new TicketingSystemUser { Id= "admin", UserName = "admin", Email = "admin@yahoo.com", FirstName = "Admin", LastName = "Adminovic", PasswordHash = TicketingSystemUser.HashPassword("admin"), UserType = TicketingSystemUser.UserTypes.ADMINISTRATOR },
-                new TicketingSystemUser { Id = "admin1", UserName = "admin1", Email = "admin1@yahoo.com", FirstName = "Admin1", LastName = "Adminovic1", PasswordHash = TicketingSystemUser.HashPassword("admin1"), UserType = TicketingSystemUser.UserTypes.ADMINISTRATOR },
-                new TicketingSystemUser { Id = "vlada", UserName = "vlada", Email = "vlada@yahoo.com", FirstName = "Vladimir", LastName = "Ivkovic", PasswordHash = TicketingSystemUser.HashPassword("vlada"), UserType = TicketingSystemUser.UserTypes.USER },
-                new TicketingSystemUser { Id = "aleksa", UserName = "aleksa", Email = "aleksa@yahoo.com", FirstName = "Aleksa", LastName = "Mirkovic", PasswordHash = TicketingSystemUser.HashPassword("aleksa"), UserType = TicketingSystemUser.UserTypes.USER },
-                new TicketingSystemUser { Id = "nikola", UserName = "nikola", Email = "nikola@yahoo.com", FirstName = "Nikola", LastName = "Todorovic", PasswordHash = TicketingSystemUser.HashPassword("nikola"), UserType = TicketingSystemUser.UserTypes.USER },
-                new TicketingSystemUser { Id = "petPet", UserName = "petPet", Email = "petPet@yahoo.com", FirstName = "Petar", LastName = "Petrovic", PasswordHash = TicketingSystemUser.HashPassword("petPet"), UserType = TicketingSystemUser.UserTypes.USER },
-                new TicketingSystemUser { Id = "jovJov", UserName = "jovJov", Email = "jovJov@yahoo.com", FirstName = "Jovan", LastName = "Jovanovic", PasswordHash = TicketingSystemUser.HashPassword("jovJov"), UserType = TicketingSystemUser.UserTypes.USER },
-                new TicketingSystemUser { Id = "milMil", UserName = "milMil", Email = "milMil@yahoo.com", FirstName = "Milos", LastName = "Milosevic", PasswordHash = TicketingSystemUser.HashPassword("milMil"), UserType = TicketingSystemUser.UserTypes.USER },
-                new TicketingSystemUser { Id = "nikNik", UserName = "nikNik", Email = "nikNik@yahoo.com", FirstName = "Nikola", LastName = "Nikolic", PasswordHash = TicketingSystemUser.HashPassword("nikNik"), UserType = TicketingSystemUser.UserTypes.USER },
-                new TicketingSystemUser { Id = "stefStef", UserName = "stefStef", Email = "stefStef@yahoo.com", FirstName = "Stefan", LastName = "Stefanovic", PasswordHash = TicketingSystemUser.HashPassword("stefStef"), UserType = TicketingSystemUser.UserTypes.USER }
-            );
+            if (!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Admin" };
 
+                manager.Create(role);
+            }
+
+            if (!context.Roles.Any(r => r.Name == "User"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "User" };
+
+                manager.Create(role);
+            }
+
+            var userStore = new UserStore<TicketingSystemUser>(context);
+            var userManager = new UserManager<TicketingSystemUser>(userStore);
+
+            if (!context.Users.Any(u => u.UserName == "admin"))
+            {
+                var user = new TicketingSystemUser { Id = "admin", UserName = "admin", Email = "admin@yahoo.com", FirstName = "Admin", LastName = "Adminovic", PasswordHash = TicketingSystemUser.HashPassword("admin"), UserType = TicketingSystemUser.UserTypes.ADMINISTRATOR };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Admin");
+            }
+            if (!context.Users.Any(u => u.UserName == "admin1"))
+            {
+                var user = new TicketingSystemUser { Id = "admin1", UserName = "admin1", Email = "admin1@yahoo.com", FirstName = "Admin1", LastName = "Adminovic1", PasswordHash = TicketingSystemUser.HashPassword("admin1"), UserType = TicketingSystemUser.UserTypes.ADMINISTRATOR };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "Admin");
+            }
+            if (!context.Users.Any(u => u.UserName == "vlada"))
+            {
+                var user = new TicketingSystemUser { Id = "vlada", UserName = "vlada", Email = "vlada@yahoo.com", FirstName = "Vladimir", LastName = "Ivkovic", PasswordHash = TicketingSystemUser.HashPassword("vlada"), UserType = TicketingSystemUser.UserTypes.USER };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "User");
+            }
+            if (!context.Users.Any(u => u.UserName == "aleksa"))
+            {
+                var user = new TicketingSystemUser { Id = "aleksa", UserName = "aleksa", Email = "aleksa@yahoo.com", FirstName = "Aleksa", LastName = "Mirkovic", PasswordHash = TicketingSystemUser.HashPassword("aleksa"), UserType = TicketingSystemUser.UserTypes.USER };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "User");
+            }
+            if (!context.Users.Any(u => u.UserName == "nikola"))
+            {
+                var user = new TicketingSystemUser { Id = "nikola", UserName = "nikola", Email = "nikola@yahoo.com", FirstName = "Nikola", LastName = "Todorovic", PasswordHash = TicketingSystemUser.HashPassword("nikola"), UserType = TicketingSystemUser.UserTypes.USER };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "User");
+            }
+            if (!context.Users.Any(u => u.UserName == "petPet"))
+            {
+                var user = new TicketingSystemUser { Id = "petPet", UserName = "petPet", Email = "petPet@yahoo.com", FirstName = "Petar", LastName = "Petrovic", PasswordHash = TicketingSystemUser.HashPassword("petPet"), UserType = TicketingSystemUser.UserTypes.USER };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "User");
+            }
+            if (!context.Users.Any(u => u.UserName == "jovJov"))
+            {
+                var user = new TicketingSystemUser { Id = "jovJov", UserName = "jovJov", Email = "jovJov@yahoo.com", FirstName = "Jovan", LastName = "Jovanovic", PasswordHash = TicketingSystemUser.HashPassword("jovJov"), UserType = TicketingSystemUser.UserTypes.USER };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "User");
+            }
+            if (!context.Users.Any(u => u.UserName == "milMil"))
+            {
+                var user = new TicketingSystemUser { Id = "milMil", UserName = "milMil", Email = "milMil@yahoo.com", FirstName = "Milos", LastName = "Milosevic", PasswordHash = TicketingSystemUser.HashPassword("milMil"), UserType = TicketingSystemUser.UserTypes.USER };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "User");
+            }
+            if (!context.Users.Any(u => u.UserName == "nikNik"))
+            {
+                var user = new TicketingSystemUser { Id = "nikNik", UserName = "nikNik", Email = "nikNik@yahoo.com", FirstName = "Nikola", LastName = "Nikolic", PasswordHash = TicketingSystemUser.HashPassword("nikNik"), UserType = TicketingSystemUser.UserTypes.USER };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "User");
+            }
+            if (!context.Users.Any(u => u.UserName == "stefStef"))
+            {
+                var user = new TicketingSystemUser { Id = "stefStef", UserName = "stefStef", Email = "stefStef@yahoo.com", FirstName = "Stefan", LastName = "Stefanovic", PasswordHash = TicketingSystemUser.HashPassword("stefStef"), UserType = TicketingSystemUser.UserTypes.USER };
+                userManager.Create(user);
+                userManager.AddToRole(user.Id, "User");
+            }
             context.SaveChanges();
 
             context.Projects.AddOrUpdate(

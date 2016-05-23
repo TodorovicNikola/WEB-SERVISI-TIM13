@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -17,6 +18,20 @@ namespace TicketingSystem.Controllers
     public class CommentsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
+
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: api/Comments
         public IQueryable<Comment> GetComments()
@@ -51,6 +66,19 @@ namespace TicketingSystem.Controllers
                 return BadRequest();
             }
 
+            var data = (from p in db.Projects.Include(p => p.AssignedUsers)
+                        where p.AssignedUsers.Any(u => u.Id == User.Identity.Name) && p.ProjectID == comment.ProjectID
+                        select p).Count();
+
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (data == 0 && !isAdmin)
+            {
+                return BadRequest();
+            }
+
+            // TODO : CommentDto => Comment
+
             db.Entry(comment).State = EntityState.Modified;
 
             try
@@ -76,16 +104,38 @@ namespace TicketingSystem.Controllers
         [ResponseType(typeof(Comment))]
         public async Task<IHttpActionResult> PostComment(Comment comment)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var data = (from p in db.Projects.Include(p => p.AssignedUsers)
+                            where p.AssignedUsers.Any(u => u.Id == User.Identity.Name) && p.ProjectID == comment.ProjectID
+                            select p).Count();
+
+                bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+                if (data == 0 && !isAdmin)
+                {
+                    return BadRequest();
+                }
+
+
+
+                db.Comments.Add(comment);
+                await db.SaveChangesAsync();
+
+                return CreatedAtRoute("DefaultApi", new { id = comment.CommentID }, comment);
             }
 
-            db.Comments.Add(comment);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = comment.CommentID }, comment);
-        }
+            catch (Exception e)
+            {
+                Console.WriteLine(e); // or log to file, etc.
+                throw; // re-throw the exception if you want it to continue up the stack
+            }
+            }
 
         // DELETE: api/Comments/5
         [ResponseType(typeof(Comment))]
@@ -101,6 +151,23 @@ namespace TicketingSystem.Controllers
             await db.SaveChangesAsync();
 
             return Ok(comment);
+        }
+
+        [Route("api/Projects/{projectId}/tasks/{taskId}/comments")]
+        public async Task<IQueryable<Comment>> GetTasksOfProject(int projectId, int taskId)
+        {
+            var data = (from p in db.Projects.Include(p => p.AssignedUsers)
+                        where p.AssignedUsers.Any(u => u.Id == User.Identity.Name) && p.ProjectID == projectId
+                        select p).Count();
+
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (data == 0 && !isAdmin)
+            {
+                return null;
+            }
+
+            return db.Comments.Include(c => c.Task).Where(c => c.Task.TicketID == taskId && c.Task.ProjectID == projectId).AsQueryable();
         }
 
         protected override void Dispose(bool disposing)

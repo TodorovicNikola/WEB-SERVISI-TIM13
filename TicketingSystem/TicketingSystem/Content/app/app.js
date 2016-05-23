@@ -32,27 +32,27 @@
 	    $stateProvider
 	    .state('dashboard', {
 			url: '/dashboard',
-			templateUrl: 'partials/dashboard.html',
+			templateUrl: 'Content/app/partials/dashboard.html',
 			controller: 'DashboardCtrl'
 	    })
 	    .state('login', {
 	        url: '/login',
-	        templateUrl: 'users/login.html',
+	        templateUrl: 'Content/app/users/login.html',
 	        controller: 'loginCtrl'
 	    })
         .state('register', {
             url: '/register',
-            templateUrl: 'users/register.html',
+            templateUrl: 'Content/app/users/register.html',
             controller: 'registerCtrl'
         })
 	    .state('tasks', {
 	        url: '/projects/:id/tasks',
-	        templateUrl: 'tasks/views/tasksView.html',
+	        templateUrl: 'Content/app/tasks/views/tasksView.html',
 	        controller: 'TasksCtrl'
 	    })
         .state('taskDetails', {
             url: '/projects/:id/tasks/:taskId',
-            templateUrl: 'tasks/views/taskDetailsView.html',
+            templateUrl: 'Content/app/tasks/views/taskDetailsView.html',
             controller: 'TasksCtrl'
 	    });
 	})

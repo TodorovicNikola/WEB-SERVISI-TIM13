@@ -48,9 +48,33 @@
            
         }
 
+        $scope.deleteComment = function (commentId, commentIndex) {
+            console.log(commentId + ' ' + commentIndex);
+            var url = "/api/comments/" + commentId;
+            $http.delete(url)
+                .success(function (result) {
+                    var newFavorite = result.data;
+                    console.log($scope.currentTask);
+                    var comments = $scope.currentTask.comments;
+                    console.log('duzina' + comments.length);
+                    console.log('wanted to be erased : ' + comments.length - commentIndex);
+                    $scope.currentTask.comments.splice(comments.length-commentIndex-1, 1);
+                    
+                    console.log(newFavorite);
+                    alert("Delete Successfull");
+                    
+                })
+                .error(function () {
+                    alert("error");
+                })
+                .then(function () {
+                    //$window.location = "#/";
+                });
+        }
+
         $scope.sendComment = function () {
   
-            var data = { "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": "2016-05-21T00:00:00", "TaskID": 1, "ProjectID": $scope.currentProject, "UserWroteID": $scope.userId };
+            var data = { "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": "2016-05-21T00:00:00", "TaskID": 1, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
             $http.post(
                 '/api/Comments',
                 JSON.stringify(data),

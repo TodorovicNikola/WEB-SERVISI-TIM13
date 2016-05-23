@@ -103,6 +103,50 @@ namespace TicketingSystem.Controllers
             return Ok(user);
         }
 
+        // GET: api/Projects/5/Users
+        [Route("api/projects/{projectId}/users")]
+        [ResponseType(typeof(TicketingSystemUser))]
+        public IHttpActionResult GetProjectUsers(int projectId)
+        {
+            var users = from u in db.Users.Include(u => u.AssignedProjects)
+                        where u.AssignedProjects.Any(p => p.ProjectID == projectId)
+                        select u;
+
+            return Ok(users.AsQueryable());
+        }
+
+        // GET: api/Projects/5/Users
+        [Route("api/projects/{projectId}/users/{userId}")]
+        [ResponseType(typeof(TicketingSystemUser))]
+        public async Task<IHttpActionResult> PostProjectUser(int projectId, string userId)
+        {
+            Project project = db.Projects.Include(path => path.AssignedUsers).FirstOrDefault(p => p.ProjectID == projectId);
+            var user = db.Users.Find(userId);
+
+            if (project != null && user != null)
+            {
+                if (project.AssignedUsers.Contains(user))
+                {
+                    return BadRequest("Already assigned.");
+                }
+                project.AssignedUsers.Add(user);
+
+                db.Entry(project).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok();
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
+            }
+
+            return NotFound();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

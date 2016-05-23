@@ -6,7 +6,9 @@
         console.log('task id ' + $stateParams.taskId);
         $scope.currentProject = $stateParams.id;
         $scope.currentTask = $stateParams.taskId;
+
         //$scope.userId = AuthenticationService.getCurrentUserId;
+
         $scope.getUserName = function () {
             return AuthenticationService.getCurrentUser().username;
         }
@@ -46,7 +48,8 @@
 
             console.log($scope.commentId + ' ' + $scope.commentEditingIndex + ' ' + commentContent);
             var url = "/api/comments/" + $scope.commentId;
-            var data = { "CommentId": $scope.commentId, "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": "2017-05-21T00:00:00", "TaskID": 1, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
+            var momentInTime = new Date();
+            var data = { "CommentId": $scope.commentId, "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": momentInTime, "TaskID": $scope.currentTask.ticketID, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
             $http.put(url,
                 JSON.stringify(data),
                 {
@@ -59,7 +62,7 @@
                     var comments = $scope.currentTask.comments;
                     var commentIndex = comments.length - $scope.commentEditingIndex - 1;
                     comments[commentIndex].commentContent = commentContent;
-                    comments[commentIndex].commentUpdated = "2017-05-21T00:00:00";
+                    comments[commentIndex].commentUpdated = momentInTime.toLocaleString();
                     $scope.quitEditingComment();
 
                 })
@@ -71,9 +74,22 @@
                     });
 
         }
+        $scope.getTimeString = function (stringTime) {
+            var momentInTime = new Date(stringTime);
+            var year = momentInTime.getYear() + 1900;
+            var month = momentInTime.getMonth() + 1;
+            var day = momentInTime.getDate();
+            var hours = momentInTime.getHours();
+            var minutes = momentInTime.getMinutes();
+            var seconds = momentInTime.getSeconds();
+            var dateString = year + '/' + month + '/' + day;
+            var timeString = hours + ':' + minutes + ':' + seconds;
+            return dateString + ' , ' + timeString;
+        }
 
         $scope.deleteComment = function (commentId, commentIndex) {
             console.log(commentId + ' ' + commentIndex);
+            $scope.quitEditingComment();
             var url = "/api/comments/" + commentId;
             $http.delete(url)
                 .success(function (result) {
@@ -90,8 +106,8 @@
         }
 
         $scope.sendComment = function () {
-
-            var data = { "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "TaskID": 1, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
+            var momentInTime = new Date();
+            var data = { "CommentContent": $scope.commentContent, "CommentCreated": momentInTime, "TaskID": $scope.currentTask.ticketID, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
             $http.post(
                 '/api/Comments',
                 JSON.stringify(data),

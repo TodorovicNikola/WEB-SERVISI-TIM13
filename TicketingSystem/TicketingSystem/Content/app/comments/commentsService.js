@@ -5,7 +5,7 @@
 
     function Service($http, $localStorage, $log, $state, jwtHelper) {
         var service = {};
-
+        //not working yet, directly in controller
         service.postComment = postComment;
       
         return service;

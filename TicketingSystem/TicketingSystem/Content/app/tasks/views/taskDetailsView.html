@@ -1,5 +1,4 @@
-﻿
-<h1>Task details {{projectName}}</h1>
+﻿<h1>Task details {{projectName}}</h1>
 
 <div>
     <table>
@@ -8,8 +7,8 @@
                 <h4>Name: {{currentTask.taskName}}</h4>
                 <h4>Assigned to :{{currentTask.userAssigned.userName}}</h4>
                 <h4>Created by :{{currentTask.userCreated.userName}}</h4>
-                <h4>Created: {{currentTask.taskFrom}}</h4>
-                <h4>Due date: {{currentTask.taskUntil}}</h4>
+                <h4>Created: {{getTimeString(currentTask.taskFrom)}}</h4>
+                <h4>Due date: {{getTimeString(currentTask.taskUntil)}}</h4>
                 <h4 ng-if="currentTask.taskPriority!==0">Priority: {{currentTask.taskPriority}}</h4>
                 <h4>Status: {{currentTask.taskStatus}}</h4>
                 <h5>Description:{{currentTask.taskDescription}}</h5>
@@ -30,10 +29,10 @@
                         <span ng-repeat="comment in currentTask.comments.slice().reverse()">
                             <div class="commentSpan">
                                 <span class="commentDetails">
-                                   
-                                    {{comment.userWroteID}} on  {{comment.commentCreated}} <span ng-if="comment.commentUpdated!=null">, Updated on {{comment.commentUpdated}}</span>
+
+                                    {{comment.userWroteID}} posted on  {{getTimeString(comment.commentCreated)}}. <span ng-if="comment.commentUpdated!=null"> Updated on {{getTimeString(comment.commentUpdated)}}</span>
                                     <span ng-if="getUserName()==comment.userWroteID">
-                                        <span ng-if="!commentEditing"  class="commentSpanEdit" ng-click="editComment(comment.commentID,$index,comment.commentContent)">Edit   </span>
+                                        <span ng-if="!commentEditing" class="commentSpanEdit" ng-click="editComment(comment.commentID,$index,comment.commentContent)">Edit   </span>
                                         <span ng-if="commentEditing && commentEditingIndex==$index " ng-click="quitEditingComment()" class="commentSpanEdit">Quit editing</span>
                                         <span class="commentSpanEdit" ng-click="deleteComment(comment.commentID,$index)">Delete</span>
                                     </span> <br />{{comment.commentContent}}

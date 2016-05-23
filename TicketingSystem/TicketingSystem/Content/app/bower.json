@@ -9,7 +9,8 @@
     "ngstorage": "^0.3.10",
     "angular-jwt": "^0.0.9",
     "angular-modal-service": "^0.9.10",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "angularjs-dropdown-multiselect": "^1.5.2"
   },
   "devDependencies": {},
   "appPath": "client",

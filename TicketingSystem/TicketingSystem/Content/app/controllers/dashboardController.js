@@ -21,7 +21,38 @@
 	            $scope.tasks = tasks;
 
 	        });
-            
+           
+	        $scope.filterSelectModel = [];
+	        $scope.filterSelectSetings = {
+	            scrollableHeight: '300px',
+	            scrollable: true,
+	            enableSearch: true
+	        };
+
+	        $scope.filterSelectdata = [
+                {
+                    "label": "Blocker",
+                    "id": "Blocker"
+	            },
+                {
+                    "label": "Critical",
+                    "id": "Critical"
+                },
+                {
+                    "label": "Major",
+                    "id": "Major"
+                },
+                {
+                    "label": "Minor",
+                    "id": "Minor"
+                },
+                {
+                    "label": "Trivial",
+                    "id": "Trivial"
+                }
+
+	        ];
+
 	    }
 	    $scope.getTasks = function (id) {
 	    

@@ -1,5 +1,5 @@
 (function(angular) {
-    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularModalService']);
+    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularModalService', 'angularjs-dropdown-multiselect']);
     app.controller('Controller', function ($scope, ModalService) {
     
 

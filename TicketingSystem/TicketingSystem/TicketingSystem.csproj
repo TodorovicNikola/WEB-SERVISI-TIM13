@@ -265,6 +265,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DTOs\ProjectDTO.cs" />
     <Compile Include="DTOs\TaskDto.cs" />
+    <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

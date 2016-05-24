@@ -1,15 +1,12 @@
 (function(angular) {
     var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularModalService', 'angularjs-dropdown-multiselect']);
-    app.controller('Controller', function ($scope, ModalService) {
-    
-
-     
+    app.controller('TicketAddingController', function ($scope, ModalService) {
+        console.log($scope.$parent.bla);
         $scope.show = function (creation) {
-         
-            
+ 
             ModalService.showModal({
                 templateUrl: 'addEditTask.html',
-                controller: "ModalController"
+                controller: "ModalTicketController"
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
@@ -19,9 +16,30 @@
         };
 
     });
-    app.controller('ModalController', function ($scope, close) {
-        
-        console.log($scope.$parent);
+    app.controller('ModalTicketController', function ($scope,$http, close,AuthenticationService,$stateParams) {
+       var userCreatedId=AuthenticationService.getCurrentUser().username;
+       var currentProjectId=$stateParams.id;
+        $scope.sendTicket = function () {
+            alert($scope.ticketPriority + ' ' + $scope.ticketStatus + ' ' + $scope.ticketDescription + ' ' + $scope.ticketName + ' ' + $scope.ticketAssignedTo+ ' ' +$scope.ticketToBeFinishedOn);
+            var momentInTime = new Date();
+            var data = { "TaskUntil": momentInTime, "ProjectID": currentProjectId, "TaskFrom": momentInTime, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": userCreatedId, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo,"TaskDescription":$scope.ticketDescription};
+            $http.post(
+                'api/Projects/'+currentProjectId+'/Tasks',
+                JSON.stringify(data),
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            ).success(function (data) {
+                //alert(data);
+                alert("Success");
+            }).error(function(error)
+            {
+                alert("Error");
+            });
+
+        }
         $scope.close = function (result) {
             close(result, 500); // close, but give 500ms for bootstrap to animate
         };

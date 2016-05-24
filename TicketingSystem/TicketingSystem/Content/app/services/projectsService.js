@@ -4,13 +4,19 @@
 
     appProjectsModule.factory('Projects', function ($http) {
         'use strict';
+        var projectSelectedId;
         return {
             getProjects: function () {
                 return $http.get('../../api/projects');
             },
             getTasksOfProject: function (id) {
-                
-                return $http.get('../../api/projects/'+id+'/tasks')
+                projectSelectedId = id;
+                return $http.get('../../api/projects/' + id + '/tasks')
+
+            },
+            getCurrentProjectId:function()
+            {
+                return 5;
             }
             
         };

@@ -1,7 +1,8 @@
 ﻿(function (angular) {
     var tasksControllerModule = angular.module('app.TasksCtrl', []);
-
+    
     var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', function ($scope, Tasks, $stateParams, $http, AuthenticationService) {
+    
         console.log('project id ' + $stateParams.id);
         console.log('task id ' + $stateParams.taskId);
         $scope.currentProject = $stateParams.id;

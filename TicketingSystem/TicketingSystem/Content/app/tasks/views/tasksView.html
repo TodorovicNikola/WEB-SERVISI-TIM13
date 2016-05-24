@@ -29,12 +29,10 @@
 
   
 </table>
-<div class="container" ng-controller="Controller" ng-init="creation=true" >
+<div class="container" ng-controller="TicketAddingController" ng-init="creation=true" >
     <a class="btn btn-default" href ng-click="show(true)" >Add ticket</a>
     <a class="btn btn-default" href ng-click="show(false)">Edit ticket</a>
-    {{creation}}
-    <p>{{message}}</p>
-
+  
     <!-- The actual modal template, just a bit o bootstrap -->
     <script type="text/ng-template" id="addEditTask.html">
         <div class="modal fade">
@@ -44,60 +42,64 @@
                         <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h3>Add/edit ticket</h3>
                     </div>
+                    
                     <div class="modal-body">
                         <div class="container">
                            
                             <form class="form-horizontal" role="form">
+                                <!--
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket ID:</label>
                                     <div class="col-sm-10">
                                         <input type="email" class="form-control" id="inputEmail3" >
                                     </div>
                                 </div>
+                                    -->
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket name:</label>
                                     <div class="col-sm-8">
-                                        <input type="email" class="form-control" id="inputEmail3">
+                                        <input type="text" class="form-control" id="ticketNameId" ng-model="ticketName">
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket priority:</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail3">
+                                        <input type="text" class="form-control" id="ticketPriorityId" ng-model="ticketPriority">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket status:</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail3" >
+                                        <input  type="text" class="form-control" id="ticketStatusId" ng-model="ticketStatus">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Assigned to:</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail3" >
+                                        <input  type="text" class="form-control" id="ticketAssignedToId" ng-model="ticketAssignedTo">
                                     </div>
                                 </div>
                                 
-                               
-                                <div ng-if="creation==true" class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 form-control-label">Created by:</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail3"  disabled>
-                                    </div>
-                                </div>
+                     
 
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Created :</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail3">
+                                        <input  type="text" class="form-control" id="ticketCreatedOnId" ng-model="ticketCreatedOn">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">To be finished on :</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail3">
+                                        <input  type="text" class="form-control" id="ticketToBeFinishedOnId" ng-model="ticketToBeFinishedOn">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket description :</label>
+                                    <div class="col-sm-10">
+                                        <input  type="text" class="form-control" id="ticketDescriptionId" ng-model="ticketDescription">
                                     </div>
                                 </div>
 
@@ -105,8 +107,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">No</button>
-                        <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                        <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" ng-click="sendTicket()" class="btn btn-primary" data-dismiss="modal">Create</button>
                     </div>
                 </div>
             </div>

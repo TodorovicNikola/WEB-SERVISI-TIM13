@@ -21,10 +21,8 @@ namespace TicketingSystem.DTOs
 
         public DateTime TaskUntil { get; set; }
 
-        //public DAL.Models.User UserCreated { get; set; }
-
-        // public DAL.Models.User UserAssigned { get; set; }
         public String UserCreated { get; set; }
+
         public String UserAssigned { get; set; }
 
     }

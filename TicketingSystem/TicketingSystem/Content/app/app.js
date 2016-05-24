@@ -1,7 +1,7 @@
 (function(angular) {
     var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularModalService', 'angularjs-dropdown-multiselect']);
     app.controller('TicketAddingController', function ($scope, ModalService) {
-        console.log($scope.$parent.bla);
+        //console.log($scope.$parent.bla);
         $scope.show = function (creation) {
  
             ModalService.showModal({
@@ -10,7 +10,7 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
-                    $scope.message = "You said " + result;
+                    $scope.$parent.tasks.push(result);
                 });
             });
         };
@@ -32,7 +32,8 @@
                     }
                 }
             ).success(function (data) {
-                //alert(data);
+                close(data);
+                console.log(data);
                 alert("Success");
             }).error(function(error)
             {

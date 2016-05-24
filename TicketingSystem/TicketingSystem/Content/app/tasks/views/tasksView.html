@@ -3,12 +3,13 @@
 <h1>Tasks of project {{currentProject}}</h1>
 
 <table width="500" class="table table-hover">
-    <tr><th>Name</th><th>Created by</th><th>Assigned to</th><th>Priority</th><td>Filter:</td></tr>
+    <tr><th>Name</th><th>Created by</th><th>Assigned to</th><th>Priority</th><th>Status:</th></tr>
     <tr>
         <td><input type="text" class='form-control input-sm' ng-model="search.taskName" /></td>
-        <td><input type="text" class='form-control input-sm' ng-model="search.userCreated" /></td>
-        <td><input type="text" class='form-control input-sm' ng-model="search.userAssigned" /></td>
+        <td><input type="text" class='form-control input-sm' ng-model="search.userCreatedId" /></td>
+        <td><input type="text" class='form-control input-sm' ng-model="search.userAssignedId" /></td>
         <td><input type="text" class='form-control input-sm' ng-model="search.taskPriority" /></td>
+        <td><input type="text" class='form-control input-sm' ng-model="search.taskStatus" /></td>
         
     </tr>
     
@@ -21,6 +22,7 @@
 
         <td ng-if="task.taskPriority!==0">{{task.taskPriority}}</td>
         <td ng-if="task.taskPriority==0">Not set</td>
+        <td>{{task.taskStatus}}</td>
        
        
     </tr>

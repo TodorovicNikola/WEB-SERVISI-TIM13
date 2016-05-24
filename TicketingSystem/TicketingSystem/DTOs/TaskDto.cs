@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TicketingSystem.DAL.Models;
 
 namespace TicketingSystem.DTOs
 {
@@ -25,5 +26,22 @@ namespace TicketingSystem.DTOs
 
         public String UserAssigned { get; set; }
 
+        public TaskDto()
+        {
+
+        }
+        public TaskDto(Ticket t)
+        {
+            this.TicketId = t.TicketID;
+            this.TaskName = t.TaskName;
+            this.TaskDescription = t.TaskDescription;
+            this.TaskStatus = t.TaskStatus;
+            this.TaskPriority = t.TaskPriority;
+            this.TaskFrom = t.TaskFrom;
+            this.TaskUntil = t.TaskUntil;
+            this.UserAssigned = t.UserAssignedID;
+            this.UserCreated = t.UserCreatedID;
+        }
     }
+
 }

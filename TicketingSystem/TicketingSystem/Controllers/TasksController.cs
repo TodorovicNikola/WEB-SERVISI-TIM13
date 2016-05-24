@@ -45,8 +45,8 @@ namespace TicketingSystem.Controllers
                 return Ok(db.Tickets);
             }
             return Ok((from t in db.Tickets
-                    where t.UserAssignedID == User.Identity.Name
-                    select t).AsQueryable());
+                       where t.UserAssignedID == User.Identity.Name
+                       select t).AsQueryable());
         }
 
         private static readonly Expression<Func<DAL.Models.Ticket, TaskDto>> AsTaskDto =
@@ -61,10 +61,6 @@ namespace TicketingSystem.Controllers
                 UserAssigned = x.UserAssigned.UserName,
                 UserCreated = x.UserCreated.UserName,
                 TicketId = x.TicketID
-
-
-
-
 
             };
 
@@ -177,7 +173,7 @@ namespace TicketingSystem.Controllers
 
         // POST: api/Projects/5/Tasks
         [Route("api/Projects/{projectId}/tasks", Name = "PostTask")]
-        [ResponseType(typeof(DAL.Models.Ticket))]
+        [ResponseType(typeof(TaskDto))]
         public async Task<IHttpActionResult> PostTask(int projectId, DAL.Models.Ticket task)
         {
             bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
@@ -205,18 +201,23 @@ namespace TicketingSystem.Controllers
 
             var cnt = (from p in db.Projects.Include(p => p.AssignedUsers)
                        where p.AssignedUsers.Any(u => u.Id == task.UserAssignedID) && p.ProjectID == projectId
-                        select p).Count();
+                       select p).Count();
             if (cnt == 0)
             {
                 return StatusCode(HttpStatusCode.Forbidden);
             }
 
-            
+
 
             db.Tickets.Add(task);
             await db.SaveChangesAsync();
+            TaskDto taskDto = new TaskDto(task);
 
-            return CreatedAtRoute("PostTask", new { id = task.TicketID }, task);
+
+               
+           
+
+            return CreatedAtRoute("PostTask", new { id = task.TicketID }, taskDto);
         }
 
         // DELETE:  api/Projects/5/Tasks/5

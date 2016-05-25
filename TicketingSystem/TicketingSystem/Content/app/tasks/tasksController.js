@@ -7,8 +7,25 @@
         console.log('task id ' + $stateParams.taskId);
         $scope.currentProject = $stateParams.id;
         $scope.currentTask = $stateParams.taskId;
+        $scope.unselectTask=function()
+        {
+            $scope.isSelectedTask = false;
+            $scope.selectedTaskIndex = -1;
 
-        //$scope.userId = AuthenticationService.getCurrentUserId;
+        }
+
+        $scope.selectTask=function(index)
+        {
+            if ($scope.selectedTaskIndex == index && $scope.isSelectedTask) {
+                $scope.unselectTask();
+            }
+            else {
+                $scope.isSelectedTask = true;
+                $scope.selectedTaskIndex = index;
+               
+            }
+        }
+       
 
         $scope.getUserName = function () {
             return AuthenticationService.getCurrentUser().username;
@@ -16,6 +33,7 @@
 
         $scope.init = function () {
             $scope.commentEditing = false;
+            $scope.unselectTask();
 
             Tasks.getTasks($scope.currentProject).success(function (data) {
                 $scope.tasks = data;
@@ -131,6 +149,7 @@
         }
         else {
             $scope.init();
+            
         }
     }];
     tasksControllerModule.controller('TasksCtrl', tasksController);

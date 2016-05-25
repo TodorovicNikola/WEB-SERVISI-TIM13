@@ -1,7 +1,7 @@
 (function(angular) {
 	var dashboardCtrlModule = angular.module('app.DashboardCtrl', []);
 	
-	var dashboardController = ['$scope', 'Projects' , function($scope, Projects) {
+	var dashboardController = ['$scope', 'Projects', '$http' , function($scope, Projects, $http) {
 		
 	  
 	    
@@ -26,7 +26,12 @@
 	        $scope.filterSelectSetings = {
 	            scrollableHeight: '300px',
 	            scrollable: true,
-	            enableSearch: true
+	            enableSearch: true,
+                
+	        };
+
+	        $scope.filterSelectTexts = {
+                buttonDefaultText: 'Filter'
 	        };
 
 	        $scope.filterSelectdata = [
@@ -54,6 +59,31 @@
 	        ];
 
 	    }
+
+	    $scope.SubmitFilter = function () {
+	        var filterIDs = new Array();
+	        angular.forEach($scope.filterSelectModel, function (value, index) {
+	            filterIDs.push(value.id);
+	        });
+            
+	        var data = {
+                filterIDs : filterIDs
+	        };
+
+	        $http({
+	            method: "Post",
+	            url: "api/Filter/PostFilter",
+	            data: filterIDs,
+	            datatype: "json",
+                traditional:true
+	        }).then(function (data) {
+	            alert('Success while filtering tasks!');
+	        }, function (error) {
+	            alert('Error while filtering tasks!');
+	        });
+
+	    };
+
 	    $scope.getTasks = function (id) {
 	    
 	        Projects.getTasksOfProject(id).success(function(data) {

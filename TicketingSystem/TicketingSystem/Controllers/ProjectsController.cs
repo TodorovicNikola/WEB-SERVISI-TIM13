@@ -17,7 +17,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace TicketingSystem.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -150,6 +150,22 @@ namespace TicketingSystem.Controllers
             await db.SaveChangesAsync();
 
             return Ok(project);
+        }
+        
+        //POST: api/Projects/Filter
+        [Route("GetFilter")]
+        public async Task<IQueryable<Project>> GetFilter(string[] filterIDs)
+        {
+            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+
+            if (isAdmin)
+            {
+                return db.Projects.Include(p => p.Tasks);
+            }
+            return (from p in db.Projects.Include(p => p.AssignedUsers)
+                    where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
+                    select p).AsQueryable();
+
         }
 
         protected override void Dispose(bool disposing)

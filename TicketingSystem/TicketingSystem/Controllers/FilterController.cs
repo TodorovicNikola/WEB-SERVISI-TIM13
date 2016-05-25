@@ -31,17 +31,42 @@ namespace TicketingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IQueryable<Project>> PostFilter(List<String> filterIDs)
+        public async Task<IQueryable<Ticket>> PostFilter(List<String> filterIDs)
         {
             bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
 
+            List<Ticket> _ticketList = new List<Ticket>();
+            List<Ticket> _resultTicketList = new List<Ticket>();
+
             if (isAdmin)
             {
-                return db.Projects.Include(p => p.Tasks);
+                if(filterIDs.Count == 0)
+                {
+                    return _resultTicketList.AsQueryable();
+                }
+
+                
+                _ticketList.AddRange(db.Tickets);
             }
-            return (from p in db.Projects.Include(p => p.AssignedUsers)
-                    where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
-                    select p).AsQueryable();
+            else
+            {
+                List<Project> _projects = (from p in db.Projects.Include(p => p.AssignedUsers).Include(p => p.Tasks)
+                                           where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
+                                           select p).AsQueryable().ToList();
+
+                foreach (Project _project in _projects)
+                {
+                    _ticketList.AddRange(_project.Tasks);
+                }
+            }
+
+
+            foreach (string _filterID in filterIDs)
+            {
+                _resultTicketList.AddRange(_ticketList.Where(t => t.TaskPriority == _filterID));
+            }
+
+            return _resultTicketList.AsQueryable();
 
         }
     }

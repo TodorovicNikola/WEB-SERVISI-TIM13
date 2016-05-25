@@ -22,11 +22,12 @@
 
 	        });
            
-	        $scope.filterSelectModel = [];
+	        $scope.filterSelectModel = [{ "id": "Blocker" }, { "id": "Critical" }, { "id": "Major" }, { "id": "Minor" }, { "id": "Trivial" }];
 	        $scope.filterSelectSetings = {
-	            scrollableHeight: '300px',
+	            scrollableHeight: '200px',
 	            scrollable: true,
 	            enableSearch: true,
+	            showUncheckAll: false
                 
 	        };
 
@@ -77,7 +78,12 @@
 	            datatype: "json",
                 traditional:true
 	        }).then(function (data) {
-	            alert('Success while filtering tasks!');
+	            $scope.tasks = data.data;
+	            if (!$scope.$$phase) {
+	                $scope.$apply();
+	            }
+
+
 	        }, function (error) {
 	            alert('Error while filtering tasks!');
 	        });

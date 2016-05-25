@@ -44,7 +44,7 @@ namespace TicketingSystem.Controllers
             {
                 return db.Projects.Include(p => p.Tasks);
             }
-            return (from p in db.Projects.Include(p => p.AssignedUsers)
+            return (from p in db.Projects.Include(p => p.AssignedUsers).Include(p => p.Tasks)
                     where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
                     select p).AsQueryable();
         }

@@ -168,7 +168,7 @@ namespace TicketingSystem.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(new TaskDto(task));
         }
 
         // POST: api/Projects/5/Tasks

@@ -17,7 +17,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace TicketingSystem.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -44,9 +44,16 @@ namespace TicketingSystem.Controllers
             {
                 return db.Projects.Include(p => p.Tasks);
             }
-            return (from p in db.Projects.Include(p => p.AssignedUsers).Include(p => p.Tasks)
+            var projects = (from p in db.Projects.Include(p => p.AssignedUsers).Include(t => t.Tasks)
                     where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
                     select p).AsQueryable();
+
+            foreach(var p in projects)
+            {
+                p.AssignedUsers = null;
+            }
+
+            return projects;
         }
 
 
@@ -61,6 +68,8 @@ namespace TicketingSystem.Controllers
             {
                 return NotFound();
             }
+
+            project.AssignedUsers = null;
 
             return Ok(project);
         }

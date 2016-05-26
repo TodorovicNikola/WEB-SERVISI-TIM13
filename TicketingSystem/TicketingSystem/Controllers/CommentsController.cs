@@ -15,6 +15,7 @@ using TicketingSystem.DAL.Models;
 
 namespace TicketingSystem.Controllers
 {
+    [Authorize]
     public class CommentsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -79,6 +80,7 @@ namespace TicketingSystem.Controllers
 
             // TODO : CommentDto => Comment
 
+            comment.CommentUpdated = DateTime.Now;
             db.Entry(comment).State = EntityState.Modified;
 
             try
@@ -122,7 +124,7 @@ namespace TicketingSystem.Controllers
                     return BadRequest();
                 }
 
-
+                comment.CommentCreated = DateTime.Now;
 
                 db.Comments.Add(comment);
                 await db.SaveChangesAsync();

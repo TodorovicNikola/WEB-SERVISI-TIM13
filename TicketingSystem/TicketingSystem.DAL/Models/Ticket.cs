@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace TicketingSystem.DAL.Models
 {
@@ -52,10 +53,12 @@ namespace TicketingSystem.DAL.Models
 
         [ForeignKey("UserCreatedID")]
         [InverseProperty("CreatedTasks")]
+        [JsonIgnore]
         public virtual TicketingSystemUser UserCreated { get; set; }
 
         [ForeignKey("UserAssignedID")]
         [InverseProperty("AssignedTasks")]
+        [JsonIgnore]
         public virtual TicketingSystemUser UserAssigned { get; set; }
 
         public ICollection<Comment> Comments { get; set; }

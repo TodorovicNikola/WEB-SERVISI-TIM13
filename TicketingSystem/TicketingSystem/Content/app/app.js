@@ -130,7 +130,7 @@
     function run($rootScope, $http, $location, $localStorage, AuthenticationService, $state) {
         //postavljanje tokena nakon refresh
         if ($localStorage.currentUser) {
-            $http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
+            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }
 
         // ukoliko pokušamo da odemo na stranicu za koju nemamo prava, redirektujemo se na login

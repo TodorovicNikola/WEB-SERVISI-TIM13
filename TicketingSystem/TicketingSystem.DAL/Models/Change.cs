@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace TicketingSystem.DAL.Models
 {
@@ -28,10 +29,13 @@ namespace TicketingSystem.DAL.Models
         [Required]
         public DateTime ChangeDate { get; set; }
 
+        public String ChangeName { get; set; }
+        public String ChangeDescription { get; set; }
         public String ChangeStatus { get; set; }
         public String ChangePriority { get; set; }
         public DateTime? ChangeTaskFrom { get; set; }
         public DateTime? ChangeTaskUntil { get; set; }
+        public string ChangeUserAssignedID { get; set; }
 
         [Required]
         [ForeignKey("UserThatChanged")]
@@ -40,6 +44,7 @@ namespace TicketingSystem.DAL.Models
 
         public virtual Ticket Task { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("UserThatChangedID")]
         public virtual TicketingSystemUser UserThatChanged { get; set; }
 

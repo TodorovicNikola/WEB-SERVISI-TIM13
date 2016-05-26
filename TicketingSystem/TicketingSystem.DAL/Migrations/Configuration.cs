@@ -128,9 +128,6 @@ namespace TicketingSystem.DAL.Migrations
             );
 
             context.SaveChanges();
-
-            Project tempProject = context.Projects.Where(p => p.ProjectID == 1).FirstOrDefault();
-            context.Users.Where(u => u.UserName == "nikola").FirstOrDefault().AssignedProjects.Add(tempProject);
         }
     }
 }

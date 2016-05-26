@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace TicketingSystem.DAL.Models
 {
@@ -41,6 +42,7 @@ namespace TicketingSystem.DAL.Models
         
         public virtual Ticket Task { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("UserWroteID")]
         public virtual TicketingSystemUser UserWrote { get; set; }
     }

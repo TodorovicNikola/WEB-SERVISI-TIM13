@@ -150,6 +150,17 @@ namespace TicketingSystem.Controllers
                 return StatusCode(HttpStatusCode.BadRequest);
             }
 
+            var oldTask = db.Tickets.SingleOrDefault(t => t.TicketID == task.TicketID && t.ProjectID == task.ProjectID);
+
+            if (oldTask == null)
+            {
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+            var change = GenerateChange(oldTask, task);
+            change.UserThatChangedID = User.Identity.Name;
+
+            db.Changes.Add(change);
             db.Entry(task).State = EntityState.Modified;
 
             try
@@ -256,6 +267,62 @@ namespace TicketingSystem.Controllers
         private bool TaskExists(int id)
         {
             return db.Tickets.Count(e => e.TicketID == id) > 0;
+        }
+
+        private Change GenerateChange(Ticket o, Ticket n)
+        {
+            Change ch = new Change();
+            ch.TaskID = o.TicketID;
+            ch.ProjectID = o.ProjectID;
+
+            ch.ChangeDate = DateTime.Now;
+
+            if (o.TaskStatus != n.TaskStatus)
+            {
+                ch.ChangeStatus = o.TaskStatus;
+            }
+            else
+            {
+                ch.ChangeStatus = null;
+            }
+
+            if (o.TaskPriority != n.TaskPriority)
+            {
+                ch.ChangePriority = o.TaskPriority;
+            }
+            else
+            {
+                ch.ChangePriority = null;
+            }
+
+            if (o.TaskPriority != n.TaskPriority)
+            {
+                ch.ChangePriority = o.TaskPriority;
+            }
+            else
+            {
+                ch.ChangePriority = null;
+            }
+
+            if (o.TaskUntil != n.TaskUntil)
+            {
+                ch.ChangeTaskUntil = o.TaskUntil;
+            }
+            else
+            {
+                ch.ChangeTaskUntil = null;
+            }
+
+            if (o.TaskFrom != n.TaskFrom)
+            {
+                ch.ChangeTaskFrom = o.TaskFrom;
+            }
+            else
+            {
+                ch.ChangeTaskFrom = null;
+            }
+
+            return ch;
         }
     }
 }

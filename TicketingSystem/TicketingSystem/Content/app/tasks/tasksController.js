@@ -1,7 +1,7 @@
 ﻿(function (angular) {
-    var tasksControllerModule = angular.module('app.TasksCtrl', []);
+    var tasksControllerModule = angular.module('app.TasksCtrl', ['app.Task.resource']);
     
-    var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', function ($scope, Tasks, $stateParams, $http, AuthenticationService) {
+    var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', 'Task', function ($scope, Tasks, $stateParams, $http, AuthenticationService, Task) {
     
         console.log('project id ' + $stateParams.id);
         console.log('task id ' + $stateParams.taskId);
@@ -31,16 +31,15 @@
             return AuthenticationService.getCurrentUser().username;
         }
 
+        var loadTasks = function () {
+            $scope.tasks = Task.getAll({ projectId: $scope.currentProject })
+        }
+
         $scope.init = function () {
             $scope.commentEditing = false;
             $scope.unselectTask();
 
-            Tasks.getTasks($scope.currentProject).success(function (data) {
-                $scope.tasks = data;
-
-            });
-
-
+            loadTasks();
         }
 
         $scope.getTaskDetails = function () {

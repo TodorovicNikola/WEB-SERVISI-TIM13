@@ -101,7 +101,7 @@
         $stateProvider
 	    .state('dashboard', {
 	        url: '/dashboard',
-	        templateUrl: 'Content/app/partials/dashboard.html',
+	        templateUrl: 'Content/app/dashboard/dashboard.html',
 	        controller: 'DashboardCtrl'
 	    })
 	    .state('login', {

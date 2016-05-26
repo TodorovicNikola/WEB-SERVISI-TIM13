@@ -1,26 +1,23 @@
 (function(angular) {
-	var dashboardCtrlModule = angular.module('app.DashboardCtrl', []);
+    var dashboardCtrlModule = angular.module('app.DashboardCtrl', ['app.Project.resource']);
 	
-	var dashboardController = ['$scope', 'Projects', '$http' , function($scope, Projects, $http) {
+	var dashboardController = ['$scope', '$http', 'Project' , function($scope, $http, Project) {
 		
-	  
-	    
-	    $scope.init = function () {
-	        
-	        Projects.getProjects().success(function (data) {
-	            $scope.projects = data;
+	    var loadProjects = function () {
+	        $scope.projects = Project.query(function () {
+	            $scope.tasks = [];
 
-	            var tasks = new Array();
-
-	            for (var i = 0; i < $scope.projects.length; i++) {
-	                for (var j = 0; j < $scope.projects[i].tasks.length; j++) {
-	                    tasks.push($scope.projects[i].tasks[j]);
+	            for (var i in $scope.projects) {
+	                for (var j in $scope.projects[i].tasks) {
+	                    $scope.tasks.push($scope.projects[i].tasks[j]);
 	                }
 	            }
-
-	            $scope.tasks = tasks;
-
 	        });
+	        $scope.project = new Project();  
+	    }
+	    
+	    $scope.init = function ()  {
+	        loadProjects();
            
 	        $scope.filterSelectModel = [{ "id": "Blocker" }, { "id": "Critical" }, { "id": "Major" }, { "id": "Minor" }, { "id": "Trivial" }];
 	        $scope.filterSelectSetings = {
@@ -62,7 +59,7 @@
 	    }
 
 	    $scope.SubmitFilter = function () {
-	        var filterIDs = new Array();
+	        var filterIDs = [];
 	        angular.forEach($scope.filterSelectModel, function (value, index) {
 	            filterIDs.push(value.id);
 	        });
@@ -89,16 +86,6 @@
 	        });
 
 	    };
-
-	    $scope.getTasks = function (id) {
-	    
-	        Projects.getTasksOfProject(id).success(function(data) {
-	            $scope.selectedProjectTasks = data;
-
-	            
-	        });
-
-	    }
 
 		$scope.init();
 	}];

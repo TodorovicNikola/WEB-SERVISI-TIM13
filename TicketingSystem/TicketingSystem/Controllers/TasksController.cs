@@ -17,7 +17,7 @@ using TicketingSystem.DTOs;
 //Aleksa prvi commit
 namespace TicketingSystem.Controllers
 {
-    //[Authorize(Users = "qwerty")]
+    [Authorize]
     public class TasksController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -100,7 +100,6 @@ namespace TicketingSystem.Controllers
             }
 
             DAL.Models.Ticket task = await db.Tickets.Include(t => t.Comments).Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == taskId);
-            //DAL.Models.Ticket task = await db.Tickets.Include(t => t.Changes).SingleOrDefaultAsync(t => t.TicketID == taskId);
             if (task == null)
             {
                 return NotFound();
@@ -161,7 +160,7 @@ namespace TicketingSystem.Controllers
             change.UserThatChangedID = User.Identity.Name;
 
             db.Changes.Add(change);
-            db.Entry(task).State = EntityState.Modified;
+            db.Entry(oldTask).State = EntityState.Modified;
 
             try
             {
@@ -277,6 +276,24 @@ namespace TicketingSystem.Controllers
 
             ch.ChangeDate = DateTime.Now;
 
+            if (o.TaskName!= n.TaskName)
+            {
+                ch.ChangeName = o.TaskName;
+            }
+            else
+            {
+                ch.ChangeName = null;
+            }
+
+            if (o.TaskDescription != n.TaskDescription)
+            {
+                ch.ChangeDescription = o.TaskDescription;
+            }
+            else
+            {
+                ch.ChangeDescription = null;
+            }
+
             if (o.TaskStatus != n.TaskStatus)
             {
                 ch.ChangeStatus = o.TaskStatus;
@@ -284,15 +301,6 @@ namespace TicketingSystem.Controllers
             else
             {
                 ch.ChangeStatus = null;
-            }
-
-            if (o.TaskPriority != n.TaskPriority)
-            {
-                ch.ChangePriority = o.TaskPriority;
-            }
-            else
-            {
-                ch.ChangePriority = null;
             }
 
             if (o.TaskPriority != n.TaskPriority)
@@ -321,6 +329,16 @@ namespace TicketingSystem.Controllers
             {
                 ch.ChangeTaskFrom = null;
             }
+
+            // TODO change assigned user !!!CHECK!!!
+
+            o.TaskDescription = n.TaskDescription;
+            o.TaskFrom = n.TaskFrom;
+            o.TaskName = n.TaskName;
+            o.TaskPriority = n.TaskPriority;
+            o.TaskStatus = n.TaskStatus;
+            o.TaskUntil = n.TaskUntil;
+            o.UserAssignedID = n.UserAssignedID;
 
             return ch;
         }

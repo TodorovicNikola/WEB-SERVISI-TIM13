@@ -42,7 +42,7 @@ namespace TicketingSystem.Controllers
 
             if(isAdmin)
             {
-                return db.Projects.Include(p => p.Tasks);
+                return db.Projects.Include(p => p.AssignedUsers).Include(p => p.Tasks);
             }
             var projects = (from p in db.Projects.Include(p => p.AssignedUsers).Include(t => t.Tasks)
                     where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
@@ -118,15 +118,9 @@ namespace TicketingSystem.Controllers
 
         // POST: api/Projects
         [ResponseType(typeof(Project))]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> PostProject(Project project)
         {
-            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
-
-            if (!isAdmin)
-            {
-                return StatusCode(HttpStatusCode.Forbidden);
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -140,15 +134,9 @@ namespace TicketingSystem.Controllers
 
         // DELETE: api/Projects/5
         [ResponseType(typeof(Project))]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> DeleteProject(int id)
         {
-            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
-
-            if (!isAdmin)
-            {
-                return StatusCode(HttpStatusCode.Forbidden);
-            }
-
             Project project = await db.Projects.FindAsync(id);
             if (project == null)
             {

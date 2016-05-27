@@ -209,12 +209,15 @@ namespace TicketingSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            var cnt = (from p in db.Projects.Include(p => p.AssignedUsers)
-                       where p.AssignedUsers.Any(u => u.Id == task.UserAssignedID) && p.ProjectID == projectId
-                       select p).Count();
-            if (cnt == 0)
+            if (task.UserAssigned != null)
             {
-                return StatusCode(HttpStatusCode.Forbidden);
+                var cnt = (from p in db.Projects.Include(p => p.AssignedUsers)
+                           where p.AssignedUsers.Any(u => u.Id == task.UserAssignedID) && p.ProjectID == projectId
+                           select p).Count();
+                if (cnt == 0)
+                {
+                    return StatusCode(HttpStatusCode.Forbidden);
+                }
             }
 
 

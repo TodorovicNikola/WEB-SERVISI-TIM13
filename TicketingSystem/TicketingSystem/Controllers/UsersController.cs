@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -14,21 +16,45 @@ using TicketingSystem.DAL.Models;
 
 namespace TicketingSystem.Controllers
 {
+    [Authorize]
     public class UsersController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: api/Users
-        public IQueryable<TicketingSystemUser> GetUsers()
+        [Authorize(Roles = "Admin")]
+        public async Task<IHttpActionResult> GetUsers()
         {
-            return db.Users;
+            return Ok(db.Users);
         }
 
         // GET: api/Users/5
         [ResponseType(typeof(TicketingSystemUser))]
         public async Task<IHttpActionResult> GetUser(string id)
         {
-            TicketingSystemUser user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
+            bool isAdmin = UserManager.IsInRole(User.Identity.Name, "Admin");
+            TicketingSystemUser user = null;
+
+            if (isAdmin || User.Identity.Name == id)
+            {
+                user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
+            } else
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
             if (user == null)
             {
                 return NotFound();
@@ -39,6 +65,7 @@ namespace TicketingSystem.Controllers
 
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> PutUser(string id, TicketingSystemUser user)
         {
             if (!ModelState.IsValid)
@@ -49,6 +76,13 @@ namespace TicketingSystem.Controllers
             if (id != user.Id)
             {
                 return BadRequest();
+            }
+
+            bool isAdmin = UserManager.IsInRole(User.Identity.Name, "Admin");
+
+            if (!isAdmin)
+            {
+
             }
 
             db.Entry(user).State = EntityState.Modified;
@@ -74,6 +108,7 @@ namespace TicketingSystem.Controllers
 
         // POST: api/Users
         [ResponseType(typeof(TicketingSystemUser))]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> PostUser(TicketingSystemUser user)
         {
             if (!ModelState.IsValid)
@@ -89,6 +124,7 @@ namespace TicketingSystem.Controllers
 
         // DELETE: api/Users/5
         [ResponseType(typeof(TicketingSystemUser))]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
             TicketingSystemUser user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
@@ -106,6 +142,7 @@ namespace TicketingSystem.Controllers
         // GET: api/Projects/5/Users
         [Route("api/projects/{projectId}/users")]
         [ResponseType(typeof(TicketingSystemUser))]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult GetProjectUsers(int projectId)
         {
             var users = from u in db.Users.Include(u => u.AssignedProjects)
@@ -115,9 +152,10 @@ namespace TicketingSystem.Controllers
             return Ok(users.AsQueryable());
         }
 
-        // GET: api/Projects/5/Users
+        // POST: api/Projects/5/Users
         [Route("api/projects/{projectId}/users/{userId}")]
         [ResponseType(typeof(TicketingSystemUser))]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> PostProjectUser(int projectId, string userId)
         {
             Project project = db.Projects.Include(path => path.AssignedUsers).FirstOrDefault(p => p.ProjectID == projectId);

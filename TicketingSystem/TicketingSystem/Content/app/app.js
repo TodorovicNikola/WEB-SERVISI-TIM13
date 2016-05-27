@@ -1,5 +1,5 @@
 (function (angular) {
-    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularModalService', 'angularjs-dropdown-multiselect']);
+    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularjs-dropdown-multiselect', 'angularModalService']);
     app.controller('TicketAddingController', function ($scope, ModalService) {
         $scope.show = function (creation) {
             $scope.selectedTaskIndex = $scope.$parent.selectedTaskIndex;
@@ -12,14 +12,13 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
-                    console.log(result);
-                    if ($scope.creation)
-                    {
-                        $scope.$parent.tasks.push(result);
-                    }
-                    else
-                    {
-                        $scope.$parent.tasks[$scope.selectedTaskIndex] = result;
+                    if (result !== 'No' && result!=='Error') {
+                        if ($scope.creation) {
+                            $scope.$parent.tasks.push(result);
+                        }
+                        else {
+                            $scope.$parent.tasks[$scope.selectedTaskIndex] = result;
+                        }
                     }
                 });
             });
@@ -61,7 +60,8 @@
                 close(data);
                 alert("Success");
             }).error(function (error) {
-                alert("Error");
+                close('Error');
+                alert("Error creating");
             });
 
         }
@@ -82,9 +82,11 @@
                 }
             ).success(function (data) {
                 close(data);
+                alert('Updated');
                 
             }).error(function (error) {
-                alert("Error");
+                close('Error');
+                alert("Error updating");
             });
 
         }

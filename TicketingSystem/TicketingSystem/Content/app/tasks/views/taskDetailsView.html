@@ -5,8 +5,8 @@
         <tr>
             <td>
                 <h4>Name: {{currentTask.taskName}}</h4>
-                <h4>Assigned to :{{currentTask.userAssigned.userName}}</h4>
-                <h4>Created by :{{currentTask.userCreated.userName}}</h4>
+                <h4>Assigned to :{{currentTask.userAssignedID}}</h4>
+                <h4>Created by :{{currentTask.userCreatedID}}</h4>
                 <h4>Created: {{getTimeString(currentTask.taskFrom)}}</h4>
                 <h4>Due date: {{getTimeString(currentTask.taskUntil)}}</h4>
                 <h4 ng-if="currentTask.taskPriority!==0">Priority: {{currentTask.taskPriority}}</h4>

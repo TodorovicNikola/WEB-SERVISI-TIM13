@@ -2,8 +2,10 @@
 var tasksUpdatingModule = angular.module('UpdatingTasksModule', ['angularModalService']);
 
 tasksUpdatingModule.controller('TicketAddingController', function ($scope, ModalService) {
-
+   
+   
     $scope.show = function (creation) {
+
         $scope.selectedTaskIndex = $scope.$parent.selectedTaskIndex;
         $scope.selectedTask = $scope.tasks[$scope.selectedTaskIndex];
         $scope.creation = creation;

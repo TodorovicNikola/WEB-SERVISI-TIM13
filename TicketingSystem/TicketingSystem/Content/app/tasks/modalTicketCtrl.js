@@ -6,6 +6,8 @@
         var userCreatedId = AuthenticationService.getCurrentUser().username;
         var currentProjectId = $stateParams.id;
         var selectedTask = $scope.selectedTask;
+        
+
         if (!$scope.creation) {
 
             $scope.ticketName = selectedTask.taskName;
@@ -20,6 +22,19 @@
 
 
         }
+
+        $scope.getUsersOnThisTaskProject=function()
+        {
+            $http.get('../../api/projects/' + currentProjectId + '/users')
+                .then(function (response) {
+                    $scope.usersOnProject = response.data;
+                    
+            }, function(x) {
+                alert('Unable to get users on this project');
+            });
+           
+        }
+        $scope.getUsersOnThisTaskProject();
 
         $scope.sendTicket = function () {
 
@@ -42,8 +57,14 @@
             });
 
         }
-
-
+    
+        $scope.validateTicketForm = function () {
+            
+            if (!$scope.ticketName || !$scope.ticketPriority || !$scope.ticketStatus || !$scope.ticketToBeFinishedOn) {
+                return false;
+            }
+            return true;
+        }
 
         $scope.updateTicket = function () {
 

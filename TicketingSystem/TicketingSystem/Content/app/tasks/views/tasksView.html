@@ -60,50 +60,55 @@
                                 </div>
                                     -->
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket name:</label>
+                                    <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket name: <span ng-hide="ticketName">  (Required)</span></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="ticketNameId" ng-model="ticketName">
                                         
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket priority:</label>
+                                    <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket priority: <span ng-hide="ticketPriority">  (Required)</span></label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="ticketPriorityId" ng-model="ticketPriority">
+                                        <select class="form-control" id="ticketPriorityId" ng-model="ticketPriority" ng-options="p.value as p.value for p in priorities">
+                                           
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket status:</label>
+                                    <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket status: <span ng-hide="ticketStatus">  (Required)</span></label>
                                     <div class="col-sm-10">
-                                        <input  type="text" class="form-control" id="ticketStatusId" ng-model="ticketStatus">
-                                    </div>
+                                        <select class="form-control" id="ticketStatusId" ng-model="ticketStatus" ng-options="s.value as s.value for s in statuses" ng-selected="selected"></select>
+</div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Assigned to:</label>
                                     <div class="col-sm-10">
-                                        <input  type="text" class="form-control" id="ticketAssignedToId" ng-model="ticketAssignedTo">
+                                        
+                                        <select class="form-control" id="ticketAssignedToId" ng-model="ticketAssignedTo" ng-options="u.userName as u.userName for u in usersOnProject"></select>
                                     </div>
                                 </div>
                                 
                      
-
+                                <!--
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Created :</label>
                                     <div class="col-sm-10">
                                         <input  type="text" class="form-control" id="ticketCreatedOnId" ng-model="ticketCreatedOn">
                                     </div>
                                 </div>
+                                -->
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 form-control-label">To be finished on :</label>
+                                    <label for="inputEmail3" class="col-sm-2 form-control-label">To be finished on : <span ng-hide="ticketToBeFinishedOn">  (Required)</span></label>
                                     <div class="col-sm-10">
                                         <input  type="text" class="form-control" id="ticketToBeFinishedOnId" ng-model="ticketToBeFinishedOn">
                                     </div>
+                                    
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket description :</label>
                                     <div class="col-sm-10">
-                                        <input  type="text" class="form-control" id="ticketDescriptionId" ng-model="ticketDescription">
+                                        <input type="text" class="form-control" id="ticketDescriptionId" ng-model="ticketDescription">     
                                     </div>
                                 </div>
 
@@ -112,8 +117,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button ng-if="creation" type="button" ng-click="sendTicket()" class="btn btn-primary" data-dismiss="modal">Create</button>
-                        <button ng-if="!creation" type="button" ng-click="updateTicket()" class="btn btn-primary" data-dismiss="modal">Update</button>
+                        <button ng-if="creation" type="button" ng-click="sendTicket()" ng-disabled="!validateTicketForm()" class="btn btn-primary" data-dismiss="modal">Create</button>
+                        <button ng-if="!creation" type="button" ng-click="updateTicket()" ng-disabled="!validateTicketForm()" class="btn btn-primary" data-dismiss="modal">Update</button>
                     </div>
                 </div>
             </div>

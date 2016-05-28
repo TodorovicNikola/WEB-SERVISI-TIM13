@@ -35,7 +35,11 @@
             $scope.tasks = Task.getAll({ projectId: $scope.currentProject })
         }
 
+       
+
         $scope.init = function () {
+            $scope.priorities = [{ value: "Blocker", name: "Blocker" }, { value: "Critical", name: "Critical" }, { value: "Major", name: "Major" }, { value: "Minor", name: "Minor" }, { value: "Trivial", name: "Trivial" }];
+            $scope.statuses = [{ value: "To do", name: "To do" }, { value: "In progress", name: "In progress" }, { value: "Verify", name: "Verify" }, { value: "Done", name: "Done" }];
             $scope.commentEditing = false;
             $scope.unselectTask();
 

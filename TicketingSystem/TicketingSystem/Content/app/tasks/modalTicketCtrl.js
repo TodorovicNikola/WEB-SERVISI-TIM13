@@ -19,6 +19,7 @@
             $scope.ticketToBeFinishedOn = selectedTask.taskUntil;
             $scope.ticketCreatedOn = selectedTask.taskFrom;
             $scope.ticketCreatedBy = selectedTask.userCreated;
+            
 
 
         }
@@ -39,7 +40,7 @@
         $scope.sendTicket = function () {
 
             var momentInTime = new Date();
-            var data = { "TaskUntil": momentInTime, "ProjectID": currentProjectId, "TaskFrom": momentInTime, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": userCreatedId, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo, "TaskDescription": $scope.ticketDescription };
+            var data = { "TaskUntil": $scope.ticketToBeFinishedOn, "ProjectID": currentProjectId, "TaskFrom": momentInTime, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": userCreatedId, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo, "TaskDescription": $scope.ticketDescription };
             $http.post(
                 'api/Projects/' + currentProjectId + '/Tasks',
                 JSON.stringify(data),
@@ -49,6 +50,7 @@
                     }
                 }
             ).success(function (data) {
+                console.log(data);
                 close(data);
                 alert("Success");
             }).error(function (error) {
@@ -69,7 +71,7 @@
         $scope.updateTicket = function () {
 
             var momentInTime = new Date();
-            var dataUpdate = { "TicketID": $scope.ticketId, "TaskUntil": momentInTime, "ProjectID": currentProjectId, "TaskFrom": momentInTime, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": userCreatedId, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo, "TaskDescription": $scope.ticketDescription };
+            var dataUpdate = { "TicketID": $scope.ticketId, "TaskUntil": $scope.ticketToBeFinishedOn, "ProjectID": currentProjectId, "TaskFrom": momentInTime, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": userCreatedId, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo, "TaskDescription": $scope.ticketDescription };
             $http.put(
                 'api/Projects/' + currentProjectId + '/Tasks/' + $scope.ticketId,
                 JSON.stringify(dataUpdate),

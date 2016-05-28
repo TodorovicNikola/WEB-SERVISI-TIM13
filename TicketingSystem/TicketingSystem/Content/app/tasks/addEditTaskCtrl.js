@@ -1,5 +1,5 @@
 ﻿(function (angular){
-var tasksUpdatingModule = angular.module('UpdatingTasksModule', ['angularModalService']);
+    var tasksUpdatingModule = angular.module('UpdatingTasksModule', ['angularModalService', 'angularjs-datetime-picker']);
 
 tasksUpdatingModule.controller('TicketAddingController', function ($scope, ModalService) {
    

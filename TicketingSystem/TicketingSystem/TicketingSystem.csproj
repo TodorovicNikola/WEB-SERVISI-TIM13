@@ -287,6 +287,8 @@
     <Content Include="Content\app\controllers.js" />
     <Content Include="Content\app\dashboard\dashboardController.js" />
     <Content Include="Content\app\projects\projectResource.js" />
+    <Content Include="Content\app\tasks\addEditTaskCtrl.js" />
+    <Content Include="Content\app\tasks\modalTicketCtrl.js" />
     <Content Include="Content\app\tasks\taskResource.js" />
     <Content Include="Content\app\tasks\views\taskDetailsView.html" />
     <Content Include="Content\app\tasks\tasksController.js" />

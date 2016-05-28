@@ -2,6 +2,7 @@
 	angular.module('app.controllers', [
     	'app.DashboardCtrl',
         'app.TasksCtrl'
+
         
         
         

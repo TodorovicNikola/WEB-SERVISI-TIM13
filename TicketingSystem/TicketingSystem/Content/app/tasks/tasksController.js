@@ -30,6 +30,9 @@
         $scope.getUserName = function () {
             return AuthenticationService.getCurrentUser().username;
         }
+        $scope.getUserRole = function () {
+            return AuthenticationService.getCurrentUser().role;
+        }
 
         var loadTasks = function () {
             $scope.tasks = Task.getAll({ projectId: $scope.currentProject })
@@ -97,6 +100,10 @@
 
         }
         $scope.getTimeString = function (stringTime) {
+            if (stringTime === null || stringTime === undefined)
+            {
+                return null;
+            }
             var momentInTime = new Date(stringTime);
             var year = momentInTime.getYear() + 1900;
             var month = momentInTime.getMonth() + 1;

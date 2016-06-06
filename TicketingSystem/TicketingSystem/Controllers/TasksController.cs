@@ -178,7 +178,8 @@ namespace TicketingSystem.Controllers
                 }
             }
 
-            return Ok(new TaskDto(task));
+            //return Ok(new TaskDto(task));
+            return Ok(new TicketChangeCompositeDTO(new TaskDto(task), new ChangeDTO(change)));
         }
 
         // POST: api/Projects/5/Tasks

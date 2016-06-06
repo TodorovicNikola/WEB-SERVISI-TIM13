@@ -142,7 +142,7 @@ namespace TicketingSystem.Controllers
         // GET: api/Projects/5/Users
         [Route("api/projects/{projectId}/users")]
         [ResponseType(typeof(TicketingSystemUser))]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public IHttpActionResult GetProjectUsers(int projectId)
         {
             var users = from u in db.Users.Include(u => u.AssignedProjects)

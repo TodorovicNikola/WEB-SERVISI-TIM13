@@ -1,5 +1,5 @@
 ﻿(function (angular){
-    var tasksUpdatingModule = angular.module('UpdatingTasksModule', ['angularModalService', 'angularjs-datetime-picker']);
+    var tasksUpdatingModule = angular.module('UpdatingTasksModule', ['angularModalService', 'ui.bootstrap.datetimepicker']);
 
 tasksUpdatingModule.controller('TicketAddingController', function ($scope, ModalService) {
    
@@ -21,7 +21,7 @@ tasksUpdatingModule.controller('TicketAddingController', function ($scope, Modal
                         $scope.$parent.tasks.push(result);
                     }
                     else {
-                        $scope.$parent.tasks[$scope.selectedTaskIndex] = result;
+                        $scope.$parent.tasks[$scope.selectedTaskIndex] = result.taskDto;
                     }
                 }
             });

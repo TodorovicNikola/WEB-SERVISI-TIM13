@@ -31,7 +31,7 @@
                                 <span class="commentDetails">
 
                                     {{comment.userWroteID}} posted on  {{getTimeString(comment.commentCreated)}}. <span ng-if="comment.commentUpdated!=null"> Updated on {{getTimeString(comment.commentUpdated)}}</span>
-                                    <span ng-if="getUserName()==comment.userWroteID">
+                                    <span ng-if="getUserName()==comment.userWroteID || getUserRole()=='Admin'">
                                         <span ng-if="!commentEditing" class="commentSpanEdit" ng-click="editComment(comment.commentID,$index,comment.commentContent)">Edit   </span>
                                         <span ng-if="commentEditing && commentEditingIndex==$index " ng-click="quitEditingComment()" class="commentSpanEdit">Quit editing</span>
                                         <span class="commentSpanEdit" ng-click="deleteComment(comment.commentID,$index)">Delete</span>
@@ -48,9 +48,34 @@
                 <button ng-if="!commentEditing" class="btn btn-primary" ng-click="sendComment()">Post comment</button>
                 <button ng-if="commentEditing" class="btn btn-primary" ng-click="updateComment(commentContent)">Update comment</button>
                 <h4>Changes</h4>
-                <div>
-                    <!--div  for changes -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->
+                <div class="pre-scrollable" style="height:150px;">
+                    <table class="table">
+                        <tr>
+                            <th>Changed on:</th>
+                            <th>Change made by:</th>
+                            <th>Name:</th>
+                            <th>Assigned to:</th>
+                            <th>Due date:</th>
+                            <th>Status:</th>
+                            <th>Priority:</th>
+                            <th>Description:</th>
+                        </tr>
+                        <tr ng-repeat="change in currentTask.changes">
+                            <td>{{getTimeString(change.changeDate)}}</td>
+                            <td>{{change.userThatChangedID}}</td>
+                            <td>{{change.changeName}}</td>
+                            <td>{{change.changeUserAssignedID}}</td>
+                            <td>{{getTimeString(change.changeTaskUntil)}}</td>
+                            <td>{{change.changeStatus}}</td>
+                            <td>{{change.changePriority}}</td>
+                            <td>{{change.changeDescription}}</td>
+                        </tr>
+
+                    </table>
                 </div>
+               
+                    <!--div  for changes -In order to show scroll bar needed class of div overflow set on scroll and height set on some value, or just use some class that provides this already-->
+               
 
             </td>
         </tr>

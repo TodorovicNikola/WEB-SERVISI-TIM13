@@ -99,7 +99,7 @@ namespace TicketingSystem.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(comment);
         }
 
         // POST: api/Comments

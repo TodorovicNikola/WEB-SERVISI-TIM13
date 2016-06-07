@@ -70,13 +70,13 @@
             $scope.commentEditingIndex = -1;
         }
         $scope.updateComment = function (commentContent) {
-
-            console.log($scope.commentId + ' ' + $scope.commentEditingIndex + ' ' + commentContent);
+            var comments = $scope.currentTask.comments;
+            var commentIndex = comments.length - $scope.commentEditingIndex - 1;
+            comments[commentIndex].commentContent = commentContent;
+            //console.log($scope.commentId + ' ' + $scope.commentEditingIndex + ' ' + commentContent);
             var url = "/api/comments/" + $scope.commentId;
-            var momentInTime = new Date();
-            var data = { "CommentId": $scope.commentId, "CommentContent": $scope.commentContent, "CommentCreated": "2016-05-21T00:00:00", "CommentUpdated": momentInTime, "TaskID": $scope.currentTask.ticketID, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
             $http.put(url,
-                JSON.stringify(data),
+                JSON.stringify(comments[commentIndex]),
                 {
                     headers: {
                         'Content-Type': 'application/json'
@@ -84,18 +84,15 @@
                 }
                     )
                 .success(function (result) {
-                    var comments = $scope.currentTask.comments;
-                    var commentIndex = comments.length - $scope.commentEditingIndex - 1;
-                    comments[commentIndex].commentContent = commentContent;
-                    comments[commentIndex].commentUpdated = momentInTime.toLocaleString();
+                    //console.log(result);
+                    comments[commentIndex] = result;
                     $scope.quitEditingComment();
 
                 })
                     .error(function () {
-                        alert("error updating");
+                        alert("Error updating");
                     })
                     .then(function () {
-                        //$window.location = "#/";
                     });
 
         }

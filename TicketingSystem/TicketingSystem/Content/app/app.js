@@ -1,5 +1,5 @@
 (function (angular) {
-    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularjs-dropdown-multiselect']);
+    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularjs-dropdown-multiselect', 'app.User']);
 
     app.config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/dashboard');
@@ -28,7 +28,18 @@
             url: '/projects/:id/tasks/:taskId',
             templateUrl: 'Content/app/tasks/views/taskDetailsView.html',
             controller: 'TasksCtrl'
-        });
+        })
+        .state('users', {
+            url: '/users',
+            templateUrl: 'Content/app/users/usersView.html',
+            controller: 'usersCtrl'
+        })
+        //.state('projects', {
+        //    url: '/projects',
+        //    templateUrl: 'Content/app/projects/usersView.html',
+        //    controller: 'projectsCtrl'
+        //})
+        ;
     })
     .run(run);;
 
@@ -40,7 +51,7 @@
 
         // ukoliko pokušamo da odemo na stranicu za koju nemamo prava, redirektujemo se na login
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            var publicStates = ['login', 'dashboard', 'register'];
+            var publicStates = ['login'];//, 'register'];
             var restrictedState = publicStates.indexOf(toState.name) === -1;
             if (restrictedState && !AuthenticationService.getCurrentUser()) {
                 $state.go('login');

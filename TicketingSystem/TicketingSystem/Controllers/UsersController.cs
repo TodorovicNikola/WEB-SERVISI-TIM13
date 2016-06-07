@@ -13,6 +13,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TicketingSystem.DAL;
 using TicketingSystem.DAL.Models;
+using TicketingSystem.DTOs;
 
 namespace TicketingSystem.Controllers
 {
@@ -36,9 +37,17 @@ namespace TicketingSystem.Controllers
 
         // GET: api/Users
         [Authorize(Roles = "Admin")]
-        public async Task<IHttpActionResult> GetUsers()
+        public IHttpActionResult GetUsers()
         {
-            return Ok(db.Users);
+            var users = db.Users;
+            var retUsers = new LinkedList<UserDTO>();
+
+            foreach(var u in users)
+            {
+                retUsers.AddLast(new UserDTO { FirstName = u.FirstName, LastName = u.LastName, UserName = u.Id, Email = u.Email });
+            }
+
+            return Ok(retUsers);
         }
 
         // GET: api/Users/5
@@ -60,30 +69,32 @@ namespace TicketingSystem.Controllers
                 return NotFound();
             }
 
-            return Ok(user);
+            var retUser = new UserDTO { FirstName = user.FirstName, LastName = user.LastName, UserName = user.Id, Email = user.Email };
+
+            return Ok(retUser);
         }
 
         // PUT: api/Users/5
         [ResponseType(typeof(void))]
         [Authorize(Roles = "Admin")]
-        public async Task<IHttpActionResult> PutUser(string id, TicketingSystemUser user)
+        public async Task<IHttpActionResult> PutUser(string id, UserDTO usr)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != user.Id)
+            if (id != usr.UserName)
             {
                 return BadRequest();
             }
 
-            bool isAdmin = UserManager.IsInRole(User.Identity.Name, "Admin");
+            var user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-            if (!isAdmin)
-            {
-
-            }
+            user.Email = usr.Email;
+            user.PasswordHash = TicketingSystemUser.HashPassword(usr.Password);
+            user.FirstName = usr.FirstName;
+            user.LastName = usr.LastName;
 
             db.Entry(user).State = EntityState.Modified;
 
@@ -109,17 +120,34 @@ namespace TicketingSystem.Controllers
         // POST: api/Users
         [ResponseType(typeof(TicketingSystemUser))]
         [Authorize(Roles = "Admin")]
-        public async Task<IHttpActionResult> PostUser(TicketingSystemUser user)
+        public async Task<IHttpActionResult> PostUser(UserDTO user)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || user.Password.Length < 6)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Users.Add(user);
-            await db.SaveChangesAsync();
+            var usr = new TicketingSystemUser()
+            {      
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                EmailConfirmed = true,
+                Id = user.UserName,
+                UserType = TicketingSystemUser.UserTypes.USER,
+                PasswordHash = TicketingSystemUser.HashPassword(user.Password)
+            };
 
-            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
+            IdentityResult result = UserManager.Create(usr);
+            await UserManager.AddToRoleAsync(usr.Id, "User");
+
+            if (!result.Succeeded)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         // DELETE: api/Users/5

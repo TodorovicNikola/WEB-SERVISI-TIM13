@@ -10,7 +10,10 @@
     "angular-jwt": "^0.0.9",
     "angular-modal-service": "^0.9.10",
     "bootstrap": "^3.3.6",
-    "angularjs-dropdown-multiselect": "^1.5.2"
+    "angularjs-dropdown-multiselect": "^1.5.2",
+    "angularjs-datetime-picker": "^0.1.20",
+    "moment": "^2.13.0",
+    "angular-bootstrap-datetimepicker": "^1.0.1"
   },
   "devDependencies": {},
   "appPath": "client",

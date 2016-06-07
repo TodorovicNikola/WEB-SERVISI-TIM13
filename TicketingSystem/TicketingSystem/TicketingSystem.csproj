@@ -265,8 +265,10 @@
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="DTOs\ChangeDTO.cs" />
     <Compile Include="DTOs\ProjectDTO.cs" />
     <Compile Include="DTOs\TaskDto.cs" />
+    <Compile Include="DTOs\TicketChangeCompositeDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -302,6 +304,13 @@
     <Content Include="Content\app\users\login.js" />
     <Content Include="Content\app\users\register.html" />
     <Content Include="Content\app\users\register.js" />
+    <Content Include="Content\app\users\user.js" />
+    <Content Include="Content\app\users\userModal.html" />
+    <Content Include="Content\app\users\userModalController.js" />
+    <Content Include="Content\app\users\userProjectResource.js" />
+    <Content Include="Content\app\users\userResource.js" />
+    <Content Include="Content\app\users\usersController.js" />
+    <Content Include="Content\app\users\usersView.html" />
     <Content Include="Content\app\utils\authentication.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />

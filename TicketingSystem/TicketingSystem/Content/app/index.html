@@ -6,11 +6,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://getbootstrap.com/dist/css/bootstrap.css">
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="https://code.angularjs.org/1.4.9/angular.min.js"></script>
 
 
     <link rel="stylesheet" href="Content/app/bower_components/angularjs-datetime-picker/angularjs-datetime-picker.css" />
-    <script src="Content/app/bower_components/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
+    
    
    
     <script src="Content/app/bower_components/angular/angular.js"></script>
@@ -19,6 +18,7 @@
     <script src="Content/app/bower_components/ngstorage/ngStorage.js"></script>
     <script src="Content/app/bower_components/angular-jwt/dist/angular-jwt.js"></script>
     <script src="Content/app/bower_components/angular-resource/angular-resource.js"></script>
+    <script src="Content/app/bower_components/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
 
     <script src="Content/app/app.js"></script>
     <script src="Content/app/controllers.js"></script>
@@ -39,6 +39,10 @@
    
     <script src="Content/app/users/login.js"></script>
     <script src="Content/app/users/register.js"></script>
+    <script src="Content/app/users/userResource.js"></script>
+    <script src="Content/app/users/user.js"></script>
+    <script src="Content/app/users/usersController.js"></script>
+    <script src="Content/app/users/userModalController.js"></script>
 
     <script type="text/javascript" src="Content/app/bower_components/moment/moment.js"></script>
     <link rel="stylesheet" href="Content/app/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css" />
@@ -67,9 +71,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li ng-if="isLoggedIn()"><a ui-sref="dashboard">Dashboard</a></li>
-                    <li ng-if="isLoggedIn()"><a ng-click="logout()" href="#">Log out</a></li>
-                    <li ng-if="!isLoggedIn()&&getCurrentState()!=='login'"><a ui-sref="login">Log in</a></li>
-                    <li ng-if="!isLoggedIn()&&getCurrentState()!=='register'"><a ui-sref="register">Register</a></li>
+                    <li ng-if="getCurrentUserRole()=='Admin'"><a ui-sref="users">Users</a></li>
+                    <li ng-if="getCurrentUserRole()=='Admin'"><a ui-sref="projects">Projects</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li ng-if="!isLoggedIn()"><a ui-sref="login">Log in</a></li>
                 </ul>
             </div>
         </div>

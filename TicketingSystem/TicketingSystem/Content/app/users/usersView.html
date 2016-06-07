@@ -2,18 +2,18 @@
     <h1>Registered users</h1>
     <div class="btn-group clearfix">
         <button type="button" ng-click="openModal(false)" class="btn btn-default">
-            <i class="glyphicon glyphicon-new"></i>Register new
+            <i class="glyphicon glyphicon-registration-mark"></i>Register new
         </button>
     </div>
     <div class="btn-group clearfix" >
         <button type="button" ng-click="openModal(true)" class="btn btn-default" ng-disabled = "!selected">
-            <i class="glyphicon glyphicon-new"></i>Edit user
+            <i class="glyphicon glyphicon-edit"></i>Edit user
         </button>
     </div>
 
     <div>
         <table class="table table-hover">
-            <tr><th>First name</th><th>Last name</th><th>Username</th></tr>
+            <tr><th>First name</th><th>Last name</th><th>Username</th><th>e-mail</th></tr>
             <tr ng-click="selectUser($index)" ng-class="{active: $index === selectedIndex}" ng-repeat="u in users">
                 <td>{{u.firstName}}</td>
                 <td>{{u.lastName}}</td>

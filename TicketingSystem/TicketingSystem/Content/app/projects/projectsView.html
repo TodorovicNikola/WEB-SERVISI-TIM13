@@ -1,0 +1,30 @@
+﻿<div class="users">
+    <h1>Projects</h1>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="openModal(false)" class="btn btn-default">
+            <i class="glyphicon glyphicon-plus"></i>Create
+        </button>
+    </div>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="openModal(true)" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-edit"></i>Edit
+        </button>
+    </div>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="openUsersModal(selected)" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-user"></i>Assigned users
+        </button>
+    </div>
+
+    <div>
+        <table class="table table-hover">
+            <tr><th>Name</th><th>Code</th><th>Description</th></tr>
+            <tr ng-click="selectProject($index)" ng-class="{active: $index === selectedIndex}" ng-repeat="p in projects">
+                <td><a href='#/projects/{{p.projectID}}/tasks'>{{ p.projectName }}</a></td>
+                <td>{{p.projectCode}}</td>
+                <td>{{p.projectDescription}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>

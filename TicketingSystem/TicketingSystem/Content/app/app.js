@@ -1,5 +1,5 @@
 (function (angular) {
-    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularjs-dropdown-multiselect', 'app.User']);
+    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularjs-dropdown-multiselect', 'app.User', 'app.Project']);
 
     app.config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/dashboard');
@@ -34,11 +34,11 @@
             templateUrl: 'Content/app/users/usersView.html',
             controller: 'usersCtrl'
         })
-        //.state('projects', {
-        //    url: '/projects',
-        //    templateUrl: 'Content/app/projects/usersView.html',
-        //    controller: 'projectsCtrl'
-        //})
+        .state('projects', {
+            url: '/projects',
+            templateUrl: 'Content/app/projects/projectsView.html',
+            controller: 'projectsCtrl'
+        })
         ;
     })
     .run(run);;

@@ -173,11 +173,18 @@ namespace TicketingSystem.Controllers
        // [Authorize(Roles = "Admin")]
         public IHttpActionResult GetProjectUsers(int projectId)
         {
-            var users = from u in db.Users.Include(u => u.AssignedProjects)
-                        where u.AssignedProjects.Any(p => p.ProjectID == projectId)
-                        select u;
+            var users = (from u in db.Users.Include(u => u.AssignedProjects)
+                         where u.AssignedProjects.Any(p => p.ProjectID == projectId)
+                         select u).AsQueryable();
 
-            return Ok(users.AsQueryable());
+            var retUsers = new LinkedList<UserDTO>();
+
+            foreach (var u in users)
+            {
+                retUsers.AddLast(new UserDTO { FirstName = u.FirstName, LastName = u.LastName, UserName = u.Id, Email = u.Email });
+            }
+
+            return Ok(retUsers);
         }
 
         // POST: api/Projects/5/Users
@@ -196,6 +203,39 @@ namespace TicketingSystem.Controllers
                     return BadRequest("Already assigned.");
                 }
                 project.AssignedUsers.Add(user);
+
+                db.Entry(project).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return Ok();
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
+            }
+
+            return NotFound();
+        }
+
+        // Delete: api/Projects/5/Users/5
+        [Route("api/projects/{projectId}/users/{userId}"), HttpDelete]
+        [ResponseType(typeof(TicketingSystemUser))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IHttpActionResult> DeleteProjectUser(int projectId, string userId)
+        {
+            Project project = db.Projects.Include(path => path.AssignedUsers).FirstOrDefault(p => p.ProjectID == projectId);
+            var user = db.Users.Find(userId);
+
+            if (project != null && user != null)
+            {
+                if (!project.AssignedUsers.Contains(user))
+                {
+                    return BadRequest("Already removed.");
+                }
+                project.AssignedUsers.Remove(user);
 
                 db.Entry(project).State = EntityState.Modified;
 

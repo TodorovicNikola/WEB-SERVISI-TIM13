@@ -19,7 +19,6 @@
         }  
 
         $scope.selectUser = function (index) {
-            console.log(index);
             if (index != $scope.selectedIndex) {
                 $scope.selected = $scope.users[index];
                 $scope.selectedIndex = index;

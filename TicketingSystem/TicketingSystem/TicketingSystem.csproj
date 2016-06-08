@@ -267,6 +267,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DTOs\ChangeDTO.cs" />
     <Compile Include="DTOs\ProjectDTO.cs" />
+    <Compile Include="DTOs\ProjectTicketsDTO.cs" />
     <Compile Include="DTOs\TaskDto.cs" />
     <Compile Include="DTOs\TicketChangeCompositeDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
@@ -288,7 +289,16 @@
     <Content Include="Content\app\comments\commentsService.js" />
     <Content Include="Content\app\controllers.js" />
     <Content Include="Content\app\dashboard\dashboardController.js" />
+    <Content Include="Content\app\projects\assignUserModal.html" />
+    <Content Include="Content\app\projects\assignUserModalController.js" />
+    <Content Include="Content\app\projects\project.js" />
+    <Content Include="Content\app\projects\projectModal.html" />
+    <Content Include="Content\app\projects\projectModalController.js" />
     <Content Include="Content\app\projects\projectResource.js" />
+    <Content Include="Content\app\projects\projectsController.js" />
+    <Content Include="Content\app\projects\projectsView.html" />
+    <Content Include="Content\app\projects\projectUsersResource.js" />
+    <Content Include="Content\app\projects\userProjectResource.js" />
     <Content Include="Content\app\tasks\addEditTaskCtrl.js" />
     <Content Include="Content\app\tasks\modalTicketCtrl.js" />
     <Content Include="Content\app\tasks\taskResource.js" />
@@ -307,7 +317,6 @@
     <Content Include="Content\app\users\user.js" />
     <Content Include="Content\app\users\userModal.html" />
     <Content Include="Content\app\users\userModalController.js" />
-    <Content Include="Content\app\users\userProjectResource.js" />
     <Content Include="Content\app\users\userResource.js" />
     <Content Include="Content\app\users\usersController.js" />
     <Content Include="Content\app\users\usersView.html" />

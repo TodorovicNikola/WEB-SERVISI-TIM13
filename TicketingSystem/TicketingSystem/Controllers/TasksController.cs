@@ -221,7 +221,7 @@ namespace TicketingSystem.Controllers
                 }
             }
 
-
+            task.TaskCreated = DateTime.Now;
 
             db.Tickets.Add(task);
             await db.SaveChangesAsync();

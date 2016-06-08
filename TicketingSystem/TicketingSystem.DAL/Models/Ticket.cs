@@ -33,6 +33,8 @@ namespace TicketingSystem.DAL.Models
         [Required]
         public String TaskPriority { get; set; }
 
+        public DateTime TaskCreated { get; set; }
+
         [Required(ErrorMessage = "'Task From' must not be empty!")]
         public DateTime TaskFrom { get; set; }
 

@@ -36,6 +36,7 @@ namespace TicketingSystem.DTOs
             this.ChangeTaskUntil = c.ChangeTaskUntil;
             this.ChangeUserAssignedID = c.ChangeUserAssignedID;
             this.UserThatChangedID = c.UserThatChangedID;
+            this.ChangePriority = c.ChangePriority;
         }
     }
     

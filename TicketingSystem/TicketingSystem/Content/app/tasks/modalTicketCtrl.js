@@ -6,19 +6,35 @@
         var userCreatedId = AuthenticationService.getCurrentUser().username;
         var currentProjectId = $stateParams.id;
         var selectedTask = $scope.selectedTask;
+        $scope.priorities = [{ value: "Blocker", name: "Blocker" }, { value: "Critical", name: "Critical" }, { value: "Major", name: "Major" }, { value: "Minor", name: "Minor" }, { value: "Trivial", name: "Trivial" }];
+        $scope.statuses = [{ value: "To do", name: "To do" }, { value: "In progress", name: "In progress" }, { value: "Verify", name: "Verify" }, { value: "Done", name: "Done" }];
         
 
         if (!$scope.creation) {
-
+            console.log(selectedTask);
             $scope.ticketName = selectedTask.taskName;
-            $scope.ticketId = selectedTask.ticketId;
+            if (selectedTask.ticketId != null)
+            {
+                $scope.ticketId = selectedTask.ticketId;
+                $scope.ticketAssignedTo = selectedTask.userAssigned;
+                $scope.ticketCreatedBy = selectedTask.userCreated;
+
+            }
+            else
+            {
+                $scope.ticketId = selectedTask.ticketID;
+                $scope.ticketAssignedTo = selectedTask.userAssignedID;
+                $scope.ticketCreatedBy = selectedTask.userCreatedID;
+            }
+                
+
             $scope.ticketDescription = selectedTask.taskDescription;
             $scope.ticketPriority = selectedTask.taskPriority;
             $scope.ticketStatus = selectedTask.taskStatus;
-            $scope.ticketAssignedTo = selectedTask.userAssigned;
+          
             $scope.ticketToBeFinishedOn = selectedTask.taskUntil;
             $scope.ticketCreatedOn = selectedTask.taskFrom;
-            $scope.ticketCreatedBy = selectedTask.userCreated;
+           
             
 
 
@@ -106,6 +122,7 @@
             return true;
         }
 
+
         $scope.updateTicket = function () {
 
             var momentInTime = new Date();
@@ -137,16 +154,12 @@
                    alert("Error updating");
                });
                 
-            
-
-          
-
         }
 
 
 
         $scope.close = function (result) {
-            close(result, 500); // close, but give 500ms for bootstrap to animate
+            close(result, 200); 
         };
 
     });

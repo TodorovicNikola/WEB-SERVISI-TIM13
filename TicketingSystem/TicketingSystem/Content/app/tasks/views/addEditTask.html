@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Add/edit ticket</h3>
+                <h3>Add / Edit ticket</h3>
             </div>
 
             <div class="modal-body">
@@ -31,6 +31,7 @@
                                 <select class="form-control" id="ticketPriorityId" ng-model="ticketPriority" ng-options="p.value as p.value for p in priorities"></select>
                             </div>
                         </div>
+                      
                         <div class="form-group row">
                             <label for="inputEmail3" class="col-sm-2 form-control-label">Ticket status: <span ng-hide="ticketStatus">  (Required)</span></label>
                             <div class="col-sm-10">
@@ -76,6 +77,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+
                 <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button ng-if="creation" type="button" ng-click="sendTicket()" ng-disabled="!validateTicketForm()" class="btn btn-primary" data-dismiss="modal">Create</button>
                 <button ng-if="!creation" type="button" ng-click="updateTicket()" ng-disabled="!validateTicketForm()" class="btn btn-primary" data-dismiss="modal">Update</button>

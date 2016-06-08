@@ -3,7 +3,7 @@
 
     assignUserModalControllerModule.controller('assignUserModalController', function ($scope, ModalService, project, Project, User, UserProject, close) {
         $scope.project = project;
-
+       
         $scope.users = null;
         $scope.assignedUsers = null;
 

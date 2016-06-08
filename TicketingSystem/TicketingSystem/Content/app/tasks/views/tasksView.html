@@ -1,17 +1,23 @@
 ﻿
 
-<h1>Tasks of project {{currentProject}}</h1>
+<h1>Tasks of project {{projectData.projectName}}</h1>
+<h4>Description: {{projectData.projectDescription}}</h4>
 
-<div class="container" ng-controller="TicketAddingController" ng-init="creation=true">
-    <a class="btn btn-default" href ng-click="show(true)">Add ticket</a>
-    <a ng-if="isSelectedTask" class="btn btn-default" href ng-click="show(false)">Edit ticket</a>
+<div class="container"  ng-init="creation=true">
+    <a class="btn btn-default" href ng-click="show(true,0)">Add ticket</a>
+    <a ng-disabled="!isSelectedTask" class="btn btn-default" href ng-click="show(false,0)">Edit ticket</a>
+    <button type="button" ng-click="openUsersModal(currentProject)" class="btn btn-default" ng-show="getUserRole()=='Admin'">
+        <i class="glyphicon glyphicon-user"></i>Assigned users
+    </button>
+       
+   
 </div>
 <table width="500" class="table table-hover">
     <tr><th>Name</th><th>Created by</th><th>Assigned to</th><th>Priority</th><th>Status:</th></tr>
     <tr>
         <td><input type="text" class='form-control input-sm' ng-model="search.taskName" /></td>
-        <td><input type="text" class='form-control input-sm' ng-model="search.userCreatedId" /></td>
-        <td><input type="text" class='form-control input-sm' ng-model="search.userAssignedId" /></td>
+        <td><input type="text" class='form-control input-sm' ng-model="search.userCreated" /></td>
+        <td><input type="text" class='form-control input-sm' ng-model="search.userAssigned" /></td>
         <td><input type="text" class='form-control input-sm' ng-model="search.taskPriority" /></td>
         <td><input type="text" class='form-control input-sm' ng-model="search.taskStatus" /></td>
         

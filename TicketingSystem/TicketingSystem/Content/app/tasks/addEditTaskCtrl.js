@@ -3,7 +3,7 @@
 
 tasksUpdatingModule.controller('TicketAddingController', function ($scope, ModalService) {
    
-   
+   /*
     $scope.show = function (creation) {
 
         $scope.selectedTaskIndex = $scope.$parent.selectedTaskIndex;
@@ -30,5 +30,6 @@ tasksUpdatingModule.controller('TicketAddingController', function ($scope, Modal
 
 
     };
+    */
 });
 }(angular));

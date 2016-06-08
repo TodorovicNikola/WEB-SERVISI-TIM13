@@ -5,6 +5,7 @@
     appProjectsModule.factory('Projects', function ($http) {
         'use strict';
         var projectSelectedId;
+       
         return {
             getProjects: function () {
                 return $http.get('../../api/projects');
@@ -17,7 +18,8 @@
             getCurrentProjectId:function()
             {
                 return 5;
-            }
+            },
+           
             
         };
     });

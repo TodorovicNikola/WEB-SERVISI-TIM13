@@ -1,31 +1,99 @@
 ﻿(function (angular) {
-    var tasksControllerModule = angular.module('app.TasksCtrl', ['app.Task.resource','app.Comment.resource']);
-    
-    var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', 'Task','Comment', function ($scope, Tasks, $stateParams, $http, AuthenticationService, Task,Comment) {
-    
+    var tasksControllerModule = angular.module('app.TasksCtrl', ['app.Task.resource', 'app.Comment.resource', 'angularModalService', 'app.Project.resource']);
+
+    var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', 'Task', 'Comment', 'Project', 'ModalService', function ($scope, Tasks, $stateParams, $http, AuthenticationService, Task, Comment, Project, ModalService) {
+
         console.log('project id ' + $stateParams.id);
         console.log('task id ' + $stateParams.taskId);
         $scope.currentProject = $stateParams.id;
+        $scope.dummyProject = {};
+        $scope.dummyProject.projectID = $scope.currentProject;
         $scope.currentTask = $stateParams.taskId;
-        $scope.unselectTask=function()
-        {
+        $scope.projectData = {};
+
+        $scope.unselectTask = function () {
             $scope.isSelectedTask = false;
             $scope.selectedTaskIndex = -1;
 
         }
 
-        $scope.selectTask=function(index)
-        {
+        $scope.selectTask = function (index) {
             if ($scope.selectedTaskIndex == index && $scope.isSelectedTask) {
                 $scope.unselectTask();
             }
             else {
                 $scope.isSelectedTask = true;
                 $scope.selectedTaskIndex = index;
-               
+
             }
         }
-       
+
+
+        $scope.show = function (creation, from) {
+            if (from === 0) {
+                $scope.selectedTaskIndex = $scope.selectedTaskIndex;
+                $scope.selectedTask = $scope.tasks[$scope.selectedTaskIndex];
+            }
+            else {
+                $scope.selectedTask = $scope.currentTask;
+            }
+            $scope.creation = creation;
+
+            ModalService.showModal({
+                scope: $scope,
+                templateUrl: 'Content/app/tasks/views/addEditTask.html',
+                controller: "ModalTicketController"
+            }).then(function (modal) {
+                modal.element.modal();
+                modal.close.then(function (result) {
+                    if (result !== 'No' && result !== 'Error') {
+
+                        if ($scope.creation) {
+
+                            $scope.tasks.push(result);
+                        }
+                        else {
+                            if (from === 0) {
+                                $scope.tasks[$scope.selectedTaskIndex] = result.taskDto;
+                            }
+                            else {
+                                var changes = angular.copy($scope.currentTask.changes);
+                                var comments = angular.copy($scope.currentTask.comments);
+                                $scope.currentTask = result.taskDto;
+                                $scope.currentTask.userAssignedID = result.taskDto.userAssigned;
+                                $scope.currentTask.userCreatedID = result.taskDto.userCreated;
+                                $scope.currentTask.ticketID = result.taskDto.ticketId;
+                                changes.push(result.changeDto);
+                                $scope.currentTask.changes = changes;
+                                $scope.currentTask.comments = comments;
+
+                                console.log(result.ticketDto);
+                               
+                            }
+
+                        }
+                    }
+                });
+            });
+
+        };
+
+
+
+        $scope.openUsersModal = function () {
+            ModalService.showModal({
+                templateUrl: 'Content/app/projects/assignUserModal.html',
+                controller: 'assignUserModalController',
+                inputs: {
+                    project: $scope.dummyProject
+                }
+            }).then(function (modal) {
+                modal.element.modal();
+                modal.close.then(function (result) {
+
+                });
+            });
+        }
 
         $scope.getUserName = function () {
             return AuthenticationService.getCurrentUser().username;
@@ -38,7 +106,7 @@
             $scope.tasks = Task.getAll({ projectId: $scope.currentProject })
         }
 
-       
+
 
         $scope.init = function () {
             $scope.priorities = [{ value: "Blocker", name: "Blocker" }, { value: "Critical", name: "Critical" }, { value: "Major", name: "Major" }, { value: "Minor", name: "Minor" }, { value: "Trivial", name: "Trivial" }];
@@ -109,8 +177,7 @@
 
         }
         $scope.getTimeString = function (stringTime) {
-            if (stringTime === null || stringTime === undefined)
-            {
+            if (stringTime === null || stringTime === undefined) {
                 return null;
             }
             var momentInTime = new Date(stringTime);
@@ -153,52 +220,65 @@
             );
         }
 
-            $scope.sendComment = function () {
-                var momentInTime = new Date();
-                //var data = { "CommentContent": $scope.commentContent, "CommentCreated": momentInTime, "TaskID": $scope.currentTask.ticketID, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
-                /*$http.post(
-                    '/api/Comments',
-                    JSON.stringify(data),
-                    {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
+        $scope.sendComment = function () {
+            var momentInTime = new Date();
+            //var data = { "CommentContent": $scope.commentContent, "CommentCreated": momentInTime, "TaskID": $scope.currentTask.ticketID, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
+            /*$http.post(
+                '/api/Comments',
+                JSON.stringify(data),
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-                ).success(function (data) {
-    
-                    $scope.currentTask.comments.push(data);
-                });
-                */
-            
-                var comment = new Comment();
-                comment.commentContent = $scope.commentContent;
-                comment.commentCreated=momentInTime;
-                comment.taskID=$scope.currentTask.ticketID;
-                comment.projectID=$scope.currentProject;
-                comment.userWroteID = $scope.getUserName();
+                }
+            ).success(function (data) {
 
-                comment.$save(
+                $scope.currentTask.comments.push(data);
+            });
+            */
+
+            var comment = new Comment();
+            comment.commentContent = $scope.commentContent;
+            comment.commentCreated = momentInTime;
+            comment.taskID = $scope.currentTask.ticketID;
+            comment.projectID = $scope.currentProject;
+            comment.userWroteID = $scope.getUserName();
+
+            comment.$save(
+            function (data) {
+                $scope.currentTask.comments.push(data);
+                console.log("Successfully added comment !");
+            }, function (error) {
+
+                console.log("Error adding comment !");
+            });
+
+
+        }
+        $scope.getProjectDetails = function (projectId) {
+
+            Project.get({ projectId: projectId },
                 function (data) {
-                    $scope.currentTask.comments.push(data);
-                    console.log("Successfully added comment !");
-                }, function (error) {
 
-                    console.log("Error adding comment !");
-                });
+                    $scope.projectData = data;
+                },
+                function (error) {
+                    console.log('Error while getting project details');
+                }
+            )
+        }
+        //if !==undefined it means that the address was /projects/smtg/tasks
+        //and that detail preview was needed
+        //else it means that we need to display list of tasks from that project
+        if ($scope.currentTask !== undefined) {
 
+            $scope.getTaskDetails();
+        }
+        else {
+            $scope.init();
+            $scope.getProjectDetails($scope.currentProject);
 
-            }
-
-            //if !==undefined it means that the address was /projects/smtg/tasks
-            //and that detail preview was needed
-            //else it means that we need to display list of tasks from that project
-            if ($scope.currentTask !== undefined) {
-                $scope.getTaskDetails();
-            }
-            else {
-                $scope.init();
-            
-            }
-        }];
-        tasksControllerModule.controller('TasksCtrl', tasksController);
-    }(angular));
+        }
+    }];
+    tasksControllerModule.controller('TasksCtrl', tasksController);
+}(angular));

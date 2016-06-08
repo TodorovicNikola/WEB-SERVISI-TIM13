@@ -1,5 +1,5 @@
-﻿<h1>Task details {{projectName}}</h1>
-
+﻿<h1>Task details</h1>
+<a class="btn btn-default" href ng-click="show(false,1)">Edit ticket</a>
 <div>
     <table>
         <tr>
@@ -50,26 +50,30 @@
                 <h4>Changes</h4>
                 <div class="pre-scrollable" style="height:150px;">
                     <table class="table">
-                        <tr>
-                            <th>Changed on:</th>
-                            <th>Change made by:</th>
-                            <th>Name:</th>
-                            <th>Assigned to:</th>
-                            <th>Due date:</th>
-                            <th>Status:</th>
-                            <th>Priority:</th>
-                            <th>Description:</th>
-                        </tr>
-                        <tr ng-repeat="change in currentTask.changes">
-                            <td>{{getTimeString(change.changeDate)}}</td>
-                            <td>{{change.userThatChangedID}}</td>
-                            <td>{{change.changeName}}</td>
-                            <td>{{change.changeUserAssignedID}}</td>
-                            <td>{{getTimeString(change.changeTaskUntil)}}</td>
-                            <td>{{change.changeStatus}}</td>
-                            <td>{{change.changePriority}}</td>
-                            <td>{{change.changeDescription}}</td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Changed on:</th>
+                                <th>Change made by:</th>
+                                <th>Name:</th>
+                                <th>Assigned to:</th>
+                                <th>Due date:</th>
+                                <th>Status:</th>
+                                <th>Priority:</th>
+                                <th>Description:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="change in currentTask.changes">
+                                <td>{{getTimeString(change.changeDate)}}</td>
+                                <td>{{change.userThatChangedID}}</td>
+                                <td>{{change.changeName}}</td>
+                                <td>{{change.changeUserAssignedID}}</td>
+                                <td>{{getTimeString(change.changeTaskUntil)}}</td>
+                                <td>{{change.changeStatus}}</td>
+                                <td>{{change.changePriority}}</td>
+                                <td>{{change.changeDescription}}</td>
+                            </tr>
+                        </tbody>
 
                     </table>
                 </div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TicketingSystem.DAL.Models;
 
 namespace TicketingSystem.DTOs
 {
@@ -12,5 +13,15 @@ namespace TicketingSystem.DTOs
         public String UserName { get; set; }
         public String Password { get; set; }
         public String Email { get; set; }
+
+        public UserDTO() { }
+
+        public UserDTO(TicketingSystemUser user)
+        {
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            UserName = user.UserName;
+            Email = user.Email;
+        }
     }
 }

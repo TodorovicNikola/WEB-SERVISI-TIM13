@@ -18,6 +18,8 @@ namespace TicketingSystem.DTOs
 
         public String TaskPriority { get; set; }
 
+        public DateTime TaskCreated { get; set; }
+
         public DateTime TaskFrom { get; set; }
 
         public DateTime TaskUntil { get; set; }
@@ -41,6 +43,7 @@ namespace TicketingSystem.DTOs
             this.TaskUntil = t.TaskUntil;
             this.UserAssigned = t.UserAssignedID;
             this.UserCreated = t.UserCreatedID;
+            this.TaskCreated = t.TaskCreated;
         }
     }
 

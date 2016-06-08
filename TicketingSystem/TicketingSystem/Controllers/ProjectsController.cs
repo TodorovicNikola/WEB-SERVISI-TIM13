@@ -17,7 +17,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace TicketingSystem.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -163,6 +163,165 @@ namespace TicketingSystem.Controllers
                     where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
                     select p).AsQueryable();
 
+        }
+
+        // GET: api/Projects/5/Assigned
+        [Route("api/projects/{projectId}/assignedPercent")]
+        [ResponseType(typeof(ProjectTicketsDTO))]
+        public IHttpActionResult GetAssignedReport(int projectId)
+        {
+            var users = (from u in db.Users.Include(u => u.AssignedProjects)
+                         where u.AssignedProjects.Any(p => p.ProjectID == projectId)
+                         select u).AsQueryable();
+
+            var project = db.Projects.Find(projectId);
+            var tasks = (from t in db.Tickets
+                         where t.ProjectID == projectId
+                         select t).AsQueryable();
+
+            int unassigned = 0;
+
+            Dictionary<String, int> assigned = new Dictionary<String, int>();
+            Dictionary<String, TicketingSystemUser> usersDict = new Dictionary<String, TicketingSystemUser>();
+
+            foreach (var u in users)
+            {
+                assigned.Add(u.UserName, 0);
+                usersDict.Add(u.UserName, u);
+            }
+
+            foreach (var t in tasks)
+            {
+                if (t.UserAssigned != null)
+                {
+                    if (assigned.ContainsKey(t.UserAssigned.UserName))
+                    {
+                        assigned[t.UserAssigned.UserName] += 1;
+                    }
+                    else
+                    {
+                        usersDict.Add(t.UserAssigned.UserName, t.UserAssigned);
+                        assigned.Add(t.UserAssigned.UserName, 0);
+                    }
+                }
+                else
+                {
+                    unassigned++;
+                }
+            }
+
+            var ret = new ProjectTicketsDTO();
+            ret.Project = new ProjectDTO(project);
+
+            ret.Users = new LinkedList<Tuple<UserDTO, Double>>();
+            foreach (var u in assigned.Keys)
+            {
+                var tpl = new Tuple<UserDTO, Double>(new UserDTO(usersDict[u]), assigned[u]*1.0/tasks.Count());
+                ret.Users.Add(tpl);
+            }
+
+            ret.Unassigned = unassigned * 1.0 / tasks.Count();
+
+            return Ok(ret);
+        }
+
+        // GET: api/Projects/5/Finished
+        [Route("api/projects/{projectId}/finishedPercent")]
+        [ResponseType(typeof(ProjectTicketsDTO))]
+        public IHttpActionResult GetFinishedReport(int projectId)
+        {
+            var users = (from u in db.Users.Include(u => u.AssignedProjects)
+                         where u.AssignedProjects.Any(p => p.ProjectID == projectId)
+                         select u).AsQueryable();
+
+            var project = db.Projects.Find(projectId);
+            var tasks = (from t in db.Tickets
+                         where t.ProjectID == projectId && t.TaskStatus == "Done"
+                         select t).AsQueryable();
+
+            int unassigned = 0;
+
+            Dictionary<String, int> assigned = new Dictionary<String, int>();
+            Dictionary<String, TicketingSystemUser> usersDict = new Dictionary<String, TicketingSystemUser>();
+
+            foreach (var u in users)
+            {
+                assigned.Add(u.UserName, 0);
+                usersDict.Add(u.UserName, u);
+            }
+
+            foreach (var t in tasks)
+            {
+                if (t.UserAssigned != null)
+                {
+                    if (assigned.ContainsKey(t.UserAssigned.UserName))
+                    {
+                        assigned[t.UserAssigned.UserName] += 1;
+                    }
+                    else
+                    {
+                        usersDict.Add(t.UserAssigned.UserName, t.UserAssigned);
+                        assigned.Add(t.UserAssigned.UserName, 0);
+                    }
+                }
+                else
+                {
+                    unassigned++;
+                }
+            }
+
+            var ret = new ProjectTicketsDTO();
+            ret.Project = new ProjectDTO(project);
+
+            ret.Users = new LinkedList<Tuple<UserDTO, Double>>();
+            foreach (var u in assigned.Keys)
+            {
+                var tpl = new Tuple<UserDTO, Double>(new UserDTO(usersDict[u]), assigned[u] * 1.0 / tasks.Count());
+                ret.Users.Add(tpl);
+            }
+
+            ret.Unassigned = unassigned * 1.0 / tasks.Count();
+
+            return Ok(ret);
+        }
+         
+        // GET: api/Projects/5/Finished
+        [Route("api/projects/{projectId}/created")]
+        public IHttpActionResult GetCreatedTickets(int projectId)
+        {
+            var project = db.Projects.Find(projectId);
+            var tasks = (from t in db.Tickets
+                         where t.ProjectID == projectId
+                         orderby t.TaskCreated
+                         select t).AsQueryable();
+
+            List<TaskDto> sortedTasks = new List<TaskDto>();
+
+            foreach (var t in tasks)
+            {
+                sortedTasks.Add(new TaskDto(t));
+            }
+
+            return Ok(sortedTasks);
+        }
+
+        [Route("api/projects/{projectId}/finished")]
+        public IHttpActionResult GetFinishedTickets(int projectId)
+        {
+            var project = db.Projects.Find(projectId);
+            var tasks = (from t in db.Tickets
+                         where t.ProjectID == projectId && t.TaskStatus == "Done"
+                         orderby t.TaskCreated
+                         select t).AsQueryable();
+
+            List<TaskDto> sortedTasks = new List<TaskDto>();
+
+            foreach (var t in tasks)
+            {
+                sortedTasks.Add(new TaskDto(t));
+            }
+
+            return Ok(sortedTasks);
         }
 
         protected override void Dispose(bool disposing)

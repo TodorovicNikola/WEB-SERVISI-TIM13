@@ -57,6 +57,22 @@
             });
         }
 
+        $scope.openReportModal = function (selectedProject, reportType) {
+            ModalService.showModal({
+                templateUrl: 'Content/app/projects/reports/projectReportModal.html',
+                controller: 'reportModalController',
+                inputs: {
+                    reportType: reportType,
+                    selectedProject: selectedProject
+                }
+            }).then(function (modal) {
+                modal.element.modal();
+                modal.close.then(function (result) {
+
+                });
+            });
+        }
+
         $scope.init = function () {
             var projects = Project.query(function () {
                 $scope.projects = projects;

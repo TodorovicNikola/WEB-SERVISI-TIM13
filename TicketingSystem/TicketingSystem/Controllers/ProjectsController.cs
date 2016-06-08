@@ -14,10 +14,11 @@ using TicketingSystem.DAL.Models;
 using System.Linq.Expressions;
 using TicketingSystem.DTOs;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 namespace TicketingSystem.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ProjectsController : ApiController
     {
         private TicketingSystemDBContext db = new TicketingSystemDBContext();
@@ -36,24 +37,26 @@ namespace TicketingSystem.Controllers
         }
 
         // GET: api/Projects
-        public async Task<IQueryable<Project>> GetProjects()
+        public IHttpActionResult GetProjects()
         {
-            bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
+            bool isAdmin = UserManager.IsInRole(User.Identity.Name, "Admin");
 
-            if(isAdmin)
+            if (isAdmin)
             {
-                return db.Projects.Include(p => p.AssignedUsers).Include(p => p.Tasks);
+                return Ok(db.Projects.Include(p => p.Tasks));
             }
             var projects = (from p in db.Projects.Include(p => p.AssignedUsers).Include(t => t.Tasks)
-                    where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
-                    select p).AsQueryable();
+                            where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
+                            select p).AsQueryable();
 
-            foreach(var p in projects)
+            foreach (var p in projects)
             {
                 p.AssignedUsers = null;
             }
 
-            return projects;
+            return Ok(projects);
+
+            //return Ok(db.Projects);
         }
 
 
@@ -168,6 +171,7 @@ namespace TicketingSystem.Controllers
         // GET: api/Projects/5/Assigned
         [Route("api/projects/{projectId}/assignedPercent")]
         [ResponseType(typeof(ProjectTicketsDTO))]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult GetAssignedReport(int projectId)
         {
             var users = (from u in db.Users.Include(u => u.AssignedProjects)
@@ -216,11 +220,11 @@ namespace TicketingSystem.Controllers
             ret.Users = new LinkedList<Tuple<UserDTO, Double>>();
             foreach (var u in assigned.Keys)
             {
-                var tpl = new Tuple<UserDTO, Double>(new UserDTO(usersDict[u]), assigned[u]*1.0/tasks.Count());
+                var tpl = new Tuple<UserDTO, Double>(new UserDTO(usersDict[u]), Math.Round(assigned[u] * 1.0 / tasks.Count(), 4));
                 ret.Users.Add(tpl);
             }
 
-            ret.Unassigned = unassigned * 1.0 / tasks.Count();
+            ret.Unassigned = Math.Round(unassigned * 1.0 / tasks.Count(), 4);
 
             return Ok(ret);
         }
@@ -228,6 +232,7 @@ namespace TicketingSystem.Controllers
         // GET: api/Projects/5/Finished
         [Route("api/projects/{projectId}/finishedPercent")]
         [ResponseType(typeof(ProjectTicketsDTO))]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult GetFinishedReport(int projectId)
         {
             var users = (from u in db.Users.Include(u => u.AssignedProjects)
@@ -276,17 +281,18 @@ namespace TicketingSystem.Controllers
             ret.Users = new LinkedList<Tuple<UserDTO, Double>>();
             foreach (var u in assigned.Keys)
             {
-                var tpl = new Tuple<UserDTO, Double>(new UserDTO(usersDict[u]), assigned[u] * 1.0 / tasks.Count());
+                var tpl = new Tuple<UserDTO, Double>(new UserDTO(usersDict[u]), Math.Round(assigned[u] * 1.0 / tasks.Count(), 4));
                 ret.Users.Add(tpl);
             }
 
-            ret.Unassigned = unassigned * 1.0 / tasks.Count();
+            ret.Unassigned = Math.Round(unassigned * 1.0 / tasks.Count(), 4);
 
             return Ok(ret);
         }
          
         // GET: api/Projects/5/Finished
         [Route("api/projects/{projectId}/created")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult GetCreatedTickets(int projectId)
         {
             var project = db.Projects.Find(projectId);
@@ -306,6 +312,7 @@ namespace TicketingSystem.Controllers
         }
 
         [Route("api/projects/{projectId}/finished")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult GetFinishedTickets(int projectId)
         {
             var project = db.Projects.Find(projectId);

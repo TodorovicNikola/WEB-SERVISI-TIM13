@@ -15,6 +15,26 @@
             <i class="glyphicon glyphicon-user"></i>Assigned users
         </button>
     </div>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="openReportModal(selected, 'assignedPercent')" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-list"></i>Assigned percentage
+        </button>
+    </div>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="openReportModal(selected, 'finishedPercent')" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-list"></i>Finished percentage
+        </button>
+    </div>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="openReportModal(selected, 'created')" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-list"></i>Creation timeline
+        </button>
+    </div>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="openReportModal(selected, 'finished')" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-list"></i>Finish timeline
+        </button>
+    </div>
 
     <div>
         <table class="table table-hover">

@@ -1,24 +1,29 @@
 
 <html>
 <head>
-   
+
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://getbootstrap.com/dist/css/bootstrap.css">
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
-    <script src="https://code.angularjs.org/1.4.9/angular.min.js"></script>
+    <!--<script src="https://code.angularjs.org/1.4.9/angular.min.js"></script>-->
     <link rel="stylesheet" href="Content/app/bower_components/angularjs-datetime-picker/angularjs-datetime-picker.css" />
-    
-   
-   
+
+    <link rel="stylesheet" href="Content/app/bower_components/angular-chart.js/dist/angular-chart.css">
+    <link rel="stylesheet" href="Content/app/bower_components/angular-timeline/dist/angular-timeline.css" />
+
     <script src="Content/app/bower_components/angular/angular.js"></script>
     <script src="Content/app/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="Content/app/bower_components/angular-modal-service/dst/angular-modal-service.min.js"></script>  
+    <script src="Content/app/bower_components/angular-modal-service/dst/angular-modal-service.min.js"></script>
     <script src="Content/app/bower_components/ngstorage/ngStorage.js"></script>
     <script src="Content/app/bower_components/angular-jwt/dist/angular-jwt.js"></script>
     <script src="Content/app/bower_components/angular-resource/angular-resource.js"></script>
     <script src="Content/app/bower_components/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
+    <script src="Content/app/bower_components/angular-timeline/dist/angular-timeline.js"></script>
+
+    <script src="Content/app/bower_components/Chart.js/Chart.js"></script>
+    <script src="Content/app/bower_components/angular-chart.js/dist/angular-chart.js"></script>
 
     <script src="Content/app/app.js"></script>
     <script src="Content/app/controllers.js"></script>
@@ -40,13 +45,14 @@
     <script src="Content/app/projects/projectsController.js"></script>
     <script src="Content/app/projects/projectModalController.js"></script>
     <script src="Content/app/projects/assignUserModalController.js"></script>
+    <script src="Content/app/projects/reports/reportModalController.js"></script>
     <script src="Content/app/projects/project.js"></script>
 
 
     <script src="Content/app/tasks/tasksService.js"></script>
-   
+
     <script src="Content/app/utils/authentication.js"></script>
-   
+
     <script src="Content/app/users/login.js"></script>
     <script src="Content/app/users/register.js"></script>
     <script src="Content/app/users/userResource.js"></script>
@@ -58,16 +64,16 @@
     <link rel="stylesheet" href="Content/app/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css" />
     <script type="text/javascript" src="Content/app/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
     <script type="text/javascript" src="Content/app/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
-   
-        
+
+
     <script src="Content/app/bower_components/lodash/dist/lodash.js"></script>
     <script type="text/javascript" src="Content/app/bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
 
-   <!-- <link href="Content/bootstrap.min.css" rel="stylesheet" />-->
+    <!-- <link href="Content/bootstrap.min.css" rel="stylesheet" />-->
     <link href="Content/Site.css" rel="stylesheet" />
 </head>
 <body ng-app="app">
- 
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -92,7 +98,7 @@
         </div>
     </div>
     <div class="container body-content">
-        <div ui-view >
+        <div ui-view>
 
 
         </div>

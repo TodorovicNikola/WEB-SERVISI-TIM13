@@ -13,7 +13,9 @@
     "angularjs-dropdown-multiselect": "^1.5.2",
     "angularjs-datetime-picker": "^0.1.20",
     "moment": "^2.13.0",
-    "angular-bootstrap-datetimepicker": "^1.0.1"
+    "angular-bootstrap-datetimepicker": "^1.0.1",
+    "angular-chart.js": "^0.10.2",
+    "angular-timeline": "^1.6.2"
   },
   "devDependencies": {},
   "appPath": "client",

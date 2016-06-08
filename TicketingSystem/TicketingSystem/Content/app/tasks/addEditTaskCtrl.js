@@ -11,7 +11,7 @@ tasksUpdatingModule.controller('TicketAddingController', function ($scope, Modal
         $scope.creation = creation;
         ModalService.showModal({
             scope: $scope,
-            templateUrl: 'addEditTask.html',
+            templateUrl: 'Content/app/tasks/views/addEditTask.html',
             controller: "ModalTicketController"
         }).then(function (modal) {
             modal.element.modal();

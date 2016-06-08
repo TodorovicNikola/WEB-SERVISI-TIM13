@@ -51,10 +51,12 @@
 
         $scope.getTaskDetails = function () {
 
-            Tasks.getTask($scope.currentProject, $scope.currentTask).success(function (data) {
+            /*Tasks.getTask($scope.currentProject, $scope.currentTask).success(function (data) {
                 $scope.currentTask = data;
 
             });
+            */
+            $scope.currentTask = Task.get({ projectId: $scope.currentProject, taskId: $scope.currentTask });
         }
 
         $scope.editComment = function (commentId, index, commentContent) {

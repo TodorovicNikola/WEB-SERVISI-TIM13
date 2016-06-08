@@ -43,7 +43,7 @@
         $scope.validateForm = function () {
 
             if (!$scope.userName || !$scope.password || !$scope.repeatedPassword || !$scope.firstName
-                || !$scope.lastName || !$scope.email || ($scope.password === !$scope.repeatedPassword)) {
+                || !$scope.lastName || !$scope.email || ($scope.password === $scope.repeatedPassword)) {
                 return false;
             }
             return true;

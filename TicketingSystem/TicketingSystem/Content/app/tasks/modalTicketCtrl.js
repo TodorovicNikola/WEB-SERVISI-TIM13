@@ -1,7 +1,7 @@
 ﻿(function (angular) {
-    var modalTicketModule = angular.module('ModalTicketModule', []);
+    var modalTicketModule = angular.module('ModalTicketModule', ['app.Task.resource']);
 
-    modalTicketModule.controller('ModalTicketController', function ($scope, $http, close, AuthenticationService, $stateParams) {
+    modalTicketModule.controller('ModalTicketController', function ($scope, $http, close, AuthenticationService, $stateParams,Task) {
         
         var userCreatedId = AuthenticationService.getCurrentUser().username;
         var currentProjectId = $stateParams.id;
@@ -40,8 +40,26 @@
         $scope.sendTicket = function () {
 
             var momentInTime = new Date();
-            var data = { "TaskUntil": $scope.ticketToBeFinishedOn, "ProjectID": currentProjectId, "TaskFrom": momentInTime, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": userCreatedId, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo, "TaskDescription": $scope.ticketDescription };
-            $http.post(
+            var ticket = new Task();
+            ticket.taskUntil = $scope.ticketAssignedTo;
+            ticket.projectId=currentProjectId;
+            ticket.taskFrom=momentInTime;
+            ticket.taskDescription=$scope.ticketDescription;
+            ticket.taskPriority=$scope.ticketPriority;
+            ticket.userCreatedId=userCreatedId;
+            ticket.taskName=$scope.ticketName;
+            ticket.userAssignedId = $scope.ticketAssignedTo;
+            ticket.taskStatus = $scope.ticketStatus;
+            ticket.taskUntil = $scope.ticketToBeFinishedOn;
+            /*
+            var data = { "TaskUntil": $scope.ticketToBeFinishedOn, "ProjectID":
+                currentProjectId, "TaskFrom": momentInTime,
+                "TaskPriority": $scope.ticketPriority, "TaskStatus":
+                    $scope.ticketStatus, "UserCreatedId": userCreatedId,
+                    "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo,
+                    "TaskDescription": $scope.ticketDescription };
+            */
+            /*$http.post(
                 'api/Projects/' + currentProjectId + '/Tasks',
                 JSON.stringify(data),
                 {
@@ -57,6 +75,15 @@
                 close('Error');
                 alert("Error creating");
             });
+            */
+            ticket.$save(
+             function (data) {
+                 close(data);
+                 alert("Success !");
+             }, function (error) {
+                 close('Error');
+                 alert("Error creating ticket !");
+             });
 
         }
     
@@ -72,7 +99,8 @@
 
             var momentInTime = new Date();
             var dataUpdate = { "TicketID": $scope.ticketId, "TaskUntil": $scope.ticketToBeFinishedOn, "ProjectID": currentProjectId, "TaskFrom": momentInTime, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": userCreatedId, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo, "TaskDescription": $scope.ticketDescription };
-            $http.put(
+            
+            /*$http.put(
                 'api/Projects/' + currentProjectId + '/Tasks/' + $scope.ticketId,
                 JSON.stringify(dataUpdate),
                 {
@@ -88,6 +116,19 @@
                 close('Error');
                 alert("Error updating");
             });
+            */
+            Task.update({ projectId: currentProjectId, taskId: $scope.ticketId }, dataUpdate,
+               function (data) {
+                   close(data);
+                   alert('Updated !');
+               },function (error) {
+                   close('Error');
+                   alert("Error updating");
+               });
+                
+            
+
+          
 
         }
 

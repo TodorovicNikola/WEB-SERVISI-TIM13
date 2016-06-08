@@ -8,14 +8,19 @@
 			},
 			{
 			    update: { method: 'PUT' },
-                getAll: {
-                    method: 'GET',
-                    params: {
-                        projectId: '@projectId',
-                    },
-                    isArray: true
-                }
-            });
+			    getAll: {
+			        method: 'GET',
+			        params: {
+			            projectId: '@projectId',
+			        },
+			        isArray: true
+			    },
+			    getSingleTask : {
+			        method:'GET',
+			        params :{projectId:'@projectId', taskId:'@taskId'}
+			    }
+			}
+            );
 	    return task;
 	})
 }(angular));

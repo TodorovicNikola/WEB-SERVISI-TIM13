@@ -1,7 +1,7 @@
 ﻿(function (angular) {
-    var tasksControllerModule = angular.module('app.TasksCtrl', ['app.Task.resource']);
+    var tasksControllerModule = angular.module('app.TasksCtrl', ['app.Task.resource','app.Comment.resource']);
     
-    var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', 'Task', function ($scope, Tasks, $stateParams, $http, AuthenticationService, Task) {
+    var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', 'Task','Comment', function ($scope, Tasks, $stateParams, $http, AuthenticationService, Task,Comment) {
     
         console.log('project id ' + $stateParams.id);
         console.log('task id ' + $stateParams.taskId);
@@ -76,7 +76,7 @@
             var commentIndex = comments.length - $scope.commentEditingIndex - 1;
             comments[commentIndex].commentContent = commentContent;
             //console.log($scope.commentId + ' ' + $scope.commentEditingIndex + ' ' + commentContent);
-            var url = "/api/comments/" + $scope.commentId;
+            /*var url = "/api/comments/" + $scope.commentId;
             $http.put(url,
                 JSON.stringify(comments[commentIndex]),
                 {
@@ -96,6 +96,16 @@
                     })
                     .then(function () {
                     });
+                    */
+            Comment.update({ commentId: $scope.commentId }, comments[commentIndex],
+                function (result) {
+                    console.log('Comment updated');
+                    comments[commentIndex] = result;
+                    $scope.quitEditingComment();
+
+                }, function () {
+                    console.log('Error updating a comment');
+                });
 
         }
         $scope.getTimeString = function (stringTime) {
@@ -119,7 +129,7 @@
             console.log(commentId + ' ' + commentIndex);
             $scope.quitEditingComment();
             var url = "/api/comments/" + commentId;
-            $http.delete(url)
+            /*$http.delete(url)
                 .success(function (result) {
                     var comments = $scope.currentTask.comments;
                     $scope.currentTask.comments.splice(comments.length - commentIndex - 1, 1);
@@ -131,35 +141,64 @@
                 .then(function () {
                     //$window.location = "#/";
                 });
+                */
+            Comment.delete({ commentId: commentId },
+               function () {
+                   var comments = $scope.currentTask.comments;
+                   $scope.currentTask.comments.splice(comments.length - commentIndex - 1, 1);
+                   console.log('Deleted comment');
+               }, function () {
+                   console.log('Error deleting a comment');
+               }
+            );
         }
 
-        $scope.sendComment = function () {
-            var momentInTime = new Date();
-            var data = { "CommentContent": $scope.commentContent, "CommentCreated": momentInTime, "TaskID": $scope.currentTask.ticketID, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
-            $http.post(
-                '/api/Comments',
-                JSON.stringify(data),
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
+            $scope.sendComment = function () {
+                var momentInTime = new Date();
+                //var data = { "CommentContent": $scope.commentContent, "CommentCreated": momentInTime, "TaskID": $scope.currentTask.ticketID, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
+                /*$http.post(
+                    '/api/Comments',
+                    JSON.stringify(data),
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     }
-                }
-            ).success(function (data) {
-
-                $scope.currentTask.comments.push(data);
-            });
-        }
-
-        //if !==undefined it means that the address was /projects/smtg/tasks
-        //and that detail preview was needed
-        //else it means that we need to display list of tasks from that project
-        if ($scope.currentTask !== undefined) {
-            $scope.getTaskDetails();
-        }
-        else {
-            $scope.init();
+                ).success(function (data) {
+    
+                    $scope.currentTask.comments.push(data);
+                });
+                */
             
-        }
-    }];
-    tasksControllerModule.controller('TasksCtrl', tasksController);
-}(angular));
+                var comment = new Comment();
+                comment.commentContent = $scope.commentContent;
+                comment.commentCreated=momentInTime;
+                comment.taskID=$scope.currentTask.ticketID;
+                comment.projectID=$scope.currentProject;
+                comment.userWroteID = $scope.getUserName();
+
+                comment.$save(
+                function (data) {
+                    $scope.currentTask.comments.push(data);
+                    console.log("Successfully added comment !");
+                }, function (error) {
+
+                    console.log("Error adding comment !");
+                });
+
+
+            }
+
+            //if !==undefined it means that the address was /projects/smtg/tasks
+            //and that detail preview was needed
+            //else it means that we need to display list of tasks from that project
+            if ($scope.currentTask !== undefined) {
+                $scope.getTaskDetails();
+            }
+            else {
+                $scope.init();
+            
+            }
+        }];
+        tasksControllerModule.controller('TasksCtrl', tasksController);
+    }(angular));

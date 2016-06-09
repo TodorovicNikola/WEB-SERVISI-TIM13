@@ -9,23 +9,31 @@
         $scope.currentTask = $stateParams.taskId;
         $scope.projectData = {};
 
-        $scope.deleteTask=function()
-        {
-            
-
-            $scope.selectedTask = $scope.tasks[$scope.selectedTaskIndex];
-            Task.delete({
-                taskId: $scope.selectedTask.ticketId,
-                projectId:$scope.currentProject
-            },
-               function () {
-                   $scope.tasks.splice($scope.selectedTaskIndex, 1)
-                   console.log($scope.selectedTaskIndex);
-                   console.log('Deleted task');
-               }, function () {
-                   console.log('Error deleting a task');
-               }
-            );
+        $scope.deleteTask = function () {
+            ModalService.showModal({
+                scope: $scope,
+                templateUrl: 'Content/app/tasks/modal/deleteConfirm.html',
+                controller: "deleteConfirmController"
+            }).then(function (modal) {
+                modal.element.modal();
+                modal.close.then(function (result) {
+                    if (result) {
+                        $scope.selectedTask = $scope.tasks[$scope.selectedTaskIndex];
+                        Task.delete({
+                            taskId: $scope.selectedTask.ticketId,
+                            projectId: $scope.currentProject
+                        },
+                           function () {
+                               $scope.tasks.splice($scope.selectedTaskIndex, 1)
+                               console.log($scope.selectedTaskIndex);
+                               console.log('Deleted task');
+                           }, function () {
+                               console.log('Error deleting a task');
+                           }
+                        );
+                    }
+                })
+            });
         }
         $scope.unselectTask = function () {
             $scope.isSelectedTask = false;
@@ -40,13 +48,12 @@
             else {
                 $scope.isSelectedTask = true;
                 $scope.selectedTaskIndex = index;
-
             }
         }
 
 
         $scope.show = function (creation) {
-           
+
             $scope.selectedTaskIndex = $scope.selectedTaskIndex;
             $scope.selectedTask = $scope.tasks[$scope.selectedTaskIndex];
             $scope.creation = creation;
@@ -58,16 +65,13 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
-                    if (result !== 'No' && result !== 'Error' && result!='Cancel') {
+                    if (result !== 'No' && result !== 'Error' && result != 'Cancel') {
 
                         if ($scope.creation) {
-                             $scope.tasks.push(result);
+                            $scope.tasks.push(result);
                         }
                         else {
                             $scope.tasks[$scope.selectedTaskIndex] = result.taskDto;
-                            
-                        
-
                         }
                     }
                 });
@@ -87,7 +91,6 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
-
                 });
             });
         }
@@ -95,6 +98,7 @@
         $scope.getUserName = function () {
             return AuthenticationService.getCurrentUser().username;
         }
+
         $scope.getUserRole = function () {
             return AuthenticationService.getCurrentUser().role;
         }
@@ -107,8 +111,6 @@
                  console.log('Error while fetching tasks');
              });
         }
-
-
 
         $scope.init = function () {
             $scope.priorities = [{ value: "Blocker", name: "Blocker" }, { value: "Critical", name: "Critical" }, { value: "Major", name: "Major" }, { value: "Minor", name: "Minor" }, {
@@ -155,7 +157,7 @@
         $scope.init();
         $scope.getProjectDetails($scope.currentProject);
 
-       
+
     }];
     tasksControllerModule.controller('TasksCtrl', tasksController);
 }(angular));

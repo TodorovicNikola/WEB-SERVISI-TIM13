@@ -14,9 +14,11 @@
             $scope.selectedTask = $scope.currentTask;
             $scope.creation = creation;
             ModalService.showModal({
-                scope: $scope,
                 templateUrl: 'Content/app/tasks/modal/addEditTask.html',
-                controller: "ModalTicketController"
+                controller: "ModalTicketController",
+                inputs: {
+                    selectedTask: $scope.selectedTask
+                }
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
@@ -57,7 +59,7 @@
             $scope.priorities = [{ value: "Blocker", name: "Blocker" }, { value: "Critical", name: "Critical" }, { value: "Major", name: "Major" }, { value: "Minor", name: "Minor" }, {
                 value: "Trivial", name: "Trivial"
             }];
-            $scope.statuses = [{ value: "To do", name: "To do" }, { value: "In progress", name: "In progress" }, { value: "Verify", name: "Verify" }, {
+            $scope.statuses = [{ value: "To Do", name: "To Do" }, { value: "In Progress", name: "In Progress" }, { value: "Verify", name: "Verify" }, {
                 value: "Done", name: "Done"
             }];
             $scope.commentEditing = false;

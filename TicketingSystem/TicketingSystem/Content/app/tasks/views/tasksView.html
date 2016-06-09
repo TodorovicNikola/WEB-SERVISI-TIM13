@@ -7,7 +7,7 @@
     <a class="btn btn-default" href ng-click="show(true)">Add ticket</a>
     <a ng-disabled="!isSelectedTask" class="btn btn-default" href ng-click="show(false)">Edit ticket</a>
     <a ng-disabled="!isSelectedTask" class="btn btn-default" href ng-click="deleteTask()">Delete ticket</a>
-    <button type="button" ng-click="openUsersModal(currentProject)" class="btn btn-default" ng-show="getUserRole()=='Admin'">
+    <button type="button" ng-click="openUsersModal(currentProject)" class="btn btn-default" ng-show="getCurrentUserRole()=='Admin'">
         <i class="glyphicon glyphicon-user"></i>Assigned users
     </button>
        

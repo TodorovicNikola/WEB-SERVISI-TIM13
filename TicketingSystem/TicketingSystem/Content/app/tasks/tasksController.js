@@ -11,7 +11,6 @@
 
         $scope.deleteTask = function () {
             ModalService.showModal({
-                scope: $scope,
                 templateUrl: 'Content/app/tasks/modal/deleteConfirm.html',
                 controller: "deleteConfirmController"
             }).then(function (modal) {
@@ -59,9 +58,11 @@
             $scope.creation = creation;
 
             ModalService.showModal({
-                scope: $scope,
                 templateUrl: 'Content/app/tasks/modal/addEditTask.html',
-                controller: "ModalTicketController"
+                controller: "ModalTicketController",
+                inputs: {
+                    selectedTask: creation ? null : $scope.selectedTask
+                }
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
@@ -97,10 +98,6 @@
 
         $scope.getUserName = function () {
             return AuthenticationService.getCurrentUser().username;
-        }
-
-        $scope.getUserRole = function () {
-            return AuthenticationService.getCurrentUser().role;
         }
 
         var loadTasks = function () {

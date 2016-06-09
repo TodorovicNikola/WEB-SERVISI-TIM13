@@ -3,13 +3,18 @@
 
     userReportModalControllerModule.controller('userReportModalController', function ($scope, ModalService, $http, selectedUser, close) {
         $scope.selectedUser = selectedUser;
+        $scope.message = '';
 
         $scope.events = [];
 
         $scope.init = function () {
 
             $http.get('../../api/users/' + $scope.selectedUser.userName + '/finished').then(function (response) {
-                console.log(response.data);
+                if (response.data.length == 0) {
+                    $scope.message = 'No data for report.';
+                    return;
+                }
+
                 $scope.events = [];
                 for (var i in response.data) {
                     var badgeCl = '';
@@ -49,6 +54,8 @@
                         content: response.data[i].taskDescription,
                     });
                 };
+            }, function (response) {
+                $scope.message = response.data.message;
             });
 
         }

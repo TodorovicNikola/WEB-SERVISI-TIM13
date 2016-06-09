@@ -37,6 +37,7 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
+                    $('body').removeClass('modal-open');
                     if (result !== 'No' && result !== 'Error') {
                         if (!update) {
                             $scope.users.push(result);
@@ -58,6 +59,7 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
+                    $('body').removeClass('modal-open');
                 });
             });
         }

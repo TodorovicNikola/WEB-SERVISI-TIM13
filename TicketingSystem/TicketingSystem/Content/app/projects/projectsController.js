@@ -31,6 +31,7 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
+                    $('body').removeClass('modal-open');
                     if (result !== 'No' && result !== 'Error') {
                         if (!update) {
                             $scope.projects.push(result);
@@ -52,7 +53,7 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
-
+                    $('body').removeClass('modal-open');
                 });
             });
         }
@@ -68,7 +69,7 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
-
+                    $('body').removeClass('modal-open');
                 });
             });
         }

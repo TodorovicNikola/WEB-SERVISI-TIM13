@@ -30,6 +30,7 @@ namespace TicketingSystem.DTOs
 
         public int TaskNumber { get; set; }
 
+        public String ProjectName { get; set; }
 
         public TaskDto()
         {
@@ -48,6 +49,8 @@ namespace TicketingSystem.DTOs
             this.UserCreated = t.UserCreatedID;
             this.TaskCreated = t.TaskCreated;
             this.TaskNumber = t.TaskNumber;
+
+            ProjectName = t.Project.ProjectName;
         }
     }
 

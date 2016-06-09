@@ -9,6 +9,7 @@ using System.Data.Entity;
 using TicketingSystem.DAL.Models;
 using System.Web.Http;
 using System.Net.Http;
+using TicketingSystem.DTOs;
 
 namespace TicketingSystem.Controllers
 {
@@ -31,18 +32,24 @@ namespace TicketingSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IQueryable<Ticket>> PostFilter(List<String> filterIDs)
+        public async Task<IQueryable<TaskDto>> PostFilter(List<String> filterIDs)
         {
             bool isAdmin = await UserManager.IsInRoleAsync(User.Identity.Name, "Admin");
 
             List<Ticket> _ticketList = new List<Ticket>();
             List<Ticket> _resultTicketList = new List<Ticket>();
+            List<TaskDto> _resultTicketDTOList = new List<TaskDto>();
 
             if (isAdmin)
             {
                 if(filterIDs.Count == 0)
                 {
-                    return _resultTicketList.AsQueryable();
+                    foreach (var t in _resultTicketList)
+                    {
+                        _resultTicketDTOList.Add(new TaskDto(t));
+                    }
+
+                    return _resultTicketDTOList.AsQueryable();
                 }
 
                 
@@ -66,7 +73,12 @@ namespace TicketingSystem.Controllers
                 _resultTicketList.AddRange(_ticketList.Where(t => t.TaskPriority == _filterID));
             }
 
-            return _resultTicketList.AsQueryable();
+            foreach (var t in _resultTicketList)
+            {
+                _resultTicketDTOList.Add(new TaskDto(t));
+            }
+
+            return _resultTicketDTOList.AsQueryable();
 
         }
     }

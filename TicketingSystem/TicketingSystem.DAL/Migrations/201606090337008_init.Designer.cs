@@ -13,7 +13,7 @@ namespace TicketingSystem.DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201606081332392_init"; }
+            get { return "201606090337008_init"; }
         }
         
         string IMigrationMetadata.Source

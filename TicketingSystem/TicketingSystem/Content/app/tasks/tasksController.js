@@ -1,7 +1,7 @@
 ﻿(function (angular) {
     var tasksControllerModule = angular.module('app.Task.controller', ['app.Task.resource', 'app.Comment.resource', 'angularModalService', 'app.Project.resource']);
 
-    var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', 'Task', 'Comment', 'Project', 'ModalService', function ($scope, Tasks, $stateParams, $http, AuthenticationService, Task, Comment, Project, ModalService) {
+    var tasksController = ['$scope', '$stateParams', '$http', 'AuthenticationService', 'Task', 'Comment', 'Project', 'ModalService', function ($scope, $stateParams, $http, AuthenticationService, Task, Comment, Project, ModalService) {
 
         $scope.currentProject = $stateParams.id;
         $scope.dummyProject = {};

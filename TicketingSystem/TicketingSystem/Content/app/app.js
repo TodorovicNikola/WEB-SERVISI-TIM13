@@ -1,5 +1,5 @@
 (function (angular) {
-    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularjs-dropdown-multiselect', 'app.User', 'app.Project', 'app.Task', 'ui.bootstrap', 'ui.sortable', 'adf', 'adf.structures.base', 'adf.widget.markdown']);
+    var app = angular.module('app', ['ui.router', 'login', 'angularjs-dropdown-multiselect', 'app.User', 'app.Project', 'app.Task','app.Dashboard', 'ui.bootstrap']);
 
     app.config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/dashboard');
@@ -14,11 +14,6 @@
 	        templateUrl: 'Content/app/users/login.html',
 	        controller: 'loginCtrl'
 	    })
-        .state('register', {
-            url: '/register',
-            templateUrl: 'Content/app/users/register.html',
-            controller: 'registerCtrl'
-        })
 	    .state('tasks', {
 	        url: '/projects/:id/tasks',
 	        templateUrl: 'Content/app/tasks/views/tasksView.html',

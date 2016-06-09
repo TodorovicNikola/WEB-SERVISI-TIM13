@@ -1,13 +1,14 @@
 ﻿<h1>Task details</h1>
-<a class="btn btn-default" href ng-click="show(false,1)">Edit ticket</a>
+<a class="btn btn-default" href ng-click="show(false)">Edit ticket</a>
 <div>
     <table>
         <tr>
             <td>
+                <h4>Code: {{projectData.projectCode}}-{{currentTask.taskNumber}}</h4>
                 <h4>Name: {{currentTask.taskName}}</h4>
                 <h4>Assigned to :{{currentTask.userAssignedID}}</h4>
                 <h4>Created by :{{currentTask.userCreatedID}}</h4>
-                <h4>Created: {{getTimeString(currentTask.taskFrom)}}</h4>
+                <h4>Created: {{getTimeString(currentTask.taskCreated)}}</h4>
                 <h4>Due date: {{getTimeString(currentTask.taskUntil)}}</h4>
                 <h4 ng-if="currentTask.taskPriority!==0">Priority: {{currentTask.taskPriority}}</h4>
                 <h4>Status: {{currentTask.taskStatus}}</h4>

@@ -27,7 +27,7 @@
         .state('taskDetails', {
             url: '/projects/:id/tasks/:taskId',
             templateUrl: 'Content/app/tasks/views/taskDetailsView.html',
-            controller: 'TasksCtrl'
+            controller: 'TaskDetailCtrl'
         })
         .state('users', {
             url: '/users',

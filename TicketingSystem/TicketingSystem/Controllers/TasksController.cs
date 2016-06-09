@@ -60,7 +60,8 @@ namespace TicketingSystem.Controllers
                 TaskStatus = x.TaskStatus,
                 UserAssigned = x.UserAssigned.UserName,
                 UserCreated = x.UserCreated.UserName,
-                TicketId = x.TicketID
+                TicketId = x.TicketID,
+                TaskNumber = x.TaskNumber
 
             };
 
@@ -222,6 +223,8 @@ namespace TicketingSystem.Controllers
             }
 
             task.TaskCreated = DateTime.Now;
+            int taskNumber=db.Tickets.Where(t => t.ProjectID == projectId).Max(w => w.TaskNumber)+1;
+            task.TaskNumber=taskNumber;
 
             db.Tickets.Add(task);
             await db.SaveChangesAsync();
@@ -325,13 +328,12 @@ namespace TicketingSystem.Controllers
                 ch.ChangeTaskUntil = null;
             }
 
-            if (n.TaskStatus == "Done")
-            {
+            
                 n.TaskFrom = DateTime.Now;
-            }
+
 
             // TODO change assigned user !!!CHECK!!!
-
+            
             o.TaskDescription = n.TaskDescription;
             o.TaskFrom = n.TaskFrom;
             o.TaskName = n.TaskName;

@@ -1,10 +1,8 @@
 ﻿(function (angular) {
-    var tasksControllerModule = angular.module('app.TasksCtrl', ['app.Task.resource', 'app.Comment.resource', 'angularModalService', 'app.Project.resource']);
+    var tasksControllerModule = angular.module('app.Task.controller', ['app.Task.resource', 'app.Comment.resource', 'angularModalService', 'app.Project.resource']);
 
     var tasksController = ['$scope', 'Tasks', '$stateParams', '$http', 'AuthenticationService', 'Task', 'Comment', 'Project', 'ModalService', function ($scope, Tasks, $stateParams, $http, AuthenticationService, Task, Comment, Project, ModalService) {
 
-        console.log('project id ' + $stateParams.id);
-        console.log('task id ' + $stateParams.taskId);
         $scope.currentProject = $stateParams.id;
         $scope.dummyProject = {};
         $scope.dummyProject.projectID = $scope.currentProject;
@@ -68,7 +66,7 @@
                                 $scope.currentTask.comments = comments;
 
                                 console.log(result.ticketDto);
-                               
+
                             }
 
                         }
@@ -103,14 +101,23 @@
         }
 
         var loadTasks = function () {
-            $scope.tasks = Task.getAll({ projectId: $scope.currentProject })
+            Task.getAll({ projectId: $scope.currentProject },
+             function (data) {
+                 $scope.tasks = data;
+             }, function (error) {
+                 console.log('Error while fetching tasks');
+             });
         }
 
 
 
         $scope.init = function () {
-            $scope.priorities = [{ value: "Blocker", name: "Blocker" }, { value: "Critical", name: "Critical" }, { value: "Major", name: "Major" }, { value: "Minor", name: "Minor" }, { value: "Trivial", name: "Trivial" }];
-            $scope.statuses = [{ value: "To do", name: "To do" }, { value: "In progress", name: "In progress" }, { value: "Verify", name: "Verify" }, { value: "Done", name: "Done" }];
+            $scope.priorities = [{ value: "Blocker", name: "Blocker" }, { value: "Critical", name: "Critical" }, { value: "Major", name: "Major" }, { value: "Minor", name: "Minor" }, {
+                value: "Trivial", name: "Trivial"
+            }];
+            $scope.statuses = [{ value: "To do", name: "To do" }, { value: "In progress", name: "In progress" }, { value: "Verify", name: "Verify" }, {
+                value: "Done", name: "Done"
+            }];
             $scope.commentEditing = false;
             $scope.unselectTask();
 
@@ -119,12 +126,15 @@
 
         $scope.getTaskDetails = function () {
 
-            /*Tasks.getTask($scope.currentProject, $scope.currentTask).success(function (data) {
-                $scope.currentTask = data;
 
-            });
-            */
-            $scope.currentTask = Task.get({ projectId: $scope.currentProject, taskId: $scope.currentTask });
+            Task.get({
+                projectId: $scope.currentProject, taskId: $scope.currentTask
+            }, function (data) {
+                $scope.currentTask = data;
+            }, function (error) {
+                console.log('Error while getting tasks of specific project');
+            }
+            );
         }
 
         $scope.editComment = function (commentId, index, commentContent) {
@@ -143,29 +153,10 @@
             var comments = $scope.currentTask.comments;
             var commentIndex = comments.length - $scope.commentEditingIndex - 1;
             comments[commentIndex].commentContent = commentContent;
-            //console.log($scope.commentId + ' ' + $scope.commentEditingIndex + ' ' + commentContent);
-            /*var url = "/api/comments/" + $scope.commentId;
-            $http.put(url,
-                JSON.stringify(comments[commentIndex]),
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-                    )
-                .success(function (result) {
-                    //console.log(result);
-                    comments[commentIndex] = result;
-                    $scope.quitEditingComment();
 
-                })
-                    .error(function () {
-                        alert("Error updating");
-                    })
-                    .then(function () {
-                    });
-                    */
-            Comment.update({ commentId: $scope.commentId }, comments[commentIndex],
+            Comment.update({
+                commentId: $scope.commentId
+            }, comments[commentIndex],
                 function (result) {
                     console.log('Comment updated');
                     comments[commentIndex] = result;
@@ -196,20 +187,10 @@
             console.log(commentId + ' ' + commentIndex);
             $scope.quitEditingComment();
             var url = "/api/comments/" + commentId;
-            /*$http.delete(url)
-                .success(function (result) {
-                    var comments = $scope.currentTask.comments;
-                    $scope.currentTask.comments.splice(comments.length - commentIndex - 1, 1);
-                    alert("Delete Successfull");
-                })
-                .error(function () {
-                    alert("error");
-                })
-                .then(function () {
-                    //$window.location = "#/";
-                });
-                */
-            Comment.delete({ commentId: commentId },
+
+            Comment.delete({
+                commentId: commentId
+            },
                function () {
                    var comments = $scope.currentTask.comments;
                    $scope.currentTask.comments.splice(comments.length - commentIndex - 1, 1);
@@ -222,20 +203,7 @@
 
         $scope.sendComment = function () {
             var momentInTime = new Date();
-            //var data = { "CommentContent": $scope.commentContent, "CommentCreated": momentInTime, "TaskID": $scope.currentTask.ticketID, "ProjectID": $scope.currentProject, "UserWroteID": $scope.getUserName() };
-            /*$http.post(
-                '/api/Comments',
-                JSON.stringify(data),
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-            ).success(function (data) {
 
-                $scope.currentTask.comments.push(data);
-            });
-            */
 
             var comment = new Comment();
             comment.commentContent = $scope.commentContent;
@@ -257,14 +225,15 @@
         }
         $scope.getProjectDetails = function (projectId) {
 
-            Project.get({ projectId: projectId },
-                function (data) {
-
-                    $scope.projectData = data;
-                },
-                function (error) {
-                    console.log('Error while getting project details');
-                }
+            Project.get({
+                projectId: projectId
+            },
+            function (data) {
+                $scope.projectData = data;
+            },
+            function (error) {
+                console.log('Error while getting project details');
+            }
             )
         }
         //if !==undefined it means that the address was /projects/smtg/tasks

@@ -1,5 +1,5 @@
 (function (angular) {
-    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularjs-dropdown-multiselect', 'app.User', 'app.Project']);
+    var app = angular.module('app', ['app.controllers', 'app.services', 'ui.router', 'login', 'register', 'angularjs-dropdown-multiselect', 'app.User', 'app.Project','app.Task']);
 
     app.config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/dashboard');

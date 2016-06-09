@@ -78,6 +78,10 @@
                 $scope.projects = projects;
             });
         }
+
+        $scope.status = {
+            isopen: false
+        };
         
         $scope.init();
     }];

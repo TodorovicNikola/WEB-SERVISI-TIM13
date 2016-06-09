@@ -226,6 +226,8 @@ namespace TicketingSystem.Controllers
             var allTickets = db.Tickets.Where(t => t.ProjectID == projectId);
             task.TaskNumber = allTickets.Count() > 0 ? allTickets.Max(w => w.TaskNumber) + 1 : 1;
 
+
+
             db.Tickets.Add(task);
             await db.SaveChangesAsync();
             TaskDto taskDto = new TaskDto(task);
@@ -254,6 +256,18 @@ namespace TicketingSystem.Controllers
             {
                 return NotFound();
             }
+
+            List<Comment> commentsToBeRemoved = db.Comments.Where(c => c.TaskID ==task.TicketID).ToList();
+            List<Change> changesToBeRemoved = db.Changes.Where(c => c.TaskID == task.TicketID).ToList();
+            for (var i=0;i<commentsToBeRemoved.Count;i++)
+            {
+                db.Comments.Remove(commentsToBeRemoved[i]);
+            }
+            for (var i = 0; i < changesToBeRemoved.Count; i++)
+            {
+                db.Changes.Remove(changesToBeRemoved[i]);
+            }
+
 
             db.Tickets.Remove(task);
             await db.SaveChangesAsync();

@@ -9,6 +9,24 @@
         $scope.currentTask = $stateParams.taskId;
         $scope.projectData = {};
 
+        $scope.deleteTask=function()
+        {
+            
+
+            $scope.selectedTask = $scope.tasks[$scope.selectedTaskIndex];
+            Task.delete({
+                taskId: $scope.selectedTask.ticketId,
+                projectId:$scope.currentProject
+            },
+               function () {
+                   $scope.tasks.splice($scope.selectedTaskIndex, 1)
+                   console.log($scope.selectedTaskIndex);
+                   console.log('Deleted task');
+               }, function () {
+                   console.log('Error deleting a task');
+               }
+            );
+        }
         $scope.unselectTask = function () {
             $scope.isSelectedTask = false;
             $scope.selectedTaskIndex = -1;
@@ -35,7 +53,7 @@
 
             ModalService.showModal({
                 scope: $scope,
-                templateUrl: 'Content/app/tasks/views/addEditTask.html',
+                templateUrl: 'Content/app/tasks/modal/addEditTask.html',
                 controller: "ModalTicketController"
             }).then(function (modal) {
                 modal.element.modal();

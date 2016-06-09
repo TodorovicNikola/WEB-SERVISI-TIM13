@@ -40,6 +40,7 @@ namespace TicketingSystem.DAL.Migrations
                         TaskDescription = c.String(maxLength: 2048),
                         TaskStatus = c.String(nullable: false),
                         TaskPriority = c.String(nullable: false),
+                        TaskNumber = c.Int(nullable: false),
                         TaskCreated = c.DateTime(nullable: false),
                         TaskFrom = c.DateTime(nullable: false),
                         TaskUntil = c.DateTime(nullable: false),
@@ -104,7 +105,8 @@ namespace TicketingSystem.DAL.Migrations
                         ProjectCode = c.String(nullable: false, maxLength: 8),
                         ProjectDescription = c.String(maxLength: 2048),
                     })
-                .PrimaryKey(t => t.ProjectID);
+                .PrimaryKey(t => t.ProjectID)
+                .Index(t => t.ProjectCode, unique: true);
             
             CreateTable(
                 "dbo.Reports",
@@ -206,6 +208,7 @@ namespace TicketingSystem.DAL.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.Reports", new[] { "ProjectID" });
+            DropIndex("dbo.Projects", new[] { "ProjectCode" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Comments", new[] { "UserWroteID" });
             DropIndex("dbo.Comments", new[] { "TaskID", "ProjectID" });

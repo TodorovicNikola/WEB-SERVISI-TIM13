@@ -342,8 +342,17 @@ namespace TicketingSystem.Controllers
                 ch.ChangeTaskUntil = null;
             }
 
-            
-                n.TaskFrom = DateTime.Now;
+            if (o.UserAssignedID != n.UserAssignedID)
+            {
+                ch.ChangeUserAssignedID = o.UserAssignedID;
+            }
+            else
+            {
+                ch.ChangeTaskUntil = null;
+            }
+
+
+            n.TaskFrom = DateTime.Now;
 
 
             // TODO change assigned user !!!CHECK!!!

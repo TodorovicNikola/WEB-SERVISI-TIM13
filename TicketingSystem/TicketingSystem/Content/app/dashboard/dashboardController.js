@@ -86,7 +86,7 @@
 	            }
 
 	            $scope.model = {
-	                title: "Sample 02",
+	                title: "Tasks",
 	                structure: "6-6",
 	                rows: [{
 	                    columns: $scope.taskWidgetArray

@@ -302,7 +302,6 @@
     <Content Include="Content\app\projects\reports\reportModalController.js" />
     <Content Include="Content\app\projects\reports\projectReportModal.html" />
     <Content Include="Content\app\projects\userProjectResource.js" />
-    <Content Include="Content\app\tasks\taskDetailController.js" />
     <Content Include="Content\app\tasks\modal\addEditTask.html" />
     <Content Include="Content\app\tasks\modal\modalTicketCtrl.js" />
     <Content Include="Content\app\tasks\task.js" />

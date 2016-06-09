@@ -33,6 +33,9 @@ namespace TicketingSystem.DAL.Models
         [Required]
         public String TaskPriority { get; set; }
 
+        [Required]
+        public int TaskNumber { get; set; }
+
         public DateTime TaskCreated { get; set; }
 
         [Required(ErrorMessage = "'Task From' must not be empty!")]
@@ -48,7 +51,7 @@ namespace TicketingSystem.DAL.Models
         [ForeignKey("UserAssigned")]
         public String UserAssignedID { get; set; }
 
-
+        
 
         [ForeignKey("ProjectID")]
         public virtual Project Project { get; set; }
@@ -57,6 +60,10 @@ namespace TicketingSystem.DAL.Models
         [InverseProperty("CreatedTasks")]
         [JsonIgnore]
         public virtual TicketingSystemUser UserCreated { get; set; }
+
+        
+       
+
 
         [ForeignKey("UserAssignedID")]
         [InverseProperty("AssignedTasks")]

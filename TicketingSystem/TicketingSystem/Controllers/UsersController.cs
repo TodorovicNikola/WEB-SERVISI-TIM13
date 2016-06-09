@@ -167,6 +167,32 @@ namespace TicketingSystem.Controllers
             return Ok(user);
         }
 
+        // GET: api/Users/5/Finished
+        [Route("api/users/{userId}/finished")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IHttpActionResult> GetUserReport(string userId)
+        {
+            TicketingSystemUser user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var tasks = (from t in db.Tickets
+                         where t.UserAssignedID == userId && t.TaskStatus == "Done"
+                         orderby t.TaskFrom
+                         select t).AsQueryable();
+
+            List<TaskDto> sortedTasks = new List<TaskDto>();
+
+            foreach (var t in tasks)
+            {
+                sortedTasks.Add(new TaskDto(t));
+            }
+
+            return Ok(sortedTasks);
+        }
+
         // GET: api/Projects/5/Users
         [Route("api/projects/{projectId}/users")]
         [ResponseType(typeof(TicketingSystemUser))]

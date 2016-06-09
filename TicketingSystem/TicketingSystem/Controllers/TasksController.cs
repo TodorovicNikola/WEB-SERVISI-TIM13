@@ -14,7 +14,7 @@ using System.Web.Http.Description;
 using TicketingSystem.DAL;
 using TicketingSystem.DAL.Models;
 using TicketingSystem.DTOs;
-//Aleksa prvi commit
+
 namespace TicketingSystem.Controllers
 {
     [Authorize]
@@ -53,14 +53,15 @@ namespace TicketingSystem.Controllers
             x => new TaskDto
             {
                 TaskName = x.TaskName,
-                TaskFrom = x.TaskFrom,
+                TaskFinished = x.TaskFrom,
                 TaskUntil = x.TaskUntil,
                 TaskPriority = x.TaskPriority,
                 TaskDescription = x.TaskDescription,
                 TaskStatus = x.TaskStatus,
                 UserAssigned = x.UserAssigned.UserName,
                 UserCreated = x.UserCreated.UserName,
-                TicketId = x.TicketID
+                TicketId = x.TicketID,
+                TaskNumber = x.TaskNumber
 
             };
 
@@ -222,6 +223,8 @@ namespace TicketingSystem.Controllers
             }
 
             task.TaskCreated = DateTime.Now;
+            int taskNumber=db.Tickets.Where(t => t.ProjectID == projectId).Max(w => w.TaskNumber)+1;
+            task.TaskNumber=taskNumber;
 
             db.Tickets.Add(task);
             await db.SaveChangesAsync();
@@ -325,17 +328,12 @@ namespace TicketingSystem.Controllers
                 ch.ChangeTaskUntil = null;
             }
 
-            if (o.TaskFrom != n.TaskFrom)
-            {
-                ch.ChangeTaskFrom = o.TaskFrom;
-            }
-            else
-            {
-                ch.ChangeTaskFrom = null;
-            }
+            
+                n.TaskFrom = DateTime.Now;
+
 
             // TODO change assigned user !!!CHECK!!!
-
+            
             o.TaskDescription = n.TaskDescription;
             o.TaskFrom = n.TaskFrom;
             o.TaskName = n.TaskName;

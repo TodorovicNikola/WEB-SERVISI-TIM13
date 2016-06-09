@@ -318,7 +318,7 @@ namespace TicketingSystem.Controllers
             var project = db.Projects.Find(projectId);
             var tasks = (from t in db.Tickets
                          where t.ProjectID == projectId && t.TaskStatus == "Done"
-                         orderby t.TaskCreated
+                         orderby t.TaskFrom
                          select t).AsQueryable();
 
             List<TaskDto> sortedTasks = new List<TaskDto>();

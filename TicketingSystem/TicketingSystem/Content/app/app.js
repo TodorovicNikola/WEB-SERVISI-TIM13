@@ -27,7 +27,7 @@
         .state('taskDetails', {
             url: '/projects/:id/tasks/:taskId',
             templateUrl: 'Content/app/tasks/views/taskDetailsView.html',
-            controller: 'TasksCtrl'
+            controller: 'TaskDetailCtrl'
         })
         .state('users', {
             url: '/users',
@@ -55,6 +55,12 @@
             var restrictedState = publicStates.indexOf(toState.name) === -1;
             if (restrictedState && !AuthenticationService.getCurrentUser()) {
                 $state.go('login');
+            }
+
+            var adminStates = ['projects', 'users'];
+            restrictedState = adminStates.indexOf(toState.name) !== -1;
+            if (restrictedState && AuthenticationService.getCurrentUser() && $rootScope.getCurrentUserRole() != 'Admin') {
+                $state.go('dashboard');
             }
         });
 

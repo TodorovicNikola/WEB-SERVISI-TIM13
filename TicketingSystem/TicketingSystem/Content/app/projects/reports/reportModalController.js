@@ -64,7 +64,7 @@
                         $scope.events.push({
                             badgeClass: badgeCl,
                             badgeIconClass: badgeIc,
-                            time: new Date(response.data[i].taskCreated),
+                            time: new Date($scope.reportType === 'created' ? response.data[i].taskCreated : response.data[i].taskFinished),
                             title: response.data[i].taskName,
                             content: response.data[i].taskDescription,
                         });

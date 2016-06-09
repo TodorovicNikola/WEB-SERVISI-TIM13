@@ -27,13 +27,13 @@
                 $scope.ticketCreatedBy = selectedTask.userCreatedID;
             }
                 
-
+            $scope.taskNumber = selectedTask.taskNumber;
             $scope.ticketDescription = selectedTask.taskDescription;
             $scope.ticketPriority = selectedTask.taskPriority;
             $scope.ticketStatus = selectedTask.taskStatus;
           
             $scope.ticketToBeFinishedOn = selectedTask.taskUntil;
-            $scope.ticketCreatedOn = selectedTask.taskFrom;
+            $scope.ticketCreatedOn = selectedTask.taskCreated;
            
             
 
@@ -95,7 +95,7 @@
         $scope.updateTicket = function () {
 
             
-            var dataUpdate = { "TicketID": $scope.ticketId, "TaskUntil": $scope.ticketToBeFinishedOn, "ProjectID": currentProjectId, "TaskFrom": $scope.ticketCreatedOn, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": $scope.ticketCreatedBy, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo, "TaskDescription": $scope.ticketDescription };
+            var dataUpdate = { "TicketID": $scope.ticketId, "TaskUntil": $scope.ticketToBeFinishedOn, "ProjectID": currentProjectId, "TaskCreated": $scope.ticketCreatedOn, "TaskPriority": $scope.ticketPriority, "TaskStatus": $scope.ticketStatus, "UserCreatedId": $scope.ticketCreatedBy, "TaskName": $scope.ticketName, "UserAssignedId": $scope.ticketAssignedTo, "TaskDescription": $scope.ticketDescription ,"TaskNumber":$scope.taskNumber};
             
           
             Task.update({ projectId: currentProjectId, taskId: $scope.ticketId }, dataUpdate,
@@ -112,6 +112,7 @@
 
 
         $scope.close = function (result) {
+            console.log(result);
             close(result, 200); 
         };
 

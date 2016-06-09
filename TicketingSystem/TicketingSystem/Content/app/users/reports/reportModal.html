@@ -1,0 +1,39 @@
+﻿<div class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close('No')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Report for user {{selectedUser.userName}}</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row" >
+                        <div class="col-md-9">
+                            <timeline>
+                                <timeline-event ng-repeat="event in events" side="alternate">
+                                    <timeline-badge class="{{event.badgeClass}}">
+                                        <i class="glyphicon {{event.badgeIconClass}}" style="top: 15px"></i>
+                                    </timeline-badge>
+                                    <timeline-panel class="{{event.badgeClass}}">
+                                        <timeline-heading>
+                                            <h4>{{event.title}}</h4>
+                                            <small>
+                                                <i class="glyphicon glyphicon-time"></i>
+                                                {{event.time.toLocaleString()}}
+                                            </small>
+                                        </timeline-heading>
+                                        <p>{{event.content}}</p>
+                                    </timeline-panel>
+                                </timeline-event>
+                            </timeline>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -29,7 +29,7 @@
 
         $scope.openModal = function (update) {
             ModalService.showModal({
-                templateUrl: 'Content/app/users/userModal.html',
+                templateUrl: 'Content/app/users/modal/userModal.html',
                 controller: 'userModalController',
                 inputs: {
                     selectedUser: update ? $scope.selected : null
@@ -44,6 +44,20 @@
                             $scope.users[$scope.selectedIndex] = result;
                         }
                     }
+                });
+            });
+        }
+
+        $scope.openReportModal = function () {
+            ModalService.showModal({
+                templateUrl: 'Content/app/users/reports/reportModal.html',
+                controller: 'userReportModalController',
+                inputs: {
+                    selectedUser: $scope.selected
+                }
+            }).then(function (modal) {
+                modal.element.modal();
+                modal.close.then(function (result) {
                 });
             });
         }

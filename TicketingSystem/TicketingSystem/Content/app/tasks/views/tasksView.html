@@ -4,8 +4,8 @@
 <h4>Description: {{projectData.projectDescription}}</h4>
 
 <div class="container"  ng-init="creation=true">
-    <a class="btn btn-default" href ng-click="show(true,0)">Add ticket</a>
-    <a ng-disabled="!isSelectedTask" class="btn btn-default" href ng-click="show(false,0)">Edit ticket</a>
+    <a class="btn btn-default" href ng-click="show(true)">Add ticket</a>
+    <a ng-disabled="!isSelectedTask" class="btn btn-default" href ng-click="show(false)">Edit ticket</a>
     <button type="button" ng-click="openUsersModal(currentProject)" class="btn btn-default" ng-show="getUserRole()=='Admin'">
         <i class="glyphicon glyphicon-user"></i>Assigned users
     </button>
@@ -13,8 +13,9 @@
    
 </div>
 <table width="500" class="table table-hover">
-    <tr><th>Name</th><th>Created by</th><th>Assigned to</th><th>Priority</th><th>Status:</th></tr>
-    <tr>
+    <tr><th>Code</th><th>Name</th><th>Created by</th><th>Assigned to</th><th>Priority</th><th>Status:</th></tr>
+    <!--<tr>
+        <td><input type="text" class='form-control input-sm' ng-model="search.taskCode" /></td>
         <td><input type="text" class='form-control input-sm' ng-model="search.taskName" /></td>
         <td><input type="text" class='form-control input-sm' ng-model="search.userCreated" /></td>
         <td><input type="text" class='form-control input-sm' ng-model="search.userAssigned" /></td>
@@ -22,9 +23,11 @@
         <td><input type="text" class='form-control input-sm' ng-model="search.taskStatus" /></td>
         
     </tr>
+        -->
     
     
     <tr  ng-click="selectTask($index)"  ng-class="{active: $index === selectedTaskIndex}" ng-repeat="task in tasks | filter:search:strict">
+        <td> <a href='#/projects/{{currentProject}}/tasks/{{task.ticketId}}'>{{projectData.projectCode}}-{{task.taskNumber}}</a>  </td>
         <td> <a href='#/projects/{{currentProject}}/tasks/{{task.ticketId}}'>{{task.taskName}}</a>  </td>
         <td>{{task.userCreated}}</td>
         <td ng-if="task.userAssigned!==null">{{task.userAssigned}}</td>

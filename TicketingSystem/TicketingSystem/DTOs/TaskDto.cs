@@ -49,8 +49,11 @@ namespace TicketingSystem.DTOs
             this.UserCreated = t.UserCreatedID;
             this.TaskCreated = t.TaskCreated;
             this.TaskNumber = t.TaskNumber;
-
-            ProjectName = t.Project.ProjectName;
+            if (t.Project != null)
+            {
+                ProjectName = t.Project.ProjectName;
+            }
+           
         }
     }
 

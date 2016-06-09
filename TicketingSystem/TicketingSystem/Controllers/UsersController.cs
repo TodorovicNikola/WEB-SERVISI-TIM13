@@ -42,7 +42,7 @@ namespace TicketingSystem.Controllers
             var users = db.Users;
             var retUsers = new LinkedList<UserDTO>();
 
-            foreach(var u in users)
+            foreach (var u in users)
             {
                 retUsers.AddLast(new UserDTO { FirstName = u.FirstName, LastName = u.LastName, UserName = u.Id, Email = u.Email });
             }
@@ -60,7 +60,8 @@ namespace TicketingSystem.Controllers
             if (isAdmin || User.Identity.Name == id)
             {
                 user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
-            } else
+            }
+            else
             {
                 return StatusCode(HttpStatusCode.Forbidden);
             }
@@ -128,7 +129,7 @@ namespace TicketingSystem.Controllers
             }
 
             var usr = new TicketingSystemUser()
-            {      
+            {
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -139,15 +140,23 @@ namespace TicketingSystem.Controllers
                 PasswordHash = TicketingSystemUser.HashPassword(user.Password)
             };
 
-            IdentityResult result = UserManager.Create(usr);
-            await UserManager.AddToRoleAsync(usr.Id, "User");
-
-            if (!result.Succeeded)
+            try
             {
-                return BadRequest();
-            }
 
-            return Ok();
+                IdentityResult result = UserManager.Create(usr);
+                await UserManager.AddToRoleAsync(usr.Id, "User");
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest();
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         // DELETE: api/Users/5
@@ -196,7 +205,7 @@ namespace TicketingSystem.Controllers
         // GET: api/Projects/5/Users
         [Route("api/projects/{projectId}/users")]
         [ResponseType(typeof(TicketingSystemUser))]
-       // [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public IHttpActionResult GetProjectUsers(int projectId)
         {
             var users = (from u in db.Users.Include(u => u.AssignedProjects)

@@ -4,6 +4,7 @@
     reportModalControllerModule.controller('reportModalController', function ($scope, ModalService, $http, selectedProject, reportType, close) {
         $scope.reportType = reportType;
         $scope.selectedProject = selectedProject;
+        $scope.message = '';
 
         $scope.labels = [];
         $scope.series = [];
@@ -17,6 +18,11 @@
 
             if ($scope.reportType === 'assignedPercent' || $scope.reportType === 'finishedPercent') {
                 $http.get('../../api/projects/' + $scope.selectedProject.projectID + '/' + $scope.reportType).then(function (response) {
+                    if (isNaN(response.data.unassigned)) {
+                        $scope.message = 'No data for report.';
+                        return;
+                    }
+
                     for (var i in response.data.users) {
                         $scope.labels.push(response.data.users[i].item1.userName);
                         $scope.data[0].push(response.data.users[i].item2 * 100);
@@ -24,12 +30,19 @@
 
                     $scope.labels.push('unassigned');
                     $scope.data[0].push(response.data.unassigned * 100);
+                },
+                function (response) {
+                    $scope.message = response.data.message;
                 });
             }
 
             if ($scope.reportType === 'created' || $scope.reportType === 'finished') {
                 $http.get('../../api/projects/' + $scope.selectedProject.projectID + '/' + $scope.reportType).then(function (response) {
-                    console.log(response.data);
+                    if (response.data.length == 0) {
+                        $scope.message = 'No data for report.';
+                        return;
+                    }
+
                     $scope.events = [];
                     for (var i in response.data) {
                         var badgeCl = '';
@@ -69,7 +82,10 @@
                             content: response.data[i].taskDescription,
                         });
                     };
-                });
+                },
+                function (response) {
+                    $scope.message = response.data.message;
+                });;
             }
         }
 

@@ -9,7 +9,7 @@
         service.login = login;
         service.logout = logout;
         service.getCurrentUser = getCurrentUser;
-        
+
         //service.getCurrentUserId = getCurrentUserId;
         //service.getCurrentUserId = $localStorage.currentUser.username;
         service.register = register;
@@ -30,27 +30,30 @@
                 },
                 data: { grant_type: 'password', username: username, password: password }
             })
-                .success(function (response) {
-                    // ukoliko postoji token, prijava je uspecna
-                    if (response.access_token) {
-                        // korisnicko ime, token i rola (ako postoji) cuvaju se u lokalnom skladištu
-                        var currentUser = { username: username, token: response.access_token }
-                        var tokenPayload = jwtHelper.decodeToken(response.access_token);
-                        if (tokenPayload.role) {
-                            currentUser.role = tokenPayload.role;
-                        }
-                        $localStorage.currentUser = currentUser;
-
-                        // jwt token dodajemo u to auth header za sve $http zahteve
-                        $http.defaults.headers.common.Authorization = 'Bearer ' + response.access_token;
-                        // callback za uspesan login
-                        callback(true);
-                        $state.go('dashboard');
-                    } else {
-                        // callback za neuspesan login
-                        callback(false);
+            .success(function (response) {
+                // ukoliko postoji token, prijava je uspecna
+                if (response.access_token) {
+                    // korisnicko ime, token i rola (ako postoji) cuvaju se u lokalnom skladištu
+                    var currentUser = { username: username, token: response.access_token }
+                    var tokenPayload = jwtHelper.decodeToken(response.access_token);
+                    if (tokenPayload.role) {
+                        currentUser.role = tokenPayload.role;
                     }
-                });
+                    $localStorage.currentUser = currentUser;
+
+                    // jwt token dodajemo u to auth header za sve $http zahteve
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.access_token;
+                    // callback za uspesan login
+                    callback(true);
+                    $state.go('dashboard');
+                } else {
+                    // callback za neuspesan login
+                    callback(false);
+                }
+            })
+            .error(function (respnse) {
+                callback(false);
+            });
         }
 
         function logout() {
@@ -63,7 +66,7 @@
         function getCurrentUser() {
             return $localStorage.currentUser;
         }
-        
+
         function register(username, password, callback) {
             $http.post('/api/account/register', { email: username, userName: username, password: password, confirmPassword: password })
                 .success(function (response) {

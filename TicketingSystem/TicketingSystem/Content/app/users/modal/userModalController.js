@@ -1,8 +1,9 @@
 ﻿(function (angular) {
     var userModalControllerModule = angular.module('app.User.userModalController', ['angularModalService', 'app.User.resource']);
 
-    userModalControllerModule.controller('userModalController', function ($scope, ModalService, selectedUser, User, close) {
+    userModalControllerModule.controller('userModalController', function ($scope, ModalService, selectedUser, User, close, $element) {
         $scope.selectedUser = selectedUser;
+        $scope.message = '';
 
         if ($scope.selectedUser) {
             $scope.userName = $scope.selectedUser.userName;
@@ -23,9 +24,15 @@
                 newUser.lastName = $scope.lastName;
                 newUser.email = $scope.email;
 
-                newUser.$save(function () {
-                    $scope.close(newUser);
-                });
+                newUser.$save(
+                    function () {
+                        $scope.close(newUser);
+                    },
+                    function (response) {
+                        $element.modal('hide');
+                        $scope.message = response.data.message;
+                    }
+                );
             } else {
                 var newUser = {};
                 newUser.userName = $scope.userName;
@@ -34,9 +41,15 @@
                 newUser.lastName = $scope.lastName;
                 newUser.email = $scope.email;
 
-                User.update({ userId: $scope.userName }, newUser, function () {
-                    $scope.close(newUser);
-                });
+                User.update({ userId: $scope.userName }, newUser,
+                    function () {
+                        $element.modal('hide');
+                        $scope.close(newUser);
+                    },
+                    function (response) {
+                        $scope.message = response.data.message;
+                    }
+                );
             }
         }
 

@@ -8,15 +8,15 @@
 
             <div class="modal-body">
                 <div class="container">
-                    <div class="row" ng-if="reportType == 'assignedPercent' || reportType == 'finishedPercent'">
+                    <div class="row" ng-hide="message" ng-if="reportType == 'assignedPercent' || reportType == 'finishedPercent'">
                         <div class="col-md-9">
                             <canvas id="bar" class="chart chart-bar"
                                     chart-data="data" chart-labels="labels">
                                 chart-series="series"
                             </canvas>
                         </div>
-                   </div>
-                    <div class="row" ng-if="reportType == 'created' || reportType == 'finished'">
+                    </div>
+                    <div class="row" ng-hide="message" ng-if="reportType == 'created' || reportType == 'finished'">
                         <div class="col-md-9">
                             <timeline>
                                 <timeline-event ng-repeat="event in events" side="alternate">
@@ -35,6 +35,13 @@
                                     </timeline-panel>
                                 </timeline-event>
                             </timeline>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="message">
+                        <div class="col-md-9">
+                            <uib-alert dismiss-on-timeout="3000">
+                                {{message}}
+                            </uib-alert>
                         </div>
                     </div>
                 </div>

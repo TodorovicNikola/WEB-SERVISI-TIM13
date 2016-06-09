@@ -16,12 +16,24 @@ namespace TicketingSystem.DTOs
 
         public String ProjectDescription { get; set; }
 
+        public List<TaskDto> Tasks { get; set; }
+
         public ProjectDTO(Project p)
         {
             ProjectID = p.ProjectID;
             ProjectName = p.ProjectName;
             ProjectDescription = p.ProjectDescription;
             ProjectCode = p.ProjectCode;
+
+            Tasks = new List<TaskDto>();
+
+            if(p.Tasks != null)
+            {
+                foreach (Ticket t in p.Tasks)
+                {
+                    Tasks.Add(new TaskDto(t));
+                }
+            }
         }
 
         public ProjectDTO() { }

@@ -28,20 +28,7 @@
                 </div>
             </fieldset>
         </form>
-        <h3>Tasks</h3>
-        <table class="table table-striped">
-            <tr><th>Task Name</th><th>Task Status</th><th>Task Priority</th><th>Task From</th><th>Task Until</th></tr>
-            <tr ng-repeat="t in tasks">
-                <td>{{t.taskName}}</td>
-                <td>{{t.taskStatus}}</td>
-                <td>{{t.taskPriority}}</td>
-                <td>{{t.taskFrom}}</td>
-                <td>{{t.taskUntil}}</td>
-            </tr>
-        </table>
-    </div>
-    <div style="clear:both"></div>
-    <div>
+        <div>
         <adf-dashboard name="{{name}}"
                        collapsible="{{collapsible}}"
                        maximizable="{{maximizable}}"
@@ -49,4 +36,7 @@
                        structure="4-8"
                        adf-model="model" />
     </div>
+    </div>
+    <div style="clear:both"></div>
+    
 </div>

@@ -40,23 +40,29 @@ namespace TicketingSystem.Controllers
         public IHttpActionResult GetProjects()
         {
             bool isAdmin = UserManager.IsInRole(User.Identity.Name, "Admin");
-
+            List<ProjectDTO> projects = new List<ProjectDTO>();
             if (isAdmin)
             {
-                return Ok(db.Projects.Include(p => p.Tasks));
-            }
-            var projects = (from p in db.Projects.Include(p => p.AssignedUsers).Include(t => t.Tasks)
-                            where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
-                            select p).AsQueryable();
+                
 
-            foreach (var p in projects)
+                foreach (var p in db.Projects.Include(p => p.Tasks))
+                {
+                    projects.Add(new ProjectDTO(p));
+                }
+                return Ok(projects);
+            }
+
+
+            var projectList = (from p in db.Projects.Include(p => p.AssignedUsers).Include(t => t.Tasks)
+                            where p.AssignedUsers.Any(u => u.Id == User.Identity.Name)
+                            select p).AsQueryable().ToList();
+
+            foreach (var p in projectList)
             {
-                p.AssignedUsers = null;
+                projects.Add(new ProjectDTO(p));
             }
 
             return Ok(projects);
-
-            //return Ok(db.Projects);
         }
 
 

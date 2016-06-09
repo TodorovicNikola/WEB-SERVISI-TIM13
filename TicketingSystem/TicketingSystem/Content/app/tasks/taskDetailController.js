@@ -15,7 +15,7 @@
             $scope.creation = creation;
             ModalService.showModal({
                 scope: $scope,
-                templateUrl: 'Content/app/tasks/views/addEditTask.html',
+                templateUrl: 'Content/app/tasks/modal/addEditTask.html',
                 controller: "ModalTicketController"
             }).then(function (modal) {
                 modal.element.modal();
@@ -175,6 +175,7 @@
             }
             )
         }
+
 
 
         $scope.init();

@@ -53,7 +53,7 @@
 
 
         $scope.init = function () {
-            console.log('detail task');
+            
             $scope.priorities = [{ value: "Blocker", name: "Blocker" }, { value: "Critical", name: "Critical" }, { value: "Major", name: "Major" }, { value: "Minor", name: "Minor" }, {
                 value: "Trivial", name: "Trivial"
             }];

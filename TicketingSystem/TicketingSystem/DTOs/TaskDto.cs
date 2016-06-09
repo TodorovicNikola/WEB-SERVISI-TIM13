@@ -20,7 +20,7 @@ namespace TicketingSystem.DTOs
 
         public DateTime TaskCreated { get; set; }
 
-        public DateTime TaskFrom { get; set; }
+        public DateTime TaskFinished { get; set; }
 
         public DateTime TaskUntil { get; set; }
 
@@ -39,7 +39,7 @@ namespace TicketingSystem.DTOs
             this.TaskDescription = t.TaskDescription;
             this.TaskStatus = t.TaskStatus;
             this.TaskPriority = t.TaskPriority;
-            this.TaskFrom = t.TaskFrom;
+            this.TaskFinished = t.TaskFrom;
             this.TaskUntil = t.TaskUntil;
             this.UserAssigned = t.UserAssignedID;
             this.UserCreated = t.UserCreatedID;

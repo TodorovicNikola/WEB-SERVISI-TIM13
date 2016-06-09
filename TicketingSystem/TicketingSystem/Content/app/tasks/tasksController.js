@@ -80,7 +80,7 @@
 
         $scope.openUsersModal = function () {
             ModalService.showModal({
-                templateUrl: 'Content/app/projects/assignUserModal.html',
+                templateUrl: 'Content/app/projects/modal/assignUserModal.html',
                 controller: 'assignUserModalController',
                 inputs: {
                     project: $scope.dummyProject

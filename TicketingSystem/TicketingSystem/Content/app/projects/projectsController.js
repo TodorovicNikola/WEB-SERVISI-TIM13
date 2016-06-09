@@ -23,7 +23,7 @@
 
         $scope.openModal = function (update) {
             ModalService.showModal({
-                templateUrl: 'Content/app/projects/projectModal.html',
+                templateUrl: 'Content/app/projects/modal/projectModal.html',
                 controller: 'projectModalController',
                 inputs: {
                     selectedproject: update ? $scope.selected : null
@@ -44,7 +44,7 @@
 
         $scope.openUsersModal = function (project) {
             ModalService.showModal({
-                templateUrl: 'Content/app/projects/assignUserModal.html',
+                templateUrl: 'Content/app/projects/modal/assignUserModal.html',
                 controller: 'assignUserModalController',
                 inputs: {
                     project: project

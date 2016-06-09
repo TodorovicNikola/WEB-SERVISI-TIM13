@@ -14,7 +14,7 @@ using System.Web.Http.Description;
 using TicketingSystem.DAL;
 using TicketingSystem.DAL.Models;
 using TicketingSystem.DTOs;
-//Aleksa prvi commit
+
 namespace TicketingSystem.Controllers
 {
     [Authorize]
@@ -53,7 +53,7 @@ namespace TicketingSystem.Controllers
             x => new TaskDto
             {
                 TaskName = x.TaskName,
-                TaskFrom = x.TaskFrom,
+                TaskFinished = x.TaskFrom,
                 TaskUntil = x.TaskUntil,
                 TaskPriority = x.TaskPriority,
                 TaskDescription = x.TaskDescription,
@@ -325,13 +325,9 @@ namespace TicketingSystem.Controllers
                 ch.ChangeTaskUntil = null;
             }
 
-            if (o.TaskFrom != n.TaskFrom)
+            if (n.TaskStatus == "Done")
             {
-                ch.ChangeTaskFrom = o.TaskFrom;
-            }
-            else
-            {
-                ch.ChangeTaskFrom = null;
+                n.TaskFrom = DateTime.Now;
             }
 
             // TODO change assigned user !!!CHECK!!!

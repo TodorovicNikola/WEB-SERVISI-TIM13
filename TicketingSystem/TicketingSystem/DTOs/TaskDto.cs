@@ -31,7 +31,7 @@ namespace TicketingSystem.DTOs
         public int TaskNumber { get; set; }
 
         public String ProjectName { get; set; }
-
+        public String ProjectCode { get; set; }
         public TaskDto()
         {
 
@@ -52,6 +52,7 @@ namespace TicketingSystem.DTOs
             if (t.Project != null)
             {
                 ProjectName = t.Project.ProjectName;
+                ProjectCode = t.Project.ProjectCode;
             }
            
         }

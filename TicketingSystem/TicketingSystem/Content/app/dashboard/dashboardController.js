@@ -112,7 +112,7 @@
 	                modalSize: 'lg',
 	                type: "markdown",
 	                config: {
-	                    content: "##" + task.projectName + ' - ' + task.taskName + "\n\n>Status: " + task.taskStatus + "\n\n>Until: " + task.taskUntil + "\n\n>Created: " + task.taskCreated + "\n\n Description: " +  task.taskDescription
+	                    content: "###" + task.projectCode + ' - ' + task.taskName + "\n\n>Status: " + task.taskStatus + "\n\n>Until: " + task.taskUntil + "\n\n>Created: " + task.taskCreated + "\n\n Description: " +  task.taskDescription
 	                },
 	                title: task.taskPriority
 	            }]

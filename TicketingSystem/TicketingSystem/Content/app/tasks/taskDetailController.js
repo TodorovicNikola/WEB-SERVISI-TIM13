@@ -103,6 +103,7 @@
                     console.log('Comment updated');
                     comments[commentIndex] = result;
                     $scope.quitEditingComment();
+                    $scope.commentContent = null;
 
                 }, function () {
                     console.log('Error updating a comment');
@@ -157,6 +158,7 @@
             comment.$save(
             function (data) {
                 $scope.currentTask.comments.push(data);
+                $scope.commentContent = null;
                 console.log("Successfully added comment !");
             }, function (error) {
 

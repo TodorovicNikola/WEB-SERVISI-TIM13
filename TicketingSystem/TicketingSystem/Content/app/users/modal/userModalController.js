@@ -4,6 +4,8 @@
     userModalControllerModule.controller('userModalController', function ($scope, ModalService, selectedUser, User, close, $element) {
         $scope.selectedUser = selectedUser;
         $scope.message = '';
+        $scope.unPat = /^[a-z0-9_-]{3,16}$/;
+        $scope.emPat = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
 
         if ($scope.selectedUser) {
             $scope.userName = $scope.selectedUser.userName;
@@ -27,9 +29,9 @@
                 newUser.$save(
                     function () {
                         $scope.close(newUser);
-                    },
-                    function (response) {
                         $element.modal('hide');
+                    },
+                    function (response) {      
                         $scope.message = response.data.message;
                     }
                 );
@@ -56,7 +58,8 @@
         $scope.validateForm = function () {
 
             if (!$scope.userName || !$scope.password || !$scope.repeatedPassword || !$scope.firstName
-                || !$scope.lastName || !$scope.email || ($scope.password !== $scope.repeatedPassword) || $scope.password.length < 6) {
+                || !$scope.lastName || !$scope.email || ($scope.password !== $scope.repeatedPassword) || $scope.password.length < 6
+                || !$scope.unPat.test(!$scope.userName) || $scope.emPat.test(!$scope.email)) {
                 return false;
             }
             return true;

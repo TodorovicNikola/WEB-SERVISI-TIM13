@@ -22,7 +22,7 @@
 	    $scope.init = function () {
 	        loadProjects();
            
-	        $scope.filterSelectModel = [{ "id": "Blocker" }, { "id": "Critical" }, { "id": "Major" }, { "id": "Minor" }, { "id": "Trivial" }];
+	        $scope.filterSelectPriorityModel = [{ "id": "Blocker" }, { "id": "Critical" }, { "id": "Major" }, { "id": "Minor" }, { "id": "Trivial" }];
 	        $scope.filterSelectSetings = {
 	            scrollableHeight: '200px',
 	            scrollable: true,
@@ -30,12 +30,16 @@
 	            showUncheckAll: false
                 
 	        };
-
-	        $scope.filterSelectTexts = {
-                buttonDefaultText: 'Filter'
+	        $scope.filterSelectStatusModel = [{ "id": "To Do" }, { "id": "In Progress" }, { "id": "Verify" }, { "id": "Done" }];
+	        $scope.filterSelectTextPriority = {
+                buttonDefaultText: 'Priority'
 	        };
 
-	        $scope.filterSelectdata = [
+	        $scope.filterSelectTextStatus = {
+	            buttonDefaultText: 'Status'
+	        };
+
+	        $scope.filterSelectPrioritydata = [
                 {
                     "label": "Blocker",
                     "id": "Blocker"
@@ -59,14 +63,38 @@
 
 	        ];
 
+	        $scope.filterSelectStatusdata = [
+               {
+                   "label": "To Do",
+                   "id": "To Do"
+               },
+               {
+                   "label": "In Progress",
+                   "id": "In Progress"
+               },
+               {
+                   "label": "Verify",
+                   "id": "Verify"
+               },
+               {
+                   "label": "Done",
+                   "id": "Done"
+               }
+	        ];
+
 	    }
 
 	    $scope.SubmitFilter = function () {
 	        var filterIDs = [];
-	        angular.forEach($scope.filterSelectModel, function (value, index) {
+	        angular.forEach($scope.filterSelectPriorityModel, function (value, index) {
+	            filterIDs.push(value.id);
+	        });
+
+	        angular.forEach($scope.filterSelectStatusModel, function (value, index) {
 	            filterIDs.push(value.id);
 	        });
             
+	        console.log(filterIDs);
 	        var data = {
                 filterIDs : filterIDs
 	        };

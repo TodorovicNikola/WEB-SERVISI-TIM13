@@ -38,6 +38,7 @@ namespace TicketingSystem.Controllers
 
             List<Ticket> _ticketList = new List<Ticket>();
             List<Ticket> _resultTicketList = new List<Ticket>();
+            List<Ticket> _resultTicketListFinal = new List<Ticket>();
             List<TaskDto> _resultTicketDTOList = new List<TaskDto>();
 
             if (isAdmin)
@@ -68,12 +69,25 @@ namespace TicketingSystem.Controllers
             }
 
 
-            foreach (string _filterID in filterIDs)
+            //foreach (string _filterID in filterIDs)
+            //{
+            //    _resultTicketList.AddRange(_ticketList.Where(t => t.TaskPriority == _filterID));
+            //}
+
+            //foreach (var t in _resultTicketList)
+            //{
+            //    if(_ )
+            //}
+
+            foreach (var t in _ticketList)
             {
-                _resultTicketList.AddRange(_ticketList.Where(t => t.TaskPriority == _filterID));
+                if (filterIDs.Contains(t.TaskStatus) && filterIDs.Contains(t.TaskPriority))
+                {
+                    _resultTicketListFinal.Add(t);
+                }
             }
 
-            foreach (var t in _resultTicketList)
+            foreach (var t in _resultTicketListFinal)
             {
                 _resultTicketDTOList.Add(new TaskDto(t));
             }

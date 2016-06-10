@@ -18,16 +18,26 @@
     <div class="right">
         <form ng-submit="SubmitFilter()" class="form-inline" style="position:relative; float:right; top:15px">
             <fieldset>
+                <label>Priority:</label>
                 <div class="form-group">
-                    <div ng-dropdown-multiselect="" translation-texts="filterSelectTexts" options="filterSelectdata" selected-model="filterSelectModel"
+                    <div ng-dropdown-multiselect="" translation-texts="filterSelectTextPriority" options="filterSelectPrioritydata" selected-model="filterSelectPriorityModel"
                          checkboxes="true" extra-settings="filterSelectSetings">
                     </div>
                 </div>
+                
+                <label>Status:</label>
                 <div class="form-group">
-                        <input type="submit" class="btn btn-default" value="Submit" />
+                    <div ng-dropdown-multiselect="" translation-texts="filterSelectTextStatus" options="filterSelectStatusdata" selected-model="filterSelectStatusModel"
+                         checkboxes="true" extra-settings="filterSelectSetings">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default" value="Submit" />
                 </div>
             </fieldset>
         </form>
+        
         <div>
         <adf-dashboard class="widget" name="{{name}}"
                        collapsible="{{collapsible}}"

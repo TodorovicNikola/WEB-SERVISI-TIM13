@@ -54,6 +54,12 @@
                                         <span ng-hide="lastName">  (Required)</span>
                                     </div>
                                 </div>
+                                <uib-alert ng-if="userName && !unPat.test(userName)">
+                                    Letters, digits, underscored and hyphens are allowed in username (3 min)
+                                </uib-alert>
+                                <uib-alert ng-if="email && !emPat.test(email)">
+                                    Wrong e-mail
+                                </uib-alert>
                                 <uib-alert ng-if="password && password.length > 5 && repeatedPassword && repeatedPassword.length > 5 && password != repeatedPassword">
                                     Passwords do not match
                                 </uib-alert>

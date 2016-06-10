@@ -22,6 +22,7 @@
             }).then(function (modal) {
                 modal.element.modal();
                 modal.close.then(function (result) {
+                    $('body').removeClass('modal-open');
                     if (result !== 'No' && result !== 'Error' && result !=='Cancel') {
 
 

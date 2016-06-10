@@ -1,5 +1,5 @@
 (function(angular) {
-    var dashboardCtrlModule = angular.module('app.Dashboard', ['app.Project.resource', 'ui.sortable', 'adf', 'adf.structures.base', 'adf.widget.markdown']);
+    var dashboardCtrlModule = angular.module('app.Dashboard', ['app.Project.resource', 'ui.sortable', 'adf', 'adf.structures.base', 'adf.widget.markdown', 'angularjs-dropdown-multiselect']);
 	
 	var dashboardController = ['$scope', '$http', 'Project' , function($scope, $http, Project) {
 
